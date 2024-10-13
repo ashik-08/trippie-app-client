@@ -8,6 +8,10 @@ module.exports = withMT({
         poppins: ["Poppins", "sans-serif"],
         lato: ["Lato", "sans-serif"],
       },
+      colors: {
+        primary: "#34B778",
+        secondary: "#257BEC",
+      },
     },
   },
   plugins: [require("daisyui")],
