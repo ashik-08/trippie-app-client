@@ -1,9 +1,10 @@
 import { createBrowserRouter } from "react-router-dom";
+import Register from "../pages/Register/Register";
 
 export const routes = createBrowserRouter([
   {
     path: "/",
-    element: <h1>Hello MainLayout</h1>,
+    element: <Register />,
     children: [
       {
         index: true,
