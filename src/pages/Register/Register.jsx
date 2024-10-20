@@ -31,7 +31,7 @@ const Register = () => {
       <div className="flex flex-col-reverse lg:flex-row gap-8 xl:gap-20 items-center">
         <div className="lg:w-1/2">
           <img
-            className="rounded-xl animate-pulse"
+            className="animate-pulse"
             src="https://i.ibb.co.com/3WdZbdF/Sign-up.gif"
             alt="sign-up-image"
           />
@@ -39,9 +39,10 @@ const Register = () => {
         <div className="lg:w-1/2 text-dark p-8 max-w-md">
           <div className="mb-6">
             <h1 className="text-xl font-semibold mb-2">
-              Welcome to <span className="text-primary-base italic">Trippie</span>
+              Welcome to{" "}
+              <span className="text-primary-base italic">Trippie</span>
             </h1>
-            <h2 className="text-3xl font-medium">Create Account</h2>
+            <h2 className="text-3xl font-semibold">Create Account</h2>
           </div>
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <div className="space-y-1">
@@ -151,7 +152,7 @@ const Register = () => {
             <div>
               <button
                 type="submit"
-                className="mt-4 w-full bg-primary-base text-white p-3 rounded-md hover:bg-primary-500 transition"
+                className="mt-4 w-full bg-primary-base text-white md:text-lg font-semibold p-3 rounded-md hover:bg-primary-500 transition"
               >
                 Sign Up
               </button>
@@ -173,9 +174,11 @@ const Register = () => {
           </div>
           <button className="flex items-center justify-center w-full p-3 border border-secondary-100 rounded-md bg-white hover:bg-primary-100 transition">
             <FcGoogle className="text-2xl mr-2" />
-            <span>Sign up with Google</span>
+            <span className="md:text-lg font-semibold">
+              Sign up with Google
+            </span>
           </button>
-          <p className="mt-4 text-sm text-gray-500  text-center">
+          <p className="mt-4 text-sm text-gray-500 text-center">
             By signing up, you agree to our{" "}
             <Link
               to="/terms-and-conditions"
