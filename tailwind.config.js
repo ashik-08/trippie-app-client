@@ -30,6 +30,7 @@ module.exports = withMT({
         "secondary-800": "#1D51B0",
         "secondary-900": "#1D478B",
         slate: "#B1D4DB",
+        dark: "#252525",
       },
     },
   },
