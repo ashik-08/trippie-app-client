@@ -31,6 +31,7 @@ module.exports = withMT({
         "secondary-900": "#1D478B",
         slate: "#B1D4DB",
         dark: "#252525",
+        outerSpace: "#333D43",
       },
     },
   },
