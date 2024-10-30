@@ -1,16 +1,17 @@
 import { createBrowserRouter } from "react-router-dom";
-import NavBar from "../components/Shared/NavBar";
+import MainLayout from "../layout/MainLayout";
+import HomePage from "../pages/HomePage/HomePage";
 import Login from "../pages/Login/Login";
 import Register from "../pages/Register/Register";
 
 export const routes = createBrowserRouter([
   {
     path: "/",
-    element: <NavBar />,
+    element: <MainLayout />,
     children: [
       {
         index: true,
-        element: <h1>Hello Children</h1>,
+        element: <HomePage />,
       },
     ],
   },
