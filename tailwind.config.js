@@ -33,6 +33,9 @@ module.exports = withMT({
         dark: "#252525",
         outerSpace: "#333D43",
       },
+      backgroundImage: {
+        hero: "url('./src/assets/banner/bg-hero-img.jpeg')",
+      },
     },
   },
   plugins: [require("daisyui")],
