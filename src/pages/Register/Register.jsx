@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { Link } from "react-router-dom";
+import SignUp from "../../assets/gif/SignUp.gif";
 
 const Register = () => {
   const [showPass, setShowPass] = useState(false);
@@ -30,11 +31,7 @@ const Register = () => {
     <section className="font-lato flex justify-center items-center min-h-screen p-2">
       <div className="flex flex-col-reverse lg:flex-row gap-8 xl:gap-20 items-center">
         <div className="lg:w-1/2">
-          <img
-            className="animate-pulse"
-            src="https://i.ibb.co.com/3WdZbdF/Sign-up.gif"
-            alt="sign-up-image"
-          />
+          <img className="animate-pulse" src={SignUp} alt="sign-up-image" />
         </div>
         <div className="lg:w-1/2 text-dark p-8 max-w-md">
           <div className="mb-6">

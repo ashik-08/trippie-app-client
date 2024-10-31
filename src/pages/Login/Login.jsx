@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { Link } from "react-router-dom";
+import SignIn from "../../assets/gif/SignIn.gif";
 
 const Login = () => {
   const [showPass, setShowPass] = useState(false);
@@ -23,11 +24,7 @@ const Login = () => {
     <section className="font-lato flex justify-center items-center min-h-screen p-2">
       <div className="flex flex-col-reverse lg:flex-row gap-8 xl:gap-20 items-center">
         <div className="lg:w-1/2">
-          <img
-            className="animate-pulse"
-            src="https://i.ibb.co.com/VTt8Dk6/Sign-in.gif"
-            alt="sign-in-image"
-          />
+          <img className="animate-pulse" src={SignIn} alt="signIn-img" />
         </div>
         <div className="lg:w-1/2 text-dark p-8 max-w-md">
           <div className="mb-6">
