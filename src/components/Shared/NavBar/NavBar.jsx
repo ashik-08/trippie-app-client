@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import Logo from "../../../assets/logo/logo-group.svg";
 import MenuIcon from "../../SVG/MenuIcon";
@@ -72,8 +73,29 @@ const NavBar = () => {
     </>
   );
 
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 70) {
+        setScrolled(true);
+      } else {
+        setScrolled(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
-    <nav className="fixed z-10 bg-outerSpace/5 w-full">
+    <nav
+      className={`fixed z-10 w-full ${
+        scrolled && "transition-colors duration-300 bg-outerSpace/40"
+      }`}
+    >
       <Container>
         <div className="font-lato navbar">
           <div className="navbar-start">
@@ -96,7 +118,7 @@ const NavBar = () => {
               to="/"
               className="text-[#7cc4b0] md:text-3xl lg:text-4xl font-metal font-semibold -ml-2.5 sm:-ml-0"
             >
-              <img className="md:w-28 xl:w-32" src={Logo} alt="" />
+              <img className="md:w-28 xl:w-32" src={Logo} alt="logo" />
             </Link>
           </div>
           <div className="navbar-center hidden lg:flex">
