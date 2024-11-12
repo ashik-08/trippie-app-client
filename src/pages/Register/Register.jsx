@@ -1,4 +1,3 @@
-import { useMutation } from "@tanstack/react-query";
 import { useContext, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
@@ -15,10 +14,6 @@ const Register = () => {
   const { user, createUser, updateUserProfile, logOut } =
     useContext(AuthContext);
   const navigate = useNavigate();
-
-  const { mutateAsync } = useMutation({
-    mutationFn: addUser,
-  });
 
   // Check if the user is already authenticated
   if (user) {
@@ -63,7 +58,7 @@ const Register = () => {
         };
 
         try {
-          const response = await mutateAsync(userData);
+          const response = await addUser(userData);
           if (response?.status === 201) {
             toast.success("Registered Successfully", { id: toastId });
             // Logout and redirect to login page
