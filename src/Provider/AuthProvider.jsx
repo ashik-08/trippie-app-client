@@ -1,14 +1,15 @@
 import {
   GoogleAuthProvider,
   createUserWithEmailAndPassword,
-  //   onAuthStateChanged,
+  onAuthStateChanged,
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
   updateProfile,
 } from "firebase/auth";
 import PropTypes from "prop-types";
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
+import { issueToken, revokeToken } from "../api/user-api";
 import auth from "../firebase/firebase.config";
 
 export const AuthContext = createContext();
@@ -16,7 +17,7 @@ export const AuthContext = createContext();
 const googleProvider = new GoogleAuthProvider();
 
 const AuthProvider = ({ children }) => {
-  const [user] = useState(null);
+  const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
   // create new user
@@ -26,10 +27,9 @@ const AuthProvider = ({ children }) => {
   };
 
   // update profile
-  const updateUserProfile = (name, mobile) => {
+  const updateUserProfile = (name) => {
     return updateProfile(auth.currentUser, {
       displayName: name,
-      phoneNumber: mobile,
       photoURL: "https://img.icons8.com/ios-filled/50/user-male-circle.png",
     });
   };
@@ -48,27 +48,27 @@ const AuthProvider = ({ children }) => {
 
   // logout user
   const logOut = async () => {
-    // const loggedInUser = { email: user?.email };
+    const loggedInUser = { email: user?.email };
     setLoading(true);
-    // await revokeToken(loggedInUser);
+    await revokeToken(loggedInUser);
     return signOut(auth);
   };
 
   // observe auth state change
-  //   useEffect(() => {
-  //     const unSubscribe = onAuthStateChanged(auth, async (currentUser) => {
-  //       const loggedInUser = { email: currentUser?.email };
-  //       setUser(currentUser);
-  //       setLoading(false);
-  //       // if user exists then issue a token
-  //       if (currentUser) {
-  //         await issueToken(loggedInUser);
-  //       }
-  //     });
-  //     return () => {
-  //       unSubscribe();
-  //     };
-  //   }, []);
+  useEffect(() => {
+    const unSubscribe = onAuthStateChanged(auth, async (currentUser) => {
+      const loggedInUser = { email: currentUser?.email };
+      setUser(currentUser);
+      setLoading(false);
+      // if user exists then issue a token
+      if (currentUser) {
+        await issueToken(loggedInUser);
+      }
+    });
+    return () => {
+      unSubscribe();
+    };
+  }, []);
 
   const authInfo = {
     user,

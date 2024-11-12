@@ -1,10 +1,26 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import { Link, NavLink } from "react-router-dom";
 import Logo from "../../../assets/logo/logo-group.svg";
+import { AuthContext } from "../../../Provider/AuthProvider";
 import MenuIcon from "../../SVG/MenuIcon";
 import Container from "../Container/Container";
 
 const NavBar = () => {
+  const { user, logOut } = useContext(AuthContext);
+
+  const handleLogout = () => {
+    const toastId = toast.loading("Logging Out...");
+    logOut()
+      .then(() => {
+        toast.success("Logged Out Successfully", { id: toastId });
+      })
+      .catch((error) => {
+        console.error(error);
+        toast.error("Something went wrong!", { id: toastId });
+      });
+  };
+
   const navItems = [
     { to: "/", text: "Home" },
     { to: "/join-tour", text: "Join Tour" },
@@ -125,18 +141,54 @@ const NavBar = () => {
             <ul className="menu menu-horizontal">{links}</ul>
           </div>
           <div className="navbar-end space-x-2 sm:space-x-5">
-            <Link
-              to="/login"
-              className="text-white hover:bg-outerSpace/10 lg:text-lg border px-3 sm:px-5 py-1.5 sm:py-2 rounded-lg transition"
-            >
-              Login
-            </Link>
-            <Link
-              to="/register"
-              className="text-white bg-primary-base hover:bg-primary-500 lg:text-lg px-3 sm:px-5 py-1.5 sm:py-2 rounded-lg transition"
-            >
-              Register
-            </Link>
+            {user?.email ? (
+              // dropdown icon
+              <div className="dropdown dropdown-end">
+                <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
+                  <div className="w-10 md:w-14 lg:w-16 rounded-full">
+                    <img
+                      className="text-[10px]"
+                      src={user?.photoURL}
+                      alt="img"
+                    />
+                  </div>
+                </label>
+                <ul
+                  tabIndex={0}
+                  className="menu dropdown-content mt-4 z-[1] p-2 drop-shadow-lg bg-base-100 rounded-box w-max"
+                >
+                  <>
+                    <li className="pointer-events-none">
+                      <p>{user?.displayName}</p>
+                    </li>
+                    <li className="pointer-events-none">
+                      <p>{user?.email}</p>
+                    </li>
+                    <li>
+                      <Link to="/dashboard">Dashboard</Link>
+                    </li>
+                    <li>
+                      <button onClick={handleLogout}>Logout</button>
+                    </li>
+                  </>
+                </ul>
+              </div>
+            ) : (
+              <>
+                <Link
+                  to="/login"
+                  className="text-white hover:bg-outerSpace/10 lg:text-lg border px-3 sm:px-5 py-1.5 sm:py-2 rounded-lg transition"
+                >
+                  Login
+                </Link>
+                <Link
+                  to="/register"
+                  className="text-white bg-primary-base hover:bg-primary-500 lg:text-lg px-3 sm:px-5 py-1.5 sm:py-2 rounded-lg transition"
+                >
+                  Register
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </Container>

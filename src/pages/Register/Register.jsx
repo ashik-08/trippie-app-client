@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
@@ -7,13 +7,14 @@ import { FcGoogle } from "react-icons/fc";
 import { Link, useNavigate } from "react-router-dom";
 import { addUser } from "../../api/user-api";
 import SignUp from "../../assets/gif/SignUp.gif";
-import { AuthContext } from "../../Provider/AuthProvider";
+import GoogleLogin from "../../components/Shared/GoogleLogin/GoogleLogin";
+import useAuth from "../../hooks/useAuth";
 
 const Register = () => {
   const [showPass, setShowPass] = useState(false);
-  const { user, createUser, updateUserProfile, logOut } =
-    useContext(AuthContext);
+  const { user, createUser, updateUserProfile, logOut } = useAuth();
   const navigate = useNavigate();
+  const handleGoogleLogin = GoogleLogin();
 
   // Check if the user is already authenticated
   if (user) {
@@ -104,7 +105,9 @@ const Register = () => {
             <div className="mb-6">
               <h1 className="text-xl font-semibold mb-2">
                 Welcome to{" "}
-                <span className="text-primary-base italic">Trippie</span>
+                <Link to={"/"} className="text-primary-base italic">
+                  Trippie
+                </Link>
               </h1>
               <h2 className="text-3xl font-semibold">Create Account</h2>
             </div>
@@ -236,7 +239,10 @@ const Register = () => {
               <span className="mx-4 text-gray-500">or</span>
               <div className="border-t border-gray-300 flex-grow"></div>
             </div>
-            <button className="flex items-center justify-center w-full p-3 border border-secondary-100 rounded-md bg-white hover:bg-primary-100 transition">
+            <button
+              onClick={handleGoogleLogin}
+              className="flex items-center justify-center w-full p-3 border border-secondary-100 rounded-md bg-white hover:bg-primary-100 transition"
+            >
               <FcGoogle className="text-2xl mr-2" />
               <span className="md:text-lg font-semibold">
                 Sign up with Google

@@ -1,27 +1,28 @@
 import axios from "axios";
 
+const baseURL = import.meta.env.VITE_SERVER_URL;
+
 const axiosInstance = axios.create({
-  baseURL: import.meta.env.VITE_SERVER_URL,
+  baseURL,
+});
+
+const axiosSecure = axios.create({
+  baseURL,
   withCredentials: true,
 });
 
 // issue a token upon successful login
 export const issueToken = async (loggedInUser) => {
-  const response = await axiosInstance.post("/jwt", loggedInUser);
-  const data = await response?.data;
-  return data;
+  await axiosSecure.post("/auth/login", loggedInUser);
 };
 
 // revoke issued token upon successful logout
 export const revokeToken = async (loggedInUser) => {
-  const response = await axiosInstance.post("/logout", loggedInUser);
-  const data = await response?.data;
-  return data;
+  await axiosSecure.post("/auth/logout", loggedInUser);
 };
 
 // add a new user
 export const addUser = async (user) => {
   const response = await axiosInstance.post("/users", user);
-  //   const data = await response?.data;
   return response;
 };
