@@ -1,13 +1,13 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { Link, NavLink } from "react-router-dom";
 import Logo from "../../../assets/logo/logo-group.svg";
-import { AuthContext } from "../../../Provider/AuthProvider";
+import useAuth from "../../../hooks/useAuth";
 import MenuIcon from "../../SVG/MenuIcon";
 import Container from "../Container/Container";
 
 const NavBar = () => {
-  const { user, logOut } = useContext(AuthContext);
+  const { user, logOut, loading } = useAuth();
 
   const handleLogout = () => {
     const toastId = toast.loading("Logging Out...");
@@ -141,11 +141,13 @@ const NavBar = () => {
             <ul className="menu menu-horizontal">{links}</ul>
           </div>
           <div className="navbar-end space-x-2 sm:space-x-5">
-            {user?.email ? (
+            {loading ? (
+              <span className="loading loading-ring w-[50px] lg:w-[52px]"></span>
+            ) : user?.email ? (
               // dropdown icon
               <div className="dropdown dropdown-end">
                 <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
-                  <div className="w-10 md:w-14 lg:w-16 rounded-full">
+                  <div className="w-10 md:w-14 lg:w-16 rounded-full ">
                     <img
                       className="text-[10px]"
                       src={user?.photoURL}

@@ -9,7 +9,7 @@ import {
 } from "firebase/auth";
 import PropTypes from "prop-types";
 import { createContext, useEffect, useState } from "react";
-import { issueToken, revokeToken } from "../api/user-api";
+import { revokeToken } from "../api/user-api";
 import auth from "../firebase/firebase.config";
 
 export const AuthContext = createContext();
@@ -57,13 +57,8 @@ const AuthProvider = ({ children }) => {
   // observe auth state change
   useEffect(() => {
     const unSubscribe = onAuthStateChanged(auth, async (currentUser) => {
-      const loggedInUser = { email: currentUser?.email };
       setUser(currentUser);
       setLoading(false);
-      // if user exists then issue a token
-      if (currentUser) {
-        await issueToken(loggedInUser);
-      }
     });
     return () => {
       unSubscribe();

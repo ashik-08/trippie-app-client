@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { issueToken } from "../../api/user-api";
 import SignIn from "../../assets/gif/SignIn.gif";
 import GoogleLogin from "../../components/Shared/GoogleLogin/GoogleLogin";
 import useAuth from "../../hooks/useAuth";
@@ -15,10 +16,6 @@ const Login = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const handleGoogleLogin = GoogleLogin();
-
-  if (user) {
-    navigate("/");
-  }
 
   const {
     register,
@@ -34,10 +31,21 @@ const Login = () => {
 
     // signIn user
     signInUser(data.email, data.password)
-      .then(async () => {
-        toast.success("Logged In Successfully", { id: toastId });
-        reset();
-        navigate(location?.state ?? "/");
+      .then(async (result) => {
+        console.log(data.email);
+        console.log(result?.user?.email);
+        console.log(user?.email);
+
+        if (data.email === result?.user?.email) {
+          await issueToken({ email: data.email });
+          toast.success("Logged In Successfully", { id: toastId });
+          reset();
+          navigate(location?.state ?? "/");
+        } else {
+          toast.error("An error occurred", {
+            id: toastId,
+          });
+        }
       })
       .catch((error) => {
         console.error(error);

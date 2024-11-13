@@ -12,14 +12,9 @@ import useAuth from "../../hooks/useAuth";
 
 const Register = () => {
   const [showPass, setShowPass] = useState(false);
-  const { user, createUser, updateUserProfile, logOut } = useAuth();
+  const { createUser, updateUserProfile, logOut } = useAuth();
   const navigate = useNavigate();
   const handleGoogleLogin = GoogleLogin();
-
-  // Check if the user is already authenticated
-  if (user) {
-    navigate("/");
-  }
 
   const {
     register,
@@ -64,12 +59,13 @@ const Register = () => {
             toast.success("Registered Successfully", { id: toastId });
             // Logout and redirect to login page
             logOut()
-              .then(() => {})
+              .then(() => {
+                reset();
+                navigate("/login");
+              })
               .catch(() => {
                 // An error occurred
               });
-            reset();
-            navigate("/login");
           }
         } catch (error) {
           if (error.response?.status === 409) {
