@@ -1,6 +1,13 @@
 import { CalendarDaysIcon, HandRaisedIcon } from "@heroicons/react/24/outline";
+import toast from "react-hot-toast";
 
 const Newsletter = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    toast.success("Subscribed successfully!");
+    e.target.reset();
+  };
+
   return (
     <div className="mt-24 md:mt-32 lg:mt-36 xl:mt-40 bg-gray-100 py-16 sm:py-24 lg:py-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
@@ -13,12 +20,15 @@ const Newsletter = () => {
               Stay updated with the latest travel tips, destination guides and
               exclusive offers. Join our community of travel enthusiasts today!
             </p>
-            <div className="mt-6 flex max-w-md gap-x-4">
-              <label htmlFor="email-address" className="sr-only">
+            <form
+              onSubmit={handleSubmit}
+              className="mt-6 flex max-w-md gap-x-4"
+            >
+              <label htmlFor="email" className="sr-only">
                 Email address
               </label>
               <input
-                id="email-address"
+                id="email"
                 name="email"
                 type="email"
                 required
@@ -32,7 +42,7 @@ const Newsletter = () => {
               >
                 Subscribe
               </button>
-            </div>
+            </form>
           </div>
           <dl className="grid grid-cols-1 gap-x-8 gap-y-10 sm:grid-cols-2 lg:pt-2">
             <div className="flex flex-col items-start">
