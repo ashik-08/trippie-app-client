@@ -157,9 +157,9 @@ const NavBar = () => {
                 </label>
                 <ul
                   tabIndex={0}
-                  className="menu dropdown-content mt-4 z-[1] p-2 drop-shadow-lg bg-base-100 rounded-box w-max"
+                  className="menu dropdown-content mt-2 z-[1] drop-shadow-lg bg-base-100 rounded-box"
                 >
-                  <>
+                  <div className="text-outerSpace font-medium 2xl:text-base">
                     <li className="pointer-events-none">
                       <p>{user?.displayName}</p>
                     </li>
@@ -172,7 +172,7 @@ const NavBar = () => {
                     <li>
                       <button onClick={handleLogout}>Logout</button>
                     </li>
-                  </>
+                  </div>
                 </ul>
               </div>
             ) : (
