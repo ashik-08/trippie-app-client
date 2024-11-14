@@ -32,6 +32,7 @@ module.exports = withMT({
         slate: "#B1D4DB",
         dark: "#252525",
         outerSpace: "#333D43",
+        neutralBlack: "#263238",
       },
       backgroundImage: {
         hero: "url('./src/assets/banner/bg-hero-img.jpeg')",

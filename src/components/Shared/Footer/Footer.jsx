@@ -1,14 +1,21 @@
-import { Typography } from "@material-tailwind/react";
+import { toast } from "react-hot-toast";
 import { Link } from "react-router-dom";
-import logo from "../../../assets/logo/logo-group.svg";
+import logo from "../../../assets/logo/logo-group-white.svg";
 import DribbleIcon from "../../SVG/DribbleIcon";
 import FBIcon from "../../SVG/FBIcon";
 import GithubIcon from "../../SVG/GithubIcon";
 import InstagramIcon from "../../SVG/InstagramIcon";
+import SendIcon from "../../SVG/SendIcon";
 import TwitterIcon from "../../SVG/TwitterIcon";
 import Container from "../Container/Container";
 
 const Footer = () => {
+  const handleEmailSubmit = (e) => {
+    e.preventDefault();
+    toast.success("Email submitted successfully!");
+    e.target.reset();
+  };
+
   const LINKS = [
     {
       title: "Product",
@@ -23,101 +30,85 @@ const Footer = () => {
       items: ["Blog", "Newsletter", "Events", "Help center"],
     },
     {
-      title: "Address",
+      title: "Contact",
       items: ["Banani, Dhaka", "info@trippie.com", "01712-345678"],
     },
   ];
 
-  const currentYear = new Date().getFullYear();
-
   return (
-    <footer className="relative bg-gray-50 mt-24 md:mt-32 lg:mt-36 xl:mt-40">
+    <footer className="bg-neutralBlack py-16 px-2 md:px-3 lg:px-5">
       <Container>
-        <div className="px-4 pt-20">
-          <div className="grid grid-cols-1 justify-between gap-8 lg:gap-12 xl:gap-20 lg:grid-cols-5">
-            <div className="lg:col-span-2 space-y-3">
-              <Link to="/">
-                <img className=" md:w-28 xl:w-32" src={logo} alt="logo-img" />
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
+          {/* Footer Left Section */}
+          <div className="lg:col-span-2">
+            <Link to="/">
+              <img className="w-28 xl:w-32" src={logo} alt="logo-img" />
+            </Link>
+            <p className="text-blue-gray-50 text-sm mt-4">
+              ©2024 Trippie Ltd. All rights reserved.
+            </p>
+            <div className="flex items-center gap-4 mt-6 text-blue-gray-100">
+              <Link to="#" className="hover:text-white transition-colors">
+                <FBIcon />
               </Link>
-              <Typography
-                color="blue-gray"
-                className="text-sm md:text-base font-normal opacity-70"
-              >
-                Trippie is your go-to travel companion, offering comprehensive
-                solutions for all your travel needs. Explore the world with ease
-                and confidence.
-              </Typography>
-            </div>
-            <div className="lg:col-span-3 grid grid-cols-2 md:grid-cols-4 justify-between gap-4">
-              {LINKS.map(({ title, items }) => (
-                <ul key={title}>
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="mb-3 md:text-base font-medium opacity-40"
-                  >
-                    {title}
-                  </Typography>
-                  {items.map((link) => (
-                    <li key={link}>
-                      <Typography
-                        as="a"
-                        href="#"
-                        color="gray"
-                        className="py-1.5 text-sm md:text-base font-normal transition-colors hover:text-blue-gray-900"
-                      >
-                        {link}
-                      </Typography>
-                    </li>
-                  ))}
-                </ul>
-              ))}
+              <Link to="#" className="hover:text-white transition-colors">
+                <TwitterIcon />
+              </Link>
+              <Link to="#" className="hover:text-white transition-colors">
+                <InstagramIcon />
+              </Link>
+              <Link to="#" className="hover:text-white transition-colors">
+                <DribbleIcon />
+              </Link>
+              <Link to="#" className="hover:text-white transition-colors">
+                <GithubIcon />
+              </Link>
             </div>
           </div>
-          <div className="mt-12 flex w-full flex-col items-center justify-center border-t border-blue-gray-50 py-4 md:flex-row md:justify-between">
-            <Typography
-              variant="small"
-              className="mb-4 text-center font-medium text-blue-gray-900 md:mb-0"
+
+          {/* Links Section */}
+          <div className="lg:col-span-3 grid grid-cols-2 md:grid-cols-4 gap-4">
+            {LINKS.map(({ title, items }) => (
+              <ul key={title}>
+                <h2 className="text-white text-xl font-semibold mb-4">
+                  {title}
+                </h2>
+                {items.map((link) => (
+                  <li key={link} className="mb-2">
+                    <Link
+                      to="#"
+                      className="text-blue-gray-200 text-sm hover:text-white transition-colors"
+                    >
+                      {link}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            ))}
+          </div>
+
+          {/* Stay Up to Date Section */}
+          <div className="lg:col-span-2">
+            <h2 className="text-white text-xl font-semibold mb-4">
+              Stay up to date
+            </h2>
+            <form
+              onSubmit={handleEmailSubmit}
+              className="flex items-center gap-2"
             >
-              &copy; {currentYear} <a href="/">Trippie</a>. All Rights Reserved.
-            </Typography>
-            <div className="flex gap-4 text-blue-gray-900 sm:justify-center">
-              <Typography
-                as="a"
-                href="#"
-                className="opacity-80 transition-opacity hover:opacity-100"
+              <input
+                type="email"
+                placeholder="Your email address"
+                className="w-full px-4 py-2 rounded-lg bg-outerSpace/40 text-sm text-gray-200 placeholder-blue-gray-300 border-0 ring-1 ring-inset ring-primary-base/50 focus:ring-2 focus:ring-inset focus:ring-primary-600"
+                required
+              />
+              <button
+                type="submit"
+                className="flex items-center justify-center px-4 py-2 rounded-lg bg-primary-600 hover:bg-secondary-700 transition-colors"
               >
-                <FBIcon />
-              </Typography>
-              <Typography
-                as="a"
-                href="#"
-                className="opacity-80 transition-opacity hover:opacity-100"
-              >
-                <InstagramIcon />
-              </Typography>
-              <Typography
-                as="a"
-                href="#"
-                className="opacity-80 transition-opacity hover:opacity-100"
-              >
-                <TwitterIcon />
-              </Typography>
-              <Typography
-                as="a"
-                href="#"
-                className="opacity-80 transition-opacity hover:opacity-100"
-              >
-                <GithubIcon />
-              </Typography>
-              <Typography
-                as="a"
-                href="#"
-                className="opacity-80 transition-opacity hover:opacity-100"
-              >
-                <DribbleIcon />
-              </Typography>
-            </div>
+                <SendIcon />
+              </button>
+            </form>
           </div>
         </div>
       </Container>
