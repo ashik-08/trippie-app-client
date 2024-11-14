@@ -7,7 +7,6 @@ const GoogleLogin = () => {
   const { signInWithGoogle } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
-  const from = location.state?.from?.pathname || "/";
 
   // google sign in
   const googleSignIn = () => {
@@ -33,7 +32,7 @@ const GoogleLogin = () => {
           if (response?.status === 201 || response?.status === 200) {
             await issueToken({ email: userData.email });
             toast.success("Logged In Successfully", { id: toastId });
-            navigate(from, { replace: true });
+            navigate(location?.state ?? "/");
           }
         } catch (error) {
           if (error.response?.status === 409) {

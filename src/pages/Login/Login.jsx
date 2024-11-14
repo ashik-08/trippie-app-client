@@ -12,7 +12,7 @@ import useAuth from "../../hooks/useAuth";
 
 const Login = () => {
   const [showPass, setShowPass] = useState(false);
-  const { user, signInUser } = useAuth();
+  const { signInUser } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
   const handleGoogleLogin = GoogleLogin();
@@ -32,10 +32,6 @@ const Login = () => {
     // signIn user
     signInUser(data.email, data.password)
       .then(async (result) => {
-        console.log(data.email);
-        console.log(result?.user?.email);
-        console.log(user?.email);
-
         if (data.email === result?.user?.email) {
           await issueToken({ email: data.email });
           toast.success("Logged In Successfully", { id: toastId });
