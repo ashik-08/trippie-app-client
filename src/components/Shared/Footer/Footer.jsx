@@ -38,7 +38,7 @@ const Footer = () => {
   return (
     <footer className="bg-neutralBlack py-16 px-2 md:px-3 lg:px-5">
       <Container>
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-y-12 lg:gap-y-2 gap-x-8">
           {/* Footer Left Section */}
           <div className="lg:col-span-2">
             <Link to="/">

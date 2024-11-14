@@ -46,7 +46,7 @@ const Newsletter = () => {
           </div>
           <dl className="grid grid-cols-1 gap-x-8 gap-y-10 sm:grid-cols-2 lg:pt-2">
             <div className="flex flex-col items-start">
-              <div className="rounded-md p-2 ring-1 ring-primary-300">
+              <div className="rounded-md p-2 ring-1 ring-primary-300 hover:bg-primary-base transition-colors">
                 <CalendarDaysIcon
                   aria-hidden="true"
                   className="h-6 w-6 text-dark"
@@ -61,7 +61,7 @@ const Newsletter = () => {
               </dd>
             </div>
             <div className="flex flex-col items-start">
-              <div className="rounded-md p-2 ring-1 ring-primary-300">
+              <div className="rounded-md p-2 ring-1 ring-primary-300 hover:bg-primary-base transition-colors">
                 <HandRaisedIcon
                   aria-hidden="true"
                   className="h-6 w-6 text-dark"
