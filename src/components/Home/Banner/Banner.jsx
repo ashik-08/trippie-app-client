@@ -1,6 +1,6 @@
 const Banner = () => {
   return (
-    <div className="relative h-[85vh]">
+    <section className="relative h-[85vh]">
       {/* Background Image with Blur */}
       <div className="absolute inset-0">
         <div className="bg-hero w-full h-full bg-cover bg-center bg-no-repeat blur-[2px]"></div>
@@ -22,7 +22,7 @@ const Banner = () => {
           with our expertly curated travel packages.
         </p>
       </div>
-    </div>
+    </section>
   );
 };
 
