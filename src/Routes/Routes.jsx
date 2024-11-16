@@ -5,7 +5,9 @@ import ErrorPage from "../pages/ErrorPage/ErrorPage";
 import HomePage from "../pages/HomePage/HomePage";
 import Login from "../pages/Login/Login";
 import Register from "../pages/Register/Register";
+import DashboardHomeRedirect from "./DashboardHomeRedirect";
 import PrivateRoute from "./PrivateRoute";
+import RoleProtectedRoute from "./RoleProtectedRoute";
 
 export const routes = createBrowserRouter([
   {
@@ -28,7 +30,7 @@ export const routes = createBrowserRouter([
     element: <Login />,
   },
   {
-    path: "/dashboard/*",
+    path: "/dashboard",
     element: (
       <PrivateRoute>
         <DashboardLayout>
@@ -37,5 +39,30 @@ export const routes = createBrowserRouter([
       </PrivateRoute>
     ),
     errorElement: <ErrorPage />,
+    children: [
+      {
+        index: true,
+        element: <DashboardHomeRedirect />,
+      },
+      // admin related routes
+      {
+        path: "admin-home",
+        element: (
+          <RoleProtectedRoute allowedRoles={["admin"]}>
+            <h1>Hello Admin</h1>
+          </RoleProtectedRoute>
+        ),
+      },
+      // user related routes
+      {
+        path: "user-home",
+        element: (
+          <RoleProtectedRoute allowedRoles={["user"]}>
+            <h1>Hello User</h1>
+          </RoleProtectedRoute>
+        ),
+      },
+      // Add other role-specific routes here
+    ],
   },
 ]);
