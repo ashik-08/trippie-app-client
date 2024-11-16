@@ -1,6 +1,7 @@
 import toast from "react-hot-toast";
 import { useLocation, useNavigate } from "react-router-dom";
 import { addUser, issueToken } from "../../../api/user-api";
+import { startTokenRefreshTimer } from "../../../hooks/axiosSecure";
 import useAuth from "../../../hooks/useAuth";
 
 const GoogleLogin = () => {
@@ -31,6 +32,7 @@ const GoogleLogin = () => {
           const response = await addUser(userData);
           if (response?.status === 201 || response?.status === 200) {
             await issueToken({ email: userData.email });
+            startTokenRefreshTimer(7200);
             toast.success("Logged In Successfully", { id: toastId });
             navigate(location?.state ?? "/");
           }

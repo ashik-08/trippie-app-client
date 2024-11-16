@@ -8,6 +8,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { issueToken } from "../../api/user-api";
 import SignIn from "../../assets/gif/SignIn.gif";
 import GoogleLogin from "../../components/Shared/GoogleLogin/GoogleLogin";
+import { startTokenRefreshTimer } from "../../hooks/axiosSecure";
 import useAuth from "../../hooks/useAuth";
 
 const Login = () => {
@@ -34,6 +35,7 @@ const Login = () => {
       .then(async (result) => {
         if (data.email === result?.user?.email) {
           await issueToken({ email: data.email });
+          startTokenRefreshTimer(7200);
           toast.success("Logged In Successfully", { id: toastId });
           reset();
           navigate(location?.state ?? "/");

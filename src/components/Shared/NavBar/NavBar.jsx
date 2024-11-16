@@ -176,20 +176,12 @@ const NavBar = () => {
                 </ul>
               </div>
             ) : (
-              <>
-                <Link
-                  to="/login"
-                  className="text-white hover:bg-outerSpace/10 lg:text-lg border px-3 sm:px-5 py-1.5 sm:py-2 rounded-lg transition"
-                >
-                  Login
-                </Link>
-                <Link
-                  to="/register"
-                  className="text-white bg-primary-base hover:bg-primary-500 lg:text-lg px-3 sm:px-5 py-1.5 sm:py-2 rounded-lg transition"
-                >
-                  Register
-                </Link>
-              </>
+              <Link
+                to="/login"
+                className="text-white bg-primary-base hover:bg-primary-500 lg:text-lg px-3 sm:px-5 py-1.5 sm:py-2 rounded-lg transition-colors"
+              >
+                Login
+              </Link>
             )}
           </div>
         </div>

@@ -1,14 +1,8 @@
 import axios from "axios";
-
-const baseURL = import.meta.env.VITE_SERVER_URL;
+import { axiosSecure } from "../hooks/axiosSecure";
 
 const axiosInstance = axios.create({
-  baseURL,
-});
-
-const axiosSecure = axios.create({
-  baseURL,
-  withCredentials: true,
+  baseURL: import.meta.env.VITE_SERVER_URL,
 });
 
 // issue a token upon successful login
@@ -25,4 +19,10 @@ export const revokeToken = async (loggedInUser) => {
 export const addUser = async (user) => {
   const response = await axiosInstance.post("/users", user);
   return response;
+};
+
+// fetch user role
+export const getUserRole = async (email) => {
+  const response = await axiosSecure.get(`/users/role?email=${email}`);
+  return response?.data?.role;
 };
