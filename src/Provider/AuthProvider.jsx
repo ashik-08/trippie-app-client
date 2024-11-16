@@ -9,7 +9,7 @@ import {
 } from "firebase/auth";
 import Cookies from "js-cookie";
 import PropTypes from "prop-types";
-import { createContext, useEffect, useState } from "react";
+import { createContext, useCallback, useEffect, useState } from "react";
 import { revokeToken } from "../api/user-api";
 import auth from "../firebase/firebase.config";
 
@@ -48,12 +48,12 @@ const AuthProvider = ({ children }) => {
   };
 
   // logout user
-  const logOut = async () => {
+  const logOut = useCallback(async () => {
     const loggedInUser = { email: user?.email };
     setLoading(true);
     await revokeToken(loggedInUser);
     return signOut(auth);
-  };
+  }, [user]);
 
   // observe auth state change
   useEffect(() => {
@@ -84,7 +84,7 @@ const AuthProvider = ({ children }) => {
       clearTimeout(initialCheckTimeout);
       window.removeEventListener("storage", handleStorageChange);
     };
-  }, [user]);
+  }, [user, logOut]);
 
   const authInfo = {
     user,
