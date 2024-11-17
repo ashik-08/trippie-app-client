@@ -1,14 +1,19 @@
-// src/layouts/DashboardLayout.jsx
 import toast from "react-hot-toast";
 import { AiFillHome } from "react-icons/ai";
-import { BiSolidContact, BiSolidWalletAlt } from "react-icons/bi";
-import { FaCalendarAlt, FaListUl } from "react-icons/fa";
-import { FiMenu } from "react-icons/fi";
-import { PiUsersThreeFill } from "react-icons/pi";
-import { SiFoodpanda } from "react-icons/si";
-import { NavLink, Outlet } from "react-router-dom";
+import { BsDoorOpenFill } from "react-icons/bs";
+import { FaCalendarAlt, FaUsers } from "react-icons/fa";
+import { FaBus } from "react-icons/fa6";
+import { GiMoneyStack } from "react-icons/gi";
+import { MdBusAlert, MdLogout } from "react-icons/md";
+import { TbBrandBooking } from "react-icons/tb";
+import { Link, NavLink, Outlet } from "react-router-dom";
+import Logo from "../assets/logo/logo-group.svg";
 import LoadingSpinner from "../components/LoadingState/LoadingSpinner";
-import Container from "../components/Shared/Container/Container";
+import DoorIcon from "../components/SVG/DoorIcon";
+import ManageServiceIcon from "../components/SVG/ManageServiceIcon";
+import MenuIcon from "../components/SVG/MenuIcon";
+import ProfileIcon from "../components/SVG/ProfileIcon";
+import TourIcon from "../components/SVG/TourIcon";
 import useAuth from "../hooks/useAuth";
 import useGetRole from "../hooks/useGetRole";
 import ErrorPage from "../pages/ErrorPage/ErrorPage";
@@ -39,89 +44,166 @@ const DashboardLayout = () => {
   }
 
   const renderNavLinks = () => {
+    const navLinkClass = ({ isActive }) =>
+      isActive
+        ? "bg-primary-base text-white text-base font-semibold hover:bg-primary-500 transition-colors"
+        : "bg-slate/20 text-outerSpace text-base font-medium hover:bg-slate/30 transition-colors";
+
     switch (userRole) {
-      case "admin":
-        return (
-          <>
-            <NavLink to="/dashboard/admin-home">
-              <AiFillHome /> Dashboard
-            </NavLink>
-            <NavLink to="/dashboard/user-management">
-              <PiUsersThreeFill /> User Management
-            </NavLink>
-          </>
-        );
       case "user":
         return (
           <>
-            <NavLink to="/dashboard/user-home">
-              <AiFillHome /> Dashboard
-            </NavLink>
-            <NavLink to="/dashboard/payment-history">
-              <BiSolidWalletAlt /> Payment History
-            </NavLink>
-            <NavLink to="/dashboard/my-profile">
-              <BiSolidContact /> My Profile
-            </NavLink>
+            <li>
+              <NavLink to="/dashboard/user-home" className={navLinkClass}>
+                <AiFillHome />
+                Dashboard
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to="/dashboard/my-bookings" className={navLinkClass}>
+                <TbBrandBooking />
+                My Bookings
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to="/dashboard/payment-history" className={navLinkClass}>
+                <GiMoneyStack />
+                Payment History
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to="/dashboard/my-profile" className={navLinkClass}>
+                <ProfileIcon />
+                My Profile
+              </NavLink>
+            </li>
+          </>
+        );
+      case "admin":
+        return (
+          <>
+            <li>
+              <NavLink to="/dashboard/admin-home" className={navLinkClass}>
+                <AiFillHome />
+                Dashboard
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to="/dashboard/manage-users" className={navLinkClass}>
+                <FaUsers />
+                Manage Users
+              </NavLink>
+            </li>
           </>
         );
       case "hotel-manager":
         return (
           <>
-            <NavLink to="/dashboard/hotel-home">
-              <AiFillHome /> Dashboard
-            </NavLink>
-            <NavLink to="/dashboard/manage-rooms">
-              <FaListUl /> Manage Rooms
-            </NavLink>
-            <NavLink to="/dashboard/my-profile">
-              <BiSolidContact /> My Profile
-            </NavLink>
+            <li>
+              <NavLink to="/dashboard/hotel-home" className={navLinkClass}>
+                <AiFillHome />
+                Dashboard
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to="/dashboard/add-room" className={navLinkClass}>
+                <BsDoorOpenFill />
+                Add Room
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to="/dashboard/manage-rooms" className={navLinkClass}>
+                <DoorIcon />
+                Manage Rooms
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to="/dashboard/my-profile" className={navLinkClass}>
+                <ProfileIcon />
+                My Profile
+              </NavLink>
+            </li>
           </>
         );
       case "bus-operator":
         return (
           <>
-            <NavLink to="/dashboard/transport-home">
-              <AiFillHome /> Dashboard
-            </NavLink>
-            <NavLink to="/dashboard/manage-vehicle">
-              <FaListUl /> Manage Vehicle
-            </NavLink>
-            <NavLink to="/dashboard/my-profile">
-              <BiSolidContact /> My Profile
-            </NavLink>
+            <li>
+              <NavLink to="/dashboard/transport-home" className={navLinkClass}>
+                <AiFillHome />
+                Dashboard
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to="/dashboard/add-vehicle" className={navLinkClass}>
+                <FaBus />
+                Add Vehicle
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to="/dashboard/manage-vehicles" className={navLinkClass}>
+                <MdBusAlert />
+                Manage Vehicles
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to="/dashboard/my-profile" className={navLinkClass}>
+                <ProfileIcon />
+                My Profile
+              </NavLink>
+            </li>
           </>
         );
       case "tour-guide":
         return (
           <>
-            <NavLink to="/dashboard/guide-home">
-              <AiFillHome /> Dashboard
-            </NavLink>
-            <NavLink to="/dashboard/manage-service">
-              <FaListUl /> Manage Service
-            </NavLink>
-            <NavLink to="/dashboard/my-profile">
-              <BiSolidContact /> My Profile
-            </NavLink>
+            <li>
+              <NavLink to="/dashboard/guide-home" className={navLinkClass}>
+                <AiFillHome />
+                Dashboard
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to="/dashboard/manage-services" className={navLinkClass}>
+                <ManageServiceIcon />
+                Manage Services
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to="/dashboard/my-profile" className={navLinkClass}>
+                <ProfileIcon />
+                My Profile
+              </NavLink>
+            </li>
           </>
         );
       case "tour-agent":
         return (
           <>
-            <NavLink to="/dashboard/agent-home">
-              <AiFillHome /> Dashboard
-            </NavLink>
-            <NavLink to="/dashboard/create-tour">
-              <FaCalendarAlt /> Create Tour
-            </NavLink>
-            <NavLink to="/dashboard/manage-tour">
-              <FaListUl /> Manage Tour
-            </NavLink>
-            <NavLink to="/dashboard/my-profile">
-              <BiSolidContact /> My Profile
-            </NavLink>
+            <li>
+              <NavLink to="/dashboard/agent-home" className={navLinkClass}>
+                <AiFillHome />
+                Dashboard
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to="/dashboard/create-tour" className={navLinkClass}>
+                <FaCalendarAlt />
+                Create Tour
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to="/dashboard/manage-tours" className={navLinkClass}>
+                <TourIcon />
+                Manage Tours
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to="/dashboard/my-profile" className={navLinkClass}>
+                <ProfileIcon />
+                My Profile
+              </NavLink>
+            </li>
           </>
         );
       default:
@@ -131,87 +213,39 @@ const DashboardLayout = () => {
 
   return (
     <section>
-      <div className="drawer lg:drawer-open">
+      <div className="font-lato drawer lg:drawer-open">
         <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
-        <div className="drawer-content min-h-screen bg-dash-bg">
+        <div className="drawer-content min-h-screen bg-slate/20">
           <label
             htmlFor="my-drawer-2"
-            className="btn btn-ghost drawer-button lg:hidden flex justify-end mr-4 mt-2"
+            className="btn btn-ghost drawer-button lg:hidden flex justify-end mr-2"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M4 6h16M4 12h8m-8 6h16"
-              />
-            </svg>
+            <MenuIcon />
           </label>
-          <div className="mt-8 lg:mt-12 mb-20">
-            <Container>
+          <div className="py-8 lg:py-12">
+            <div className="max-w-[1600px] mx-auto lg:px-8 md:px-6 sm:px-4 px-3">
               <Outlet />
-            </Container>
+            </div>
           </div>
         </div>
         <div className="drawer-side">
           <label htmlFor="my-drawer-2" className="drawer-overlay"></label>
-          <div className="w-72 min-h-screen bg-dash py-12">
-            <p className="text-2xl font-cinzel font-black uppercase ml-6">
-              Bistro Boss
-            </p>
-            <p className="text-xl font-cinzel font-medium uppercase tracking-[3px] ml-6">
-              Restaurant
-            </p>
-            <ul className="menu mt-16 space-y-2">{renderNavLinks()}</ul>
-            <div className="divider px-5"></div>
-            <ul className="menu space-y-2">
-              <li>
-                <NavLink
-                  to="/"
-                  className="text-lg md:text-xl font-cinzel font-medium uppercase"
-                >
-                  <AiFillHome /> Home
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/menu"
-                  className="text-lg md:text-xl font-cinzel font-medium uppercase"
-                >
-                  <FiMenu /> Menu
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/order/offer"
-                  className="text-lg md:text-xl font-cinzel font-medium uppercase"
-                >
-                  <SiFoodpanda /> Order Food
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/contact-us"
-                  className="text-lg md:text-xl font-cinzel font-medium uppercase"
-                >
-                  <BiSolidContact /> Contact
-                </NavLink>
-              </li>
-              <li>
-                <button
-                  onClick={handleLogout}
-                  className="text-lg md:text-xl font-cinzel font-medium uppercase"
-                >
-                  Logout
-                </button>
-              </li>
-            </ul>
+          <div className="bg-white w-64 px-3 py-12 min-h-screen flex flex-col justify-between">
+            <div>
+              <Link to="/">
+                <img className="ml-6 w-28" src={Logo} alt="logo" />
+              </Link>
+              <ul className="menu mt-8 space-y-4">{renderNavLinks()}</ul>
+            </div>
+            <div className="mx-2 bg-slate/20 hover:bg-slate/30 transition-colors rounded-md">
+              <button
+                onClick={handleLogout}
+                className="px-4 py-2 w-full text-start text-outerSpace text-base font-medium flex items-center gap-2"
+              >
+                <MdLogout />
+                Logout
+              </button>
+            </div>
           </div>
         </div>
       </div>
