@@ -44,6 +44,35 @@ export const routes = createBrowserRouter([
         index: true,
         element: <DashboardHomeRedirect />,
       },
+      {
+        path: "my-profile",
+        element: <div>My Profile</div>,
+      },
+      // user related routes
+      {
+        path: "user-home",
+        element: (
+          <RoleProtectedRoute allowedRoles={["user"]}>
+            <h1>Hello User</h1>
+          </RoleProtectedRoute>
+        ),
+      },
+      {
+        path: "my-bookings",
+        element: (
+          <RoleProtectedRoute allowedRoles={["user"]}>
+            <h1>My booked services here</h1>
+          </RoleProtectedRoute>
+        ),
+      },
+      {
+        path: "payment-history",
+        element: (
+          <RoleProtectedRoute allowedRoles={["user"]}>
+            <h1>Payment history here</h1>
+          </RoleProtectedRoute>
+        ),
+      },
       // admin related routes
       {
         path: "admin-home",
@@ -53,12 +82,11 @@ export const routes = createBrowserRouter([
           </RoleProtectedRoute>
         ),
       },
-      // user related routes
       {
-        path: "user-home",
+        path: "manage-users",
         element: (
-          <RoleProtectedRoute allowedRoles={["user"]}>
-            <h1>Hello User</h1>
+          <RoleProtectedRoute allowedRoles={["admin"]}>
+            <h1>Manage users here</h1>
           </RoleProtectedRoute>
         ),
       },
