@@ -28,17 +28,16 @@ const NavBar = () => {
     {
       text: "Bookings",
       dropdown: [
-        { to: "/booked-transport", text: "Transport" },
-        { to: "/booked-restaurant", text: "Restaurant" },
-        { to: "/booked-hotel", text: "Hotel" },
+        { to: "/hotels", text: "Hotel" },
+        { to: "/buses", text: "Transport" },
       ],
     },
     {
       text: "Pages",
       dropdown: [
-        { to: "/emergency-helpline", text: "Emergency Helpline" },
-        { to: "/about-us", text: "About Us" },
         { to: "/contact", text: "Contact" },
+        { to: "/about-us", text: "About Us" },
+        { to: "/emergency-helpline", text: "Emergency Helpline" },
       ],
     },
   ];
