@@ -11,7 +11,7 @@ const ErrorPage = () => {
       <Helmet>
         <title>Error 404 - Page Not Found</title>
       </Helmet>
-      <section className="flex flex-col items-center justify-center min-h-screen p-4 text-center">
+      <section className="font-poppins flex flex-col items-center justify-center min-h-screen p-4 text-center">
         <img
           src={ErrorGif}
           alt="Error"
