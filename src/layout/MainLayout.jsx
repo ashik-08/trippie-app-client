@@ -4,13 +4,13 @@ import NavBar from "../components/Shared/NavBar/NavBar";
 
 const MainLayout = () => {
   return (
-    <>
+    <div className="font-poppins">
       <NavBar />
-      <div className="min-h-[calc(100vh-388px)]">
+      <main className="min-h-[calc(100vh-388px)]">
         <Outlet />
-      </div>
+      </main>
       <Footer />
-    </>
+    </div>
   );
 };
 

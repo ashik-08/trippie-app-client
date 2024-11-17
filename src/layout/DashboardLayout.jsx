@@ -212,44 +212,42 @@ const DashboardLayout = () => {
   };
 
   return (
-    <section>
-      <div className="font-lato drawer lg:drawer-open">
-        <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
-        <div className="drawer-content min-h-screen bg-slate/20">
-          <label
-            htmlFor="my-drawer-2"
-            className="btn btn-ghost drawer-button lg:hidden flex justify-end mr-2"
-          >
-            <MenuIcon />
-          </label>
-          <div className="py-8 lg:py-12">
-            <div className="max-w-[1600px] mx-auto lg:px-8 md:px-6 sm:px-4 px-3">
-              <Outlet />
-            </div>
+    <main className="font-lato drawer lg:drawer-open">
+      <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
+      <section className="drawer-content min-h-screen bg-slate/20">
+        <label
+          htmlFor="my-drawer-2"
+          className="btn btn-ghost drawer-button lg:hidden flex justify-end mr-2"
+        >
+          <MenuIcon />
+        </label>
+        <div className="py-8 lg:py-12">
+          <div className="max-w-[1600px] mx-auto lg:px-8 md:px-6 sm:px-4 px-3">
+            <Outlet />
           </div>
         </div>
-        <div className="drawer-side">
-          <label htmlFor="my-drawer-2" className="drawer-overlay"></label>
-          <div className="bg-white w-64 px-3 py-12 min-h-screen flex flex-col justify-between">
-            <div>
-              <Link to="/">
-                <img className="ml-6 w-28" src={Logo} alt="logo" />
-              </Link>
-              <ul className="menu mt-8 space-y-4">{renderNavLinks()}</ul>
-            </div>
-            <div className="mx-2 bg-slate/20 hover:bg-slate/30 transition-colors rounded-md">
-              <button
-                onClick={handleLogout}
-                className="px-4 py-2 w-full text-start text-outerSpace text-base font-medium flex items-center gap-2"
-              >
-                <MdLogout />
-                Logout
-              </button>
-            </div>
+      </section>
+      <aside className="drawer-side">
+        <label htmlFor="my-drawer-2" className="drawer-overlay"></label>
+        <div className="bg-white w-64 px-3 py-12 min-h-screen flex flex-col justify-between">
+          <div>
+            <Link to="/">
+              <img className="ml-6 w-28" src={Logo} alt="logo" />
+            </Link>
+            <ul className="menu mt-8 space-y-4">{renderNavLinks()}</ul>
+          </div>
+          <div className="mx-2 bg-slate/20 hover:bg-slate/30 transition-colors rounded-md">
+            <button
+              onClick={handleLogout}
+              className="px-4 py-2 w-full text-start text-outerSpace text-base font-medium flex items-center gap-2"
+            >
+              <MdLogout />
+              Logout
+            </button>
           </div>
         </div>
-      </div>
-    </section>
+      </aside>
+    </main>
   );
 };
 
