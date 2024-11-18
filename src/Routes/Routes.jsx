@@ -3,6 +3,7 @@ import DashboardLayout from "../layout/DashboardLayout";
 import MainLayout from "../layout/MainLayout";
 import ErrorPage from "../pages/ErrorPage/ErrorPage";
 import HomePage from "../pages/HomePage/HomePage";
+import HotelPage from "../pages/HotelPage/HotelPage";
 import Login from "../pages/Login/Login";
 import Register from "../pages/Register/Register";
 import DashboardHomeRedirect from "./DashboardHomeRedirect";
@@ -18,6 +19,10 @@ export const routes = createBrowserRouter([
       {
         index: true,
         element: <HomePage />,
+      },
+      {
+        path: "/hotels",
+        element: <HotelPage />,
       },
     ],
   },

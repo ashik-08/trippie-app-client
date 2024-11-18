@@ -1,6 +1,6 @@
 import { Helmet } from "react-helmet-async";
-import Banner from "../../components/Home/Banner/Banner";
 import Newsletter from "../../components/Home/Newsletter/Newsletter";
+import Banner from "../../components/Shared/Banner/Banner";
 
 const HomePage = () => {
   return (
@@ -8,7 +8,14 @@ const HomePage = () => {
       <Helmet>
         <title>Trippie - Home</title>
       </Helmet>
-      <Banner />
+      <Banner
+        hero="bg-home"
+        title="Unforgettable Adventures Await Your"
+        boldTitle="Next Escape!"
+        para="Experience the thrill of exploring breathtaking destinations with our
+          expertly designed travel packages. Adventure, relaxation, and
+          memories—all in one journey!"
+      />
       <Newsletter />
     </>
   );

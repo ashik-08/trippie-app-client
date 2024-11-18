@@ -1,9 +1,5 @@
-import axios from "axios";
 import { axiosSecure } from "../hooks/axiosSecure";
-
-const axiosInstance = axios.create({
-  baseURL: import.meta.env.VITE_SERVER_URL,
-});
+import axiosInstance from "./axiosInstance";
 
 // issue a token upon successful login
 export const issueToken = async (loggedInUser) => {
