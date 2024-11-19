@@ -1,4 +1,5 @@
 import { MdOutlineArrowForwardIos } from "react-icons/md";
+import { Link } from "react-router-dom";
 import Container from "../../Shared/Container/Container";
 
 const HotelList = () => {
@@ -6,7 +7,7 @@ const HotelList = () => {
     <div className="my-20 md:my-24 lg:my-28 xl:my-32">
       <Container>
         {/* search field */}
-        <div className="max-w-5xl mx-auto px-6 py-8 bg-primary-600/5 border rounded-lg shadow-lg">
+        <div className="max-w-5xl mx-auto px-6 py-8 border rounded-lg shadow-lg">
           <h1 className="text-2xl font-bold text-gray-800 mb-6">
             Find Your Perfect Stay!
           </h1>
@@ -72,7 +73,7 @@ const HotelList = () => {
           </form>
           {/* <!-- Search Button --> */}
           <div className="mt-6 text-center">
-            <button className="bg-primary-500 hover:bg-primary-600 text-white font-semibold py-3 px-6 rounded-lg transition-colors">
+            <button className="bg-secondary-base hover:bg-primary-500 text-white font-semibold py-3 px-6 rounded-lg transition-colors">
               Search
             </button>
           </div>
@@ -82,7 +83,7 @@ const HotelList = () => {
         <div className="mt-20">
           <div className="grid md:grid-cols-3 lg:grid-cols-7 gap-6">
             {/* <!-- Filters Section --> */}
-            <form className="h-max bg-white rounded-lg p-4 shadow-md border md:col-span-1 lg:col-span-2">
+            <form className="md:sticky md:top-20 h-max bg-white rounded-lg p-4 shadow-md border md:col-span-1 lg:col-span-2">
               <div className="flex justify-between items-center mb-5 border-b pb-2">
                 <h2 className="font-semibold text-lg">Filters</h2>
                 <button type="reset" className="mt-0.5 font-medium">
@@ -118,14 +119,14 @@ const HotelList = () => {
                     type="number"
                     id="min-price"
                     className="w-full px-2 py-1.5 border rounded-md"
-                    placeholder="Min Price"
+                    placeholder="Min"
                   />
                   <span>to</span>
                   <input
                     type="number"
                     id="max-price"
                     className="w-full px-2 py-1.5 border rounded-md"
-                    placeholder="Max Price"
+                    placeholder="Max"
                   />
                   <button
                     type="submit"
@@ -168,13 +169,21 @@ const HotelList = () => {
                     <span>🌴 Garden</span>
                     <span>♿ Accessibility</span>
                   </div>
-                  <div className="text-red-500 text-lg font-bold mb-4 mt-auto">
-                    BDT 17,574{" "}
-                    <span className="text-gray-600 text-sm">for 3 nights</span>
+                  <p className="text-gray-700 text-xs font-medium mt-auto">
+                    Starts from
+                  </p>
+                  <div className="text-red-500 text-lg font-bold mb-4">
+                    BDT 7,574
+                    <span className="text-gray-600 text-sm ml-3">
+                      for 1 night, per room
+                    </span>
                   </div>
-                  <button className="w-full bg-secondary-base hover:bg-primary-500 transition-colors text-white font-semibold py-2 px-4 rounded">
+                  <Link
+                    to="/hotels/details"
+                    className="w-full text-center bg-secondary-base hover:bg-primary-500 transition-colors text-white font-semibold py-2 px-4 rounded"
+                  >
                     Select
-                  </button>
+                  </Link>
                 </div>
               </div>
               {/* <!-- Hotel Card 2 --> */}
@@ -189,25 +198,36 @@ const HotelList = () => {
                 <div className="p-4 md:p-6 flex flex-col flex-grow">
                   <div className="flex items-center justify-between mb-1.5">
                     <h2 className="text-gray-800 text-xl font-bold">
-                      Sayeman Beach Resort
+                      DERA Resort & Spa
                     </h2>
-                    <span className="text-secondary-base font-bold">4.5/5</span>
+                    <span className="text-secondary-base font-bold">
+                      4 Star
+                    </span>
                   </div>
                   <p className="text-gray-600 text-sm mb-4">
-                    5 Star, Kolatoli, Cox's Bazar
+                    Ukhia, Cox's Bazar
                   </p>
                   <div className="flex flex-wrap gap-4 text-gray-600 text-sm mb-4">
-                    <span>🌴 Garden</span>
                     <span>♿ Accessibility</span>
                     <span>❄️ Air Conditioning</span>
+                    <span>❄️ Spa</span>
+                    <span>❄️ Swimming Pool</span>
                   </div>
-                  <div className="text-red-500 text-lg font-bold mb-4 mt-auto">
-                    BDT 17,574{" "}
-                    <span className="text-gray-600 text-sm">for 3 nights</span>
+                  <p className="text-gray-700 text-xs font-medium mt-auto">
+                    Starts from
+                  </p>
+                  <div className="text-red-500 text-lg font-bold mb-4">
+                    BDT 5,464
+                    <span className="text-gray-600 text-sm ml-3">
+                      for 1 night, per room
+                    </span>
                   </div>
-                  <button className="w-full bg-secondary-base hover:bg-primary-500 transition-colors text-white font-semibold py-2 px-4 rounded">
+                  <Link
+                    to="/hotels/details"
+                    className="w-full text-center bg-secondary-base hover:bg-primary-500 transition-colors text-white font-semibold py-2 px-4 rounded"
+                  >
                     Select
-                  </button>
+                  </Link>
                 </div>
               </div>
             </div>
