@@ -35,8 +35,8 @@ module.exports = withMT({
         neutralBlack: "#263238",
       },
       backgroundImage: {
-        home: "url('./src/assets/banner/bg-home-banner.jpeg')",
-        hotel: "url('./src/assets/banner/bg-hotel-banner.jpg')",
+        home: "url('/assets/banner/bg-home-banner.jpeg')",
+        hotel: "url('/assets/banner/bg-hotel-banner.jpg')",
       },
     },
   },
