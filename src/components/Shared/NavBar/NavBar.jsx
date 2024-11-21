@@ -24,14 +24,15 @@ const NavBar = () => {
   const navItems = [
     { to: "/", text: "Home" },
     { to: "/join-tour", text: "Join Tour" },
-    { to: "/tour-guide", text: "Tour Guides" },
-    {
-      text: "Bookings",
-      dropdown: [
-        { to: "/hotels/list", text: "Hotel" },
-        { to: "/transport", text: "Transport" },
-      ],
-    },
+    { to: "/tour-guide", text: "Tour Guide" },
+    { to: "/hotels/list", text: "Hotel" },
+    // {
+    //   text: "Bookings",
+    //   dropdown: [
+    //     { to: "/hotels/list", text: "Hotel" },
+    //     { to: "/transport", text: "Transport" },
+    //   ],
+    // },
     {
       text: "Pages",
       dropdown: [
