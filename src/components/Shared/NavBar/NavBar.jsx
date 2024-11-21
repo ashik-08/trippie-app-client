@@ -28,8 +28,8 @@ const NavBar = () => {
     {
       text: "Bookings",
       dropdown: [
-        { to: "/hotels", text: "Hotel" },
-        { to: "/buses", text: "Transport" },
+        { to: "/hotels/list", text: "Hotel" },
+        { to: "/transport", text: "Transport" },
       ],
     },
     {
