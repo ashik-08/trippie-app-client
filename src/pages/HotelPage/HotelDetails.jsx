@@ -1,9 +1,134 @@
+import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
 import { Helmet } from "react-helmet-async";
+import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import { FaBed } from "react-icons/fa";
 import { MdPeople } from "react-icons/md";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { fetchHotelDetails } from "../../api/hotel-api";
+import LoadingSpinner from "../../components/LoadingState/LoadingSpinner";
 import Container from "../../components/Shared/Container/Container";
+import PaymentFormWrapper from "../../components/Shared/Payment/PaymentForm";
+import useAuth from "../../hooks/useAuth";
 
 const HotelDetails = () => {
+  const { hotelId } = useParams();
+  const [searchParams] = useSearchParams();
+  const checkInDate = searchParams.get("checkInDate");
+  const checkOutDate = searchParams.get("checkOutDate");
+
+  const {
+    data: { hotel, availableRooms = [] } = {},
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ["hotelDetails", { hotelId, checkInDate, checkOutDate }],
+    queryFn: fetchHotelDetails,
+    enabled: !!hotelId && !!checkInDate && !!checkOutDate,
+  });
+
+  const [selectedRooms, setSelectedRooms] = useState([]);
+  const [openPaymentModal, setOpenPaymentModal] = useState(false);
+  const { user } = useAuth();
+  const navigate = useNavigate();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+    getValues,
+  } = useForm({
+    mode: "onChange",
+  });
+
+  const handleRoomClick = (roomCardId, roomNumber) => {
+    setSelectedRooms((prevSelectedRooms) => {
+      const isSelected = prevSelectedRooms.some(
+        (selectedRoom) => selectedRoom.roomNumber === roomNumber
+      );
+
+      if (isSelected) {
+        return prevSelectedRooms.filter(
+          (selectedRoom) => selectedRoom.roomNumber !== roomNumber
+        );
+      } else {
+        return [...prevSelectedRooms, { roomCardId, roomNumber }];
+      }
+    });
+  };
+
+  const handleRoomBooking = () => {
+    const guestData = getValues();
+    if (!guestData.name || !guestData.email || !guestData.phone) {
+      toast.error("Please provide guest details before payment");
+      return;
+    }
+    if (!user?.email) {
+      navigate("/login");
+    } else {
+      setOpenPaymentModal(true);
+    }
+  };
+
+  const handleReset = () => {
+    setSelectedRooms([]);
+    reset();
+  };
+
+  const calculateNightCount = (checkInDate, checkOutDate) => {
+    const checkIn = new Date(checkInDate);
+    const checkOut = new Date(checkOutDate);
+    const timeDiff = Math.abs(checkOut - checkIn);
+    const nightCount = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+    return nightCount;
+  };
+
+  const calculateTotalPrice = () => {
+    return selectedRooms.reduce((total, selectedRoom) => {
+      const hotelRoom = availableRooms.find(
+        (room) => room.roomId === selectedRoom.roomCardId
+      );
+      return total + hotelRoom.pricePerNight;
+    }, 0);
+  };
+
+  const totalPrice = calculateTotalPrice();
+  const bookingCharge = 0;
+  const payNow = 0.3;
+  const willDueAmount = Math.round(totalPrice * (1 - payNow));
+  const bookingAmount = Math.round(totalPrice * payNow);
+
+  const guestData = getValues();
+
+  const bookingDetails = {
+    userEmail: user?.email,
+    type: "hotel",
+    details: {
+      hotelId,
+      selectedRooms,
+      checkInDate,
+      checkOutDate,
+      guestData,
+      totalPrice,
+      bookingAmount,
+      dueAmount: willDueAmount,
+    },
+  };
+
+  if (isLoading) return <LoadingSpinner />;
+  if (isError)
+    return (
+      <div className="pt-[12%] flex justify-center items-center">
+        <div className="p-10 max-w-3xl mx-auto border border-red-400 rounded-lg bg-red-100 text-red-600">
+          <p className="text-lg font-semibold">
+            There was an error loading the hotels. Please try again later. 🙏
+          </p>
+        </div>
+      </div>
+    );
+
   return (
     <>
       <Helmet>
@@ -11,211 +136,159 @@ const HotelDetails = () => {
       </Helmet>
       <div className="py-20 md:py-24 lg:py-28 xl:py-32 text-outerSpace">
         <Container>
-          {/* <!-- Hotel Image Grid Layout --> */}
-          <div className="grid grid-cols-1 sm:grid-cols-5 gap-4">
-            <div className="col-span-3">
-              <img
-                src="https://via.placeholder.com/600x400"
-                alt="Hotel Image 1"
-                className="w-full h-full object-cover rounded-lg shadow-md"
-              />
-            </div>
-            <div className="col-span-2 grid grid-cols-2 gap-4">
-              <img
-                src="https://via.placeholder.com/600x400"
-                alt="Hotel Image 2"
-                className="w-full h-full object-cover rounded-lg shadow-md"
-              />
-              <img
-                src="https://via.placeholder.com/600x400"
-                alt="Hotel Image 3"
-                className="w-full h-full object-cover rounded-lg shadow-md"
-              />
-              <img
-                src="https://via.placeholder.com/600x400"
-                alt="Hotel Image 4"
-                className="w-full h-full object-cover rounded-lg shadow-md"
-              />
-              <img
-                src="https://via.placeholder.com/600x400"
-                alt="Hotel Image 5"
-                className="w-full h-full object-cover rounded-lg shadow-md"
-              />
-            </div>
-          </div>
+          <div>
+            {/* <!-- Hotel Image Grid Layout --> */}
+            <div className="grid grid-cols-1 sm:grid-cols-5 gap-4">
+              <div className="col-span-3">
+                <img
+                  src={hotel.images[0]}
+                  alt="Hotel Image 1"
+                  className="w-full h-full object-cover rounded-lg shadow-md"
+                />
+              </div>
 
-          {/* <!-- Hotel Information --> */}
-          <div className="mt-10">
-            <h1 className="text-secondary-base text-2xl md:text-3xl font-semibold">
-              Sayeman Beach Resort
-            </h1>
-            <p className="mt-1 ml-1 text-gray-700">
-              5 Star | Kolatoli, Cox's Bazar
-            </p>
-            <h2 className="mt-3 text-secondary-base text-xl font-semibold">
-              Facilities
-            </h2>
-            <p className="mt-1 ml-1 font-medium">
-              Free Wi-Fi, Pool, Spa, Gym, Restaurant, Parking
-            </p>
+              <div className="col-span-2 grid grid-cols-2 gap-4">
+                {hotel.images.slice(1).map((image, index) => (
+                  <img
+                    key={index}
+                    src={image}
+                    alt={`Hotel Image ${index + 2}`}
+                    className="w-full h-full object-cover rounded-lg shadow-md"
+                  />
+                ))}
+              </div>
+            </div>
+
+            {/* <!-- Hotel Information --> */}
+            <div className="mt-10">
+              <h1 className="text-secondary-base text-2xl md:text-3xl font-semibold">
+                {hotel.name}
+              </h1>
+              <p className="mt-1 ml-1 text-gray-700">
+                {hotel.starRating} Star | {hotel.detailedLocation}
+              </p>
+              <h2 className="mt-3 text-secondary-base text-xl font-semibold">
+                Facilities
+              </h2>
+              <p className="mt-2 ml-1 font-medium space-x-5">
+                {hotel.facilities.map((facility, index) => (
+                  <span
+                    className="border-l-2 pl-5 first:border-0 first:pl-0"
+                    key={index}
+                  >
+                    {facility}
+                  </span>
+                ))}
+              </p>
+            </div>
           </div>
 
           {/* <!-- Content Container --> */}
           <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-7 gap-6 mt-12">
             {/* <!-- Left Side Container --> */}
             <div className="md:col-span-2 xl:col-span-5">
-              {/* <!-- Room Details --> */}
+              {/* <!-- Room Details Info --> */}
               <div className="flex justify-between bg-secondary-400/30 px-5 py-2 rounded-md">
                 <p className="text-xl font-medium">Room Details</p>
-                <p className="text-xl font-medium">For 2 Nights</p>
+                <p className="text-xl font-medium">
+                  For {calculateNightCount(checkInDate, checkOutDate)} Nights
+                </p>
               </div>
 
               {/* <!-- Room Cards --> */}
               <div className="grid grid-cols-1 gap-6">
-                {/* <!-- Room Card 1 --> */}
-                <div className="grid xl:grid-cols-2 gap-4 xl:gap-6 shadow-md border rounded-md p-3 md:p-4 lg:p-6">
-                  <div className="grid grid-cols-2 gap-3">
-                    <img
-                      src="https://via.placeholder.com/600x400"
-                      alt="Room Image 1"
-                      className="col-span-2 w-full h-52 object-cover rounded-lg"
-                    />
-                    <div className="flex gap-3">
-                      <img
-                        src="https://via.placeholder.com/600x400"
-                        alt="Room Image 2"
-                        className="w-full h-48 object-cover rounded-lg"
-                      />
-                      <img
-                        src="https://via.placeholder.com/600x400"
-                        alt="Room Image 3"
-                        className="w-full h-48 object-cover rounded-lg"
-                      />
+                {availableRooms.map((room) => {
+                  // Only render the room card if there are available rooms
+                  if (room.availableRoomCount === 0) {
+                    return null;
+                  }
+
+                  return (
+                    <div
+                      key={room.roomId}
+                      className="grid xl:grid-cols-2 gap-4 xl:gap-6 shadow-md border rounded-md p-3 md:p-4 lg:p-6"
+                    >
+                      <div className="grid grid-cols-2 gap-3">
+                        <img
+                          src={room.images[0]}
+                          alt="Room Image 1"
+                          className="col-span-2 w-full h-52 object-cover rounded-lg"
+                        />
+                        <div className="flex gap-3">
+                          <img
+                            src={room.images[1]}
+                            alt="Room Image 2"
+                            className="w-full h-48 object-cover rounded-lg"
+                          />
+                          <img
+                            src={room.images[2]}
+                            alt="Room Image 3"
+                            className="w-full h-48 object-cover rounded-lg"
+                          />
+                        </div>
+                      </div>
+                      <div className="">
+                        <h2 className="mt-6 mb-2 text-xl font-semibold">
+                          {room.name}
+                        </h2>
+                        <p className="text-gray-600 flex items-center gap-2">
+                          <FaBed /> Bed: {room.bedType}
+                        </p>
+                        <p className="text-gray-600 flex items-center gap-2">
+                          <MdPeople /> Max Guests: {room.maxGuests}
+                        </p>
+                        <p className="text-gray-700 mt-3">Room Facilities:</p>
+                        <p className="text-gray-700 mt-0.5">
+                          {room.facilities.join(", ")}
+                        </p>
+                        <p className="text-red-500 text-sm mt-5">
+                          Hurry Up! Only {room.availableRoomCount} Rooms Left
+                        </p>
+                        <p className="text-gray-700 text-xs font-medium text-right mt-4">
+                          Starts from
+                        </p>
+                        <p className="text-secondary-700 text-lg font-bold text-right mt-0.5">
+                          BDT {room.pricePerNight}/night
+                        </p>
+                        <h3 className="mt-4 mb-2 text-secondary-base font-medium">
+                          Book Your Room
+                        </h3>
+                        <div className="flex flex-wrap gap-3">
+                          {room.roomDetails.map((roomDetail) => (
+                            <span
+                              key={roomDetail.roomNumber}
+                              className={`px-3.5 py-1.5 rounded cursor-pointer ${
+                                selectedRooms.some(
+                                  (selectedRoom) =>
+                                    selectedRoom.roomNumber ===
+                                    roomDetail.roomNumber
+                                )
+                                  ? "bg-gray-800 text-white"
+                                  : "bg-gray-200"
+                              }`}
+                              onClick={() =>
+                                handleRoomClick(
+                                  room.roomId,
+                                  roomDetail.roomNumber
+                                )
+                              }
+                            >
+                              {roomDetail.roomNumber}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                  <div className="">
-                    <h2 className="mt-6 mb-2 text-xl font-semibold">
-                      Deluxe Double Without Balcony
-                    </h2>
-                    <p className="text-gray-600 flex items-center gap-2">
-                      <FaBed /> Bed: Double
-                    </p>
-                    <p className="text-gray-600 flex items-center gap-2">
-                      <MdPeople /> Max Guests: 2
-                    </p>
-                    <p className="text-gray-700 mt-3">Room Facilities:</p>
-                    <p className="text-gray-700 mt-0.5">
-                      AC, TV, House Keeping, Toiletries
-                    </p>
-                    <p className="text-red-500 text-sm mt-5">
-                      Hurry Up! Only 9 Rooms Left
-                    </p>
-                    <p className="text-gray-700 text-xs font-medium text-right mt-4">
-                      Starts from
-                    </p>
-                    <p className="text-secondary-700 text-lg font-bold text-right mt-0.5">
-                      BDT 7,574/night
-                    </p>
-                    <h3 className="mt-4 mb-2 text-secondary-base font-medium">
-                      Book Your Room
-                    </h3>
-                    <div className="flex flex-wrap gap-3">
-                      <span className="px-3.5 py-1.5 bg-gray-200 rounded">
-                        101
-                      </span>
-                      <span className="px-3.5 py-1.5 bg-gray-200 rounded">
-                        102
-                      </span>
-                      <span className="px-3.5 py-1.5 bg-gray-200 rounded">
-                        103
-                      </span>
-                      <span className="px-3.5 py-1.5 bg-gray-200 rounded">
-                        104
-                      </span>
-                      <span className="px-3.5 py-1.5 bg-gray-200 rounded">
-                        105
-                      </span>
-                      <span className="px-3.5 py-1.5 bg-gray-200 rounded">
-                        106
-                      </span>
-                    </div>
-                  </div>
-                </div>
-                {/* <!-- Add additional room cards here --> */}
-                {/* Room Card 2 */}
-                <div className="grid xl:grid-cols-2 gap-4 xl:gap-6 shadow-md border rounded-md p-3 md:p-4 lg:p-6">
-                  <div className="grid grid-cols-2 gap-3">
-                    <img
-                      src="https://via.placeholder.com/600x400"
-                      alt="Room Image 1"
-                      className="col-span-2 w-full h-52 object-cover rounded-lg"
-                    />
-                    <div className="flex gap-3">
-                      <img
-                        src="https://via.placeholder.com/600x400"
-                        alt="Room Image 2"
-                        className="w-full h-48 object-cover rounded-lg"
-                      />
-                      <img
-                        src="https://via.placeholder.com/600x400"
-                        alt="Room Image 3"
-                        className="w-full h-48 object-cover rounded-lg"
-                      />
-                    </div>
-                  </div>
-                  <div className="">
-                    <h2 className="mt-6 mb-2 text-xl font-semibold">
-                      Premier Deluxe Mountain View Without Balcony
-                    </h2>
-                    <p className="text-gray-600 flex items-center gap-2">
-                      <FaBed /> Bed: Double
-                    </p>
-                    <p className="text-gray-600 flex items-center gap-2">
-                      <MdPeople /> Max Guests: 2
-                    </p>
-                    <p className="text-gray-700 mt-3">Room Facilities:</p>
-                    <p className="text-gray-700 mt-0.5">
-                      AC, TV, Mini Bar, House Keeping, Toiletries
-                    </p>
-                    <p className="text-red-500 text-sm mt-5">
-                      Hurry Up! Only 4 Rooms Left
-                    </p>
-                    <p className="text-gray-700 text-xs font-medium text-right mt-4">
-                      Starts from
-                    </p>
-                    <p className="text-secondary-700 text-lg font-bold text-right mt-0.5">
-                      BDT 10,940/night
-                    </p>
-                    <h3 className="mt-4 mb-2 text-secondary-base font-medium">
-                      Book Your Room
-                    </h3>
-                    <div className="flex flex-wrap gap-3">
-                      <span className="px-3.5 py-1.5 bg-gray-200 rounded">
-                        702
-                      </span>
-                      <span className="px-3.5 py-1.5 bg-gray-200 rounded">
-                        703
-                      </span>
-                      <span className="px-3.5 py-1.5 bg-gray-200 rounded">
-                        704
-                      </span>
-                      <span className="px-3.5 py-1.5 bg-gray-200 rounded">
-                        904
-                      </span>
-                      <span className="px-3.5 py-1.5 bg-gray-200 rounded">
-                        910
-                      </span>
-                      <span className="px-3.5 py-1.5 bg-gray-200 rounded">
-                        916
-                      </span>
-                    </div>
-                  </div>
-                </div>
+                  );
+                })}
               </div>
             </div>
 
             {/* <!-- Right Side Container --> */}
-            <div className="md:sticky md:top-20 xl:col-span-2 md:self-start">
+            <form
+              onSubmit={handleSubmit(handleRoomBooking)}
+              className="md:sticky md:top-20 xl:col-span-2 md:self-start"
+            >
               {/* <!-- Booking Details --> */}
               <div className="border shadow-md rounded-lg p-4">
                 <h2 className="text-2xl font-semibold">Booking Details</h2>
@@ -228,6 +301,7 @@ const HotelDetails = () => {
                     id="checkIn"
                     name="checkIn"
                     type="date"
+                    value={selectedRooms.length && checkInDate}
                     disabled
                     className="w-full border border-gray-300 rounded-md p-2 mt-2"
                   />
@@ -241,6 +315,7 @@ const HotelDetails = () => {
                     id="checkOut"
                     name="checkOut"
                     type="date"
+                    value={selectedRooms.length && checkOutDate}
                     disabled
                     className="w-full border border-gray-300 rounded-md p-2 mt-2"
                   />
@@ -251,116 +326,180 @@ const HotelDetails = () => {
                     id="rooms"
                     name="rooms"
                     type="number"
+                    value={selectedRooms.length}
                     disabled
                     className="w-full border border-gray-300 rounded-md p-2 mt-2"
                   />
                   {/* <!-- Guest Details --> */}
                   <div className="mt-10">
-                    <h2 className="text-2xl font-semibold mb-4">
+                    <h3 className="text-2xl font-semibold mb-4">
                       Guest Details
-                    </h2>
-                    <label className="block text-gray-700">Name</label>
-                    <input
-                      type="text"
-                      className="w-full border border-gray-300 rounded-md p-2 mt-2"
-                      required
-                    />
-                    <label className="block text-gray-700 mt-4">Email</label>
-                    <input
-                      type="email"
-                      className="w-full border border-gray-300 rounded-md p-2 mt-2"
-                      required
-                    />
-                    <label className="block text-gray-700 mt-4">Phone</label>
-                    <input
-                      type="tel"
-                      className="w-full border border-gray-300 rounded-md p-2 mt-2"
-                      required
-                    />
+                    </h3>
+                    <div>
+                      <label htmlFor="name" className="block text-gray-700">
+                        Name
+                      </label>
+                      <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        {...register("name", { required: "Name is required" })}
+                        disabled={selectedRooms.length === 0}
+                        className={`w-full border ${
+                          errors.name ? "border-red-500" : "border-gray-300"
+                        } rounded-md p-2 mt-2`}
+                      />
+                      {errors.name && (
+                        <p className="text-red-500 text-sm mt-1">
+                          {errors.name.message}
+                        </p>
+                      )}
+                    </div>
+
+                    <div>
+                      <label
+                        htmlFor="email"
+                        className="block text-gray-700 mt-4"
+                      >
+                        Email
+                      </label>
+                      <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        {...register("email", {
+                          required: "Email is required",
+                          pattern: {
+                            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                            message: "Invalid email address",
+                          },
+                        })}
+                        disabled={selectedRooms.length === 0}
+                        className={`w-full border ${
+                          errors.email ? "border-red-500" : "border-gray-300"
+                        } rounded-md p-2 mt-2`}
+                      />
+                      {errors.email && (
+                        <p className="text-red-500 text-sm mt-1">
+                          {errors.email.message}
+                        </p>
+                      )}
+                    </div>
+                    <div>
+                      <label
+                        htmlFor="phone"
+                        className="block text-gray-700 mt-4"
+                      >
+                        Phone
+                      </label>
+                      <input
+                        type="tel"
+                        maxLength={11}
+                        id="phone"
+                        name="phone"
+                        {...register("phone", {
+                          required: "Phone number is required",
+                          pattern: {
+                            value: /^01[0-9]{9}$/,
+                            message: "Invalid phone number",
+                          },
+                        })}
+                        disabled={selectedRooms.length === 0}
+                        className={`w-full border ${
+                          errors.phone ? "border-red-500" : "border-gray-300"
+                        } rounded-md p-2 mt-2`}
+                      />
+                      {errors.phone && (
+                        <p className="text-red-500 text-sm mt-1">
+                          {errors.phone.message}
+                        </p>
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
 
               {/* <!-- Price Summary --> */}
-              <div className="border shadow-md rounded-lg p-4 mt-6">
-                <h2 className="text-2xl font-semibold">Pricing Summary</h2>
-                <div className="mt-4 space-y-1">
-                  <p className="flex justify-between">
-                    <span className="font-semibold">Total Price:</span>
-                    <span className="text-gray-700">BDT 7574</span>
-                  </p>
-                  <p className="flex justify-between">
-                    <span className="font-semibold">Booking Charge:</span>
-                    <span className="text-gray-700">BDT 0</span>
-                  </p>
-                  <hr />
-                  <p className="flex justify-between">
-                    <span className="font-semibold">In Total:</span>
-                    <span className="text-gray-700">BDT 7574</span>
-                  </p>
-                  <p className="text-gray-700 text-right">-30%</p>
-                  <p className="flex justify-between">
-                    <span className="font-semibold">Will Due Amount:</span>
-                    <span className="text-red-500">BDT 5302</span>
-                  </p>
-                  <p className="flex justify-between">
-                    <span className="font-semibold">Booking Amount:</span>
-                    <span className="text-gray-700">BDT 2272</span>
-                  </p>
-                  <hr />
-                  <p className="flex justify-between">
-                    <span className="font-semibold">Total Payable:</span>
-                    <span className="text-gray-700">BDT 2272</span>
-                  </p>
+              {selectedRooms.length > 0 && (
+                <div className="border shadow-md rounded-lg p-4 mt-6">
+                  <h2 className="text-2xl font-semibold">Pricing Summary</h2>
+                  <div className="mt-4 space-y-1">
+                    <p className="flex justify-between">
+                      <span className="font-semibold">Total Price:</span>
+                      <span className="text-gray-700">BDT {totalPrice}</span>
+                    </p>
+                    <p className="flex justify-between">
+                      <span className="font-semibold">Booking Charge:</span>
+                      <span className="text-gray-700">BDT {bookingCharge}</span>
+                    </p>
+                    <hr />
+                    <p className="flex justify-between">
+                      <span className="font-semibold">In Total:</span>
+                      <span className="text-gray-700">BDT {totalPrice}</span>
+                    </p>
+                    <p className="flex justify-between">
+                      <span className="font-semibold">70% Will be Due:</span>
+                      <span className="text-red-500">BDT {willDueAmount}</span>
+                    </p>
+                    <p className="flex justify-between">
+                      <span className="font-semibold">30% for Booking:</span>
+                      <span className="text-gray-700">BDT {bookingAmount}</span>
+                    </p>
+                    <hr />
+                    <p className="flex justify-between">
+                      <span className="font-semibold">Pay Now:</span>
+                      <span className="text-gray-700">BDT {bookingAmount}</span>
+                    </p>
+                  </div>
+                  <button
+                    type="submit"
+                    className="w-full bg-secondary-base hover:bg-primary-500 transition-colors text-white py-2 px-4 rounded-md mt-6"
+                  >
+                    Book & Pay BDT {bookingAmount}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleReset}
+                    className="w-full bg-gray-500 hover:bg-gray-600 transition-colors text-white py-2 px-4 rounded-md mt-2"
+                  >
+                    Reset
+                  </button>
                 </div>
-                <button
-                  disabled
-                  className="w-full bg-secondary-base hover:bg-primary-500 transition-colors text-white py-2 px-4 rounded-md mt-4"
-                >
-                  Make Payment
-                </button>
-              </div>
-            </div>
+              )}
+            </form>
           </div>
 
-          {/* <!-- About Us & Hotel Policy --> */}
-          <div className="max-w-5xl p-4">
+          {/* About Us & Hotel Policy */}
+          <div key={hotel.hotelId} className="max-w-5xl p-4">
             <div className="my-12">
               <h2 className="text-2xl font-semibold">About Us</h2>
-              <p className="text-gray-700 mt-2">
-                Ocean Paradise Hotel & Resort is an excellent choice for
-                travelers visiting Cox's Bazar, offering a luxury environment
-                alongside many helpful amenities designed to enhance your stay.
-                Ocean Paradise Hotel & Resort offers guests an array of room
-                amenities including a flat screen TV, air conditioning, and a
-                refrigerator, and getting online is possible, as free internet
-                access is available. The resort offers a concierge, a rooftop
-                terrace, and room service, to make your visit even more
-                pleasant. The property also features a pool and free breakfast.
-                Guests arriving by vehicle have access to free parking. While in
-                Cox's Bazar be sure to experience local shrimp favorites at
-                Poushee Restaurant. Enjoy your stay in Cox's Bazar!
-              </p>
+              <p className="text-gray-700 mt-2 ml-1">{hotel.aboutUs}</p>
             </div>
             <div>
               <h2 className="text-2xl font-semibold">Hotel Policy</h2>
-              <p className="text-gray-700 mt-2">Check-in: 2:00 PM</p>
-              <p className="text-gray-700 mt-2">Check-out: 12:00 PM</p>
-              <p className="text-gray-700 mt-2">
-                Cancellation Policy: Flexible
-              </p>
-              <p className="text-gray-700 mt-2">
-                Payment Method: Cash, Card, Bkash
-              </p>
-              <p className="text-gray-700 mt-2">Children: Allowed</p>
-              <p className="text-gray-700 mt-2">Pets: Not Allowed</p>
-              <p className="text-gray-700 mt-2">
-                Smoking: Not Allowed in Rooms
-              </p>
+              <ul className="mt-2 ml-1 list-disc list-inside space-y-1.5">
+                {hotel.policy.map((policyItem, index) => (
+                  <li key={index} className="text-gray-700">
+                    {policyItem}
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
         </Container>
       </div>
+
+      {/* Payment Modal */}
+      {openPaymentModal && (
+        <section className="fixed top-0 left-0 w-screen h-screen z-50 bg-black/60 backdrop-blur-sm">
+          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full">
+            <PaymentFormWrapper
+              bookingDetails={bookingDetails}
+              closeModal={() => setOpenPaymentModal(false)}
+            />
+          </div>
+        </section>
+      )}
     </>
   );
 };

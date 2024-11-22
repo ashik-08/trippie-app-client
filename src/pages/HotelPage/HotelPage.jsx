@@ -1,5 +1,5 @@
 import { Helmet } from "react-helmet-async";
-import HotelList from "../../components/Hotel/HotelList/HotelList";
+import HotelList from "../../components/Hotel/HotelList";
 import Banner from "../../components/Shared/Banner/Banner";
 
 const HotelPage = () => {
