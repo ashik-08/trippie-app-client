@@ -1,11 +1,100 @@
+import {
+  CardCvcElement,
+  CardExpiryElement,
+  CardNumberElement,
+  Elements,
+  useElements,
+  useStripe,
+} from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
 import PropTypes from "prop-types";
 import { useState } from "react";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+import { axiosSecure } from "../../../hooks/axiosSecure";
 import Container from "../Container/Container";
 
-const PaymentForm = ({ bookingCharge, bookingAmount, closeModal }) => {
-  const [endDate, setEndDate] = useState(new Date());
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
+
+const PaymentForm = ({ bookingDetails, closeModal }) => {
+  const { userEmail, type, details } = bookingDetails;
+  const stripe = useStripe();
+  const elements = useElements();
+  const [isProcessing, setIsProcessing] = useState(false);
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const toastId = toast.loading("Processing payment...");
+
+    if (!stripe || !elements) {
+      return;
+    }
+
+    setIsProcessing(true);
+
+    try {
+      const {
+        data: { clientSecret },
+      } = await axiosSecure.post("/payment/create-payment-intent", {
+        amount: parseInt(details.bookingAmount * 100),
+        currency: "bdt",
+      });
+
+      const result = await stripe.confirmCardPayment(clientSecret, {
+        payment_method: {
+          card: elements.getElement(CardNumberElement),
+          billing_details: {
+            name: e.target.fullName.value,
+            email: userEmail,
+          },
+        },
+      });
+
+      if (result.error) {
+        toast.error(result.error.message, { id: toastId });
+        setIsProcessing(false);
+      } else {
+        if (result.paymentIntent.status === "succeeded") {
+          await axiosSecure.post("/payment/confirm-booking", {
+            userEmail,
+            type,
+            details,
+            paymentId: result?.paymentIntent?.id,
+            amount: details.bookingAmount,
+            currency: "bdt",
+            status: result?.paymentIntent?.status,
+          });
+
+          toast.success("Payment successful and confirmed booking!", {
+            id: toastId,
+          });
+          closeModal();
+          setIsProcessing(false);
+          navigate("/");
+        }
+      }
+    } catch (error) {
+      toast.error("Payment failed! Please try again later.", { id: toastId });
+      console.log(error);
+      setIsProcessing(false);
+    }
+  };
+
+  const cardElementOptions = {
+    style: {
+      base: {
+        fontSize: "16px",
+        color: "#424770",
+        "::placeholder": {
+          color: "#aab7c4",
+        },
+      },
+      invalid: {
+        color: "#9e2146",
+      },
+    },
+  };
 
   return (
     <Container>
@@ -23,20 +112,24 @@ const PaymentForm = ({ bookingCharge, bookingAmount, closeModal }) => {
             </h2>
 
             <div className="mt-6 sm:mt-8 lg:flex lg:items-start lg:gap-12">
-              <form className="w-full rounded-lg border border-gray-200 bg-white p-4 shadow-sm sm:p-6 lg:max-w-xl lg:p-8">
+              <form
+                onSubmit={handleSubmit}
+                className="w-full rounded-lg border border-gray-200 bg-white p-4 shadow-sm sm:p-6 lg:max-w-xl lg:p-8"
+              >
                 <div className="mb-6 grid grid-cols-2 gap-4">
                   <div className="col-span-2 sm:col-span-1">
                     <label
-                      htmlFor="full_name"
+                      htmlFor="fullName"
                       className="mb-2 block text-sm font-medium text-gray-900"
                     >
                       Full name (as displayed on card)*
                     </label>
                     <input
                       type="text"
-                      id="full_name"
+                      id="fullName"
+                      name="fullName"
                       className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500"
-                      placeholder="Bonnie Green"
+                      placeholder="Ashikur Rahman"
                       required
                     />
                   </div>
@@ -48,12 +141,10 @@ const PaymentForm = ({ bookingCharge, bookingAmount, closeModal }) => {
                     >
                       Card number*
                     </label>
-                    <input
-                      type="text"
+                    <CardNumberElement
                       id="card-number-input"
                       className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 pe-10 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500"
-                      placeholder="4444-4444-4545-4646"
-                      required
+                      options={cardElementOptions}
                     />
                   </div>
 
@@ -62,34 +153,29 @@ const PaymentForm = ({ bookingCharge, bookingAmount, closeModal }) => {
                       htmlFor="card-expiration-input"
                       className="mb-2 block text-sm font-medium text-gray-900"
                     >
-                      Card expiration*
+                      Card expiry*
                     </label>
-                    <DatePicker
-                      selected={endDate}
-                      onChange={(date) => setEndDate(date)}
-                      dateFormat="MM/yy"
-                      showMonthYearPicker
+                    <CardExpiryElement
                       id="card-expiration-input"
                       type="text"
-                      placeholderText="MM/YY"
-                      required
                       className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500"
+                      options={cardElementOptions}
                     />
                   </div>
                   <div>
                     <label
-                      htmlFor="cvv-input"
+                      htmlFor="cvc-input"
                       className="mb-2 flex items-center gap-1 text-sm font-medium text-gray-900"
                     >
-                      CVV*
+                      CVC*
                     </label>
-                    <input
+                    <CardCvcElement
                       type="number"
-                      id="cvv-input"
-                      aria-describedby="helper-text-explanation"
+                      id="cvc-input"
                       className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500"
                       placeholder="••••"
                       required
+                      options={cardElementOptions}
                     />
                   </div>
                 </div>
@@ -97,8 +183,9 @@ const PaymentForm = ({ bookingCharge, bookingAmount, closeModal }) => {
                 <button
                   type="submit"
                   className="flex w-full items-center justify-center rounded-lg bg-primary-600 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-700 focus:outline-none focus:ring-4 focus:ring-primary-300 transition-colors"
+                  disabled={isProcessing}
                 >
-                  Pay now
+                  {isProcessing ? "Processing..." : "Pay now"}
                 </button>
               </form>
 
@@ -110,7 +197,7 @@ const PaymentForm = ({ bookingCharge, bookingAmount, closeModal }) => {
                         Booking Price
                       </dt>
                       <dd className="text-base font-medium text-gray-900">
-                        BDT {bookingAmount}
+                        BDT {details.bookingAmount}
                       </dd>
                     </dl>
 
@@ -119,7 +206,7 @@ const PaymentForm = ({ bookingCharge, bookingAmount, closeModal }) => {
                         Booking Charge
                       </dt>
                       <dd className="text-base font-medium text-gray-900">
-                        BDT {bookingCharge}
+                        BDT 0
                       </dd>
                     </dl>
 
@@ -145,7 +232,7 @@ const PaymentForm = ({ bookingCharge, bookingAmount, closeModal }) => {
                   <dl className="flex items-center justify-between gap-4 border-t border-gray-200 pt-2">
                     <dt className="text-base font-bold text-gray-900">Total</dt>
                     <dd className="text-base font-bold text-gray-900">
-                      BDT {bookingAmount + bookingCharge}
+                      BDT {details.bookingAmount}
                     </dd>
                   </dl>
                 </div>
@@ -177,9 +264,19 @@ const PaymentForm = ({ bookingCharge, bookingAmount, closeModal }) => {
 };
 
 PaymentForm.propTypes = {
-  bookingAmount: PropTypes.number,
-  bookingCharge: PropTypes.number,
+  bookingDetails: PropTypes.shape({
+    userEmail: PropTypes.string,
+    type: PropTypes.string,
+    details: PropTypes.object,
+    bookingAmount: PropTypes.number,
+  }),
   closeModal: PropTypes.func,
 };
 
-export default PaymentForm;
+const PaymentFormWrapper = (props) => (
+  <Elements stripe={stripePromise}>
+    <PaymentForm {...props} />
+  </Elements>
+);
+
+export default PaymentFormWrapper;
