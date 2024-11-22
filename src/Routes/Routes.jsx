@@ -22,11 +22,11 @@ export const routes = createBrowserRouter([
         element: <HomePage />,
       },
       {
-        path: "/hotels",
+        path: "/hotel/list",
         element: <HotelPage />,
       },
       {
-        path: "/hotels/details",
+        path: "/hotel/details/:hotelId",
         element: <HotelDetails />,
       },
     ],
