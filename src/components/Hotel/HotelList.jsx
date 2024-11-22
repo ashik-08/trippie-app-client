@@ -37,6 +37,7 @@ const HotelList = () => {
     if (selectedStarRating === starRating) {
       setSelectedStarRating(null);
       setQueryData((prevData) => {
+        // eslint-disable-next-line no-unused-vars
         const { starRating, ...rest } = prevData;
         return rest;
       });
