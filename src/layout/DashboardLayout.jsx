@@ -1,19 +1,19 @@
 import toast from "react-hot-toast";
-import { AiFillHome } from "react-icons/ai";
+// import { AiFillHome } from "react-icons/ai";
 import { BsDoorOpenFill } from "react-icons/bs";
-import { FaCalendarAlt, FaUsers } from "react-icons/fa";
-import { FaBus } from "react-icons/fa6";
-import { GiMoneyStack } from "react-icons/gi";
-import { MdBusAlert, MdLogout } from "react-icons/md";
-import { TbBrandBooking } from "react-icons/tb";
+// import { FaCalendarAlt, FaUsers } from "react-icons/fa";
+// import { FaBus } from "react-icons/fa6";
+// import { GiMoneyStack } from "react-icons/gi";
+import { MdLogout } from "react-icons/md";
+// import { TbBrandBooking } from "react-icons/tb";
 import { Link, NavLink, Outlet } from "react-router-dom";
 import Logo from "../assets/logo/logo-group.svg";
 import LoadingSpinner from "../components/LoadingState/LoadingSpinner";
 import DoorIcon from "../components/SVG/DoorIcon";
-import ManageServiceIcon from "../components/SVG/ManageServiceIcon";
+// import ManageServiceIcon from "../components/SVG/ManageServiceIcon";
 import MenuIcon from "../components/SVG/MenuIcon";
 import ProfileIcon from "../components/SVG/ProfileIcon";
-import TourIcon from "../components/SVG/TourIcon";
+// import TourIcon from "../components/SVG/TourIcon";
 import useAuth from "../hooks/useAuth";
 import useGetRole from "../hooks/useGetRole";
 import ErrorPage from "../pages/ErrorPage/ErrorPage";
@@ -50,44 +50,44 @@ const DashboardLayout = () => {
         : "bg-slate/20 text-outerSpace text-base font-medium hover:bg-slate/30 transition-colors";
 
     switch (userRole) {
-      case "user":
-        return (
-          <>
-            <li>
-              <NavLink to="/dashboard/user-home" className={navLinkClass}>
-                <AiFillHome />
-                Dashboard
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to="/dashboard/my-bookings" className={navLinkClass}>
-                <TbBrandBooking />
-                My Bookings
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to="/dashboard/payment-history" className={navLinkClass}>
-                <GiMoneyStack />
-                Payment History
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to="/dashboard/my-profile" className={navLinkClass}>
-                <ProfileIcon />
-                My Profile
-              </NavLink>
-            </li>
-          </>
-        );
+      // case "user":
+      //   return (
+      //     <>
+      //       <li>
+      //         <NavLink to="/dashboard/user-home" className={navLinkClass}>
+      //           <AiFillHome />
+      //           Dashboard
+      //         </NavLink>
+      //       </li>
+      //       <li>
+      //         <NavLink to="/dashboard/my-bookings" className={navLinkClass}>
+      //           <TbBrandBooking />
+      //           My Bookings
+      //         </NavLink>
+      //       </li>
+      //       <li>
+      //         <NavLink to="/dashboard/payment-history" className={navLinkClass}>
+      //           <GiMoneyStack />
+      //           Payment History
+      //         </NavLink>
+      //       </li>
+      //       <li>
+      //         <NavLink to="/dashboard/my-profile" className={navLinkClass}>
+      //           <ProfileIcon />
+      //           My Profile
+      //         </NavLink>
+      //       </li>
+      //     </>
+      //   );
       case "admin":
         return (
           <>
-            <li>
+            {/* <li>
               <NavLink to="/dashboard/admin-home" className={navLinkClass}>
                 <AiFillHome />
                 Dashboard
               </NavLink>
-            </li>
+            </li> */}
             <li>
               <NavLink to="/dashboard/manage-users" className={navLinkClass}>
                 <FaUsers />
@@ -99,12 +99,12 @@ const DashboardLayout = () => {
       case "hotel-manager":
         return (
           <>
-            <li>
+            {/* <li>
               <NavLink to="/dashboard/hotel-home" className={navLinkClass}>
                 <AiFillHome />
                 Dashboard
               </NavLink>
-            </li>
+            </li> */}
             <li>
               <NavLink to="/dashboard/add-room" className={navLinkClass}>
                 <BsDoorOpenFill />
@@ -118,94 +118,94 @@ const DashboardLayout = () => {
               </NavLink>
             </li>
             <li>
-              <NavLink to="/dashboard/my-profile" className={navLinkClass}>
+              <NavLink to="/dashboard/hotel-profile" className={navLinkClass}>
                 <ProfileIcon />
                 My Profile
               </NavLink>
             </li>
           </>
         );
-      case "bus-operator":
-        return (
-          <>
-            <li>
-              <NavLink to="/dashboard/transport-home" className={navLinkClass}>
-                <AiFillHome />
-                Dashboard
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to="/dashboard/add-vehicle" className={navLinkClass}>
-                <FaBus />
-                Add Vehicle
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to="/dashboard/manage-vehicles" className={navLinkClass}>
-                <MdBusAlert />
-                Manage Vehicles
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to="/dashboard/my-profile" className={navLinkClass}>
-                <ProfileIcon />
-                My Profile
-              </NavLink>
-            </li>
-          </>
-        );
-      case "tour-guide":
-        return (
-          <>
-            <li>
-              <NavLink to="/dashboard/guide-home" className={navLinkClass}>
-                <AiFillHome />
-                Dashboard
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to="/dashboard/manage-services" className={navLinkClass}>
-                <ManageServiceIcon />
-                Manage Services
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to="/dashboard/my-profile" className={navLinkClass}>
-                <ProfileIcon />
-                My Profile
-              </NavLink>
-            </li>
-          </>
-        );
-      case "tour-agent":
-        return (
-          <>
-            <li>
-              <NavLink to="/dashboard/agent-home" className={navLinkClass}>
-                <AiFillHome />
-                Dashboard
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to="/dashboard/create-tour" className={navLinkClass}>
-                <FaCalendarAlt />
-                Create Tour
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to="/dashboard/manage-tours" className={navLinkClass}>
-                <TourIcon />
-                Manage Tours
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to="/dashboard/my-profile" className={navLinkClass}>
-                <ProfileIcon />
-                My Profile
-              </NavLink>
-            </li>
-          </>
-        );
+      // case "bus-operator":
+      //   return (
+      //     <>
+      //       <li>
+      //         <NavLink to="/dashboard/transport-home" className={navLinkClass}>
+      //           <AiFillHome />
+      //           Dashboard
+      //         </NavLink>
+      //       </li>
+      //       <li>
+      //         <NavLink to="/dashboard/add-vehicle" className={navLinkClass}>
+      //           <FaBus />
+      //           Add Vehicle
+      //         </NavLink>
+      //       </li>
+      //       <li>
+      //         <NavLink to="/dashboard/manage-vehicles" className={navLinkClass}>
+      //           <MdBusAlert />
+      //           Manage Vehicles
+      //         </NavLink>
+      //       </li>
+      //       <li>
+      //         <NavLink to="/dashboard/my-profile" className={navLinkClass}>
+      //           <ProfileIcon />
+      //           My Profile
+      //         </NavLink>
+      //       </li>
+      //     </>
+      //   );
+      // case "tour-guide":
+      //   return (
+      //     <>
+      //       <li>
+      //         <NavLink to="/dashboard/guide-home" className={navLinkClass}>
+      //           <AiFillHome />
+      //           Dashboard
+      //         </NavLink>
+      //       </li>
+      //       <li>
+      //         <NavLink to="/dashboard/manage-services" className={navLinkClass}>
+      //           <ManageServiceIcon />
+      //           Manage Services
+      //         </NavLink>
+      //       </li>
+      //       <li>
+      //         <NavLink to="/dashboard/my-profile" className={navLinkClass}>
+      //           <ProfileIcon />
+      //           My Profile
+      //         </NavLink>
+      //       </li>
+      //     </>
+      //   );
+      // case "tour-agent":
+      //   return (
+      //     <>
+      //       <li>
+      //         <NavLink to="/dashboard/agent-home" className={navLinkClass}>
+      //           <AiFillHome />
+      //           Dashboard
+      //         </NavLink>
+      //       </li>
+      //       <li>
+      //         <NavLink to="/dashboard/create-tour" className={navLinkClass}>
+      //           <FaCalendarAlt />
+      //           Create Tour
+      //         </NavLink>
+      //       </li>
+      //       <li>
+      //         <NavLink to="/dashboard/manage-tours" className={navLinkClass}>
+      //           <TourIcon />
+      //           Manage Tours
+      //         </NavLink>
+      //       </li>
+      //       <li>
+      //         <NavLink to="/dashboard/my-profile" className={navLinkClass}>
+      //           <ProfileIcon />
+      //           My Profile
+      //         </NavLink>
+      //       </li>
+      //     </>
+      //   );
       default:
         return null;
     }

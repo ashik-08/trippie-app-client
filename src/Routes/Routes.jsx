@@ -1,6 +1,7 @@
-import { createBrowserRouter, Outlet } from "react-router-dom";
+import { createBrowserRouter } from "react-router-dom";
 import DashboardLayout from "../layout/DashboardLayout";
 import MainLayout from "../layout/MainLayout";
+import ManageUsers from "../pages/Dashboard/Admin/ManageUsers";
 import ErrorPage from "../pages/ErrorPage/ErrorPage";
 import HomePage from "../pages/HomePage/HomePage";
 import HotelDetails from "../pages/HotelPage/HotelDetails";
@@ -22,30 +23,28 @@ export const routes = createBrowserRouter([
         element: <HomePage />,
       },
       {
-        path: "/hotel/list",
+        path: "hotel/list",
         element: <HotelPage />,
       },
       {
-        path: "/hotel/details/:hotelId",
+        path: "hotel/details/:hotelId",
         element: <HotelDetails />,
       },
     ],
   },
   {
-    path: "/register",
+    path: "register",
     element: <Register />,
   },
   {
-    path: "/login",
+    path: "login",
     element: <Login />,
   },
   {
-    path: "/dashboard",
+    path: "dashboard",
     element: (
       <PrivateRoute>
-        <DashboardLayout>
-          <Outlet />
-        </DashboardLayout>
+        <DashboardLayout />
       </PrivateRoute>
     ),
     errorElement: <ErrorPage />,
@@ -54,49 +53,37 @@ export const routes = createBrowserRouter([
         index: true,
         element: <DashboardHomeRedirect />,
       },
+      // hotel-manager related routes
       {
-        path: "my-profile",
-        element: <div>My Profile</div>,
-      },
-      // user related routes
-      {
-        path: "user-home",
+        path: "add-room",
         element: (
-          <RoleProtectedRoute allowedRoles={["user"]}>
-            <h1>Hello User</h1>
-          </RoleProtectedRoute>
-        ),
-      },
-      {
-        path: "my-bookings",
-        element: (
-          <RoleProtectedRoute allowedRoles={["user"]}>
+          <RoleProtectedRoute allowedRoles={["hotel-manager"]}>
             <h1>My booked services here</h1>
           </RoleProtectedRoute>
         ),
       },
       {
-        path: "payment-history",
+        path: "manage-rooms",
         element: (
-          <RoleProtectedRoute allowedRoles={["user"]}>
+          <RoleProtectedRoute allowedRoles={["hotel-manager"]}>
+            <h1>Payment history here</h1>
+          </RoleProtectedRoute>
+        ),
+      },
+      {
+        path: "hotel-profile",
+        element: (
+          <RoleProtectedRoute allowedRoles={["hotel-manager"]}>
             <h1>Payment history here</h1>
           </RoleProtectedRoute>
         ),
       },
       // admin related routes
       {
-        path: "admin-home",
-        element: (
-          <RoleProtectedRoute allowedRoles={["admin"]}>
-            <h1>Hello Admin</h1>
-          </RoleProtectedRoute>
-        ),
-      },
-      {
         path: "manage-users",
         element: (
           <RoleProtectedRoute allowedRoles={["admin"]}>
-            <h1>Manage users here</h1>
+            <ManageUsers />
           </RoleProtectedRoute>
         ),
       },
