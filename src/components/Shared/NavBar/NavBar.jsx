@@ -3,11 +3,13 @@ import toast from "react-hot-toast";
 import { Link, NavLink } from "react-router-dom";
 import Logo from "../../../assets/logo/logo-group.svg";
 import useAuth from "../../../hooks/useAuth";
+import useGetRole from "../../../hooks/useGetRole";
 import MenuIcon from "../../SVG/MenuIcon";
 import Container from "../Container/Container";
 
 const NavBar = () => {
   const { user, logOut, loading } = useAuth();
+  const [userRole] = useGetRole();
 
   const handleLogout = () => {
     const toastId = toast.loading("Logging Out...");
@@ -38,7 +40,7 @@ const NavBar = () => {
       dropdown: [
         { to: "/contact", text: "Contact" },
         { to: "/about-us", text: "About Us" },
-        { to: "/emergency-helpline", text: "Emergency Helpline" },
+        // { to: "/emergency-helpline", text: "Emergency Helpline" },
       ],
     },
   ];
@@ -166,9 +168,11 @@ const NavBar = () => {
                     <li className="pointer-events-none">
                       <p>{user?.email}</p>
                     </li>
-                    <li>
-                      <Link to="/dashboard">Dashboard</Link>
-                    </li>
+                    {userRole !== "user" && (
+                      <li>
+                        <Link to="/dashboard">Dashboard</Link>
+                      </li>
+                    )}
                     <li>
                       <button onClick={handleLogout}>Logout</button>
                     </li>
