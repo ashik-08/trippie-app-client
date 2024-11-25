@@ -7,7 +7,6 @@ import {
   signOut,
   updateProfile,
 } from "firebase/auth";
-import Cookies from "js-cookie";
 import PropTypes from "prop-types";
 import { createContext, useCallback, useEffect, useState } from "react";
 import { revokeToken } from "../api/user-api";
@@ -65,26 +64,6 @@ const AuthProvider = ({ children }) => {
       unSubscribe();
     };
   }, []);
-
-  // Check cookies on component mount
-  useEffect(() => {
-    const checkCookies = () => {
-      if (!Cookies.get("refreshToken") && user) {
-        logOut();
-      }
-    };
-    // Delay the initial check to allow time for the token to be set
-    const initialCheckTimeout = setTimeout(checkCookies, 5000);
-    const handleStorageChange = () => {
-      checkCookies();
-    };
-    window.addEventListener("storage", handleStorageChange);
-
-    return () => {
-      clearTimeout(initialCheckTimeout);
-      window.removeEventListener("storage", handleStorageChange);
-    };
-  }, [user, logOut]);
 
   const authInfo = {
     user,
