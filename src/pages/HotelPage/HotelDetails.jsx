@@ -88,15 +88,16 @@ const HotelDetails = () => {
   const calculateTotalPrice = () => {
     return selectedRooms.reduce((total, selectedRoom) => {
       const hotelRoom = availableRooms.find(
-        (room) => room.roomId === selectedRoom.roomCardId
+        (room) => room._id === selectedRoom.roomCardId
       );
       return total + hotelRoom.pricePerNight;
     }, 0);
   };
 
-  const totalPrice = calculateTotalPrice();
+  const totalPrice =
+    calculateTotalPrice() * calculateNightCount(checkInDate, checkOutDate);
   const bookingCharge = 0;
-  const payNow = 0.3;
+  const payNow = 0.15;
   const willDueAmount = Math.round(totalPrice * (1 - payNow));
   const bookingAmount = Math.round(totalPrice * payNow);
 
@@ -165,15 +166,15 @@ const HotelDetails = () => {
                 {hotel.name}
               </h1>
               <p className="mt-1 ml-1 text-gray-700">
-                {hotel.starRating} Star | {hotel.detailedLocation}
+                {hotel.starRating} Star | {hotel.location}
               </p>
               <h2 className="mt-3 text-secondary-base text-xl font-semibold">
                 Facilities
               </h2>
-              <p className="mt-2 ml-1 font-medium space-x-5">
+              <p className="mt-2 ml-1 font-medium flex flex-wrap gap-x-3 gap-y-2">
                 {hotel.facilities.map((facility, index) => (
                   <span
-                    className="border-l-2 pl-5 first:border-0 first:pl-0"
+                    className="border-l-2 pl-3 first:border-0 first:pl-0"
                     key={index}
                   >
                     {facility}
@@ -205,7 +206,7 @@ const HotelDetails = () => {
 
                   return (
                     <div
-                      key={room.roomId}
+                      key={room._id}
                       className="grid xl:grid-cols-2 gap-4 xl:gap-6 shadow-md border rounded-md p-3 md:p-4 lg:p-6"
                     >
                       <div className="grid grid-cols-2 gap-3">
@@ -228,7 +229,7 @@ const HotelDetails = () => {
                         </div>
                       </div>
                       <div className="">
-                        <h2 className="mt-6 mb-2 text-xl font-semibold">
+                        <h2 className="mt-6 mb-3 text-xl font-semibold">
                           {room.name}
                         </h2>
                         <p className="text-gray-600 flex items-center gap-2">
@@ -244,13 +245,13 @@ const HotelDetails = () => {
                         <p className="text-red-500 text-sm mt-5">
                           Hurry Up! Only {room.availableRoomCount} Rooms Left
                         </p>
-                        <p className="text-gray-700 text-xs font-medium text-right mt-4">
+                        <p className="text-gray-700 text-xs font-medium text-right mt-5">
                           Starts from
                         </p>
-                        <p className="text-secondary-700 text-lg font-bold text-right mt-0.5">
+                        <p className="text-secondary-700 text-lg font-bold text-right mt-1">
                           BDT {room.pricePerNight}/night
                         </p>
-                        <h3 className="mt-4 mb-2 text-secondary-base font-medium">
+                        <h3 className="mt-5 mb-2 text-secondary-base font-medium">
                           Book Your Room
                         </h3>
                         <div className="flex flex-wrap gap-3">
@@ -264,13 +265,10 @@ const HotelDetails = () => {
                                     roomDetail.roomNumber
                                 )
                                   ? "bg-gray-800 text-white"
-                                  : "bg-gray-200"
+                                  : "bg-gray-200 hover:bg-gray-300 transition-colors duration-300"
                               }`}
                               onClick={() =>
-                                handleRoomClick(
-                                  room.roomId,
-                                  roomDetail.roomNumber
-                                )
+                                handleRoomClick(room._id, roomDetail.roomNumber)
                               }
                             >
                               {roomDetail.roomNumber}
@@ -438,11 +436,11 @@ const HotelDetails = () => {
                       <span className="text-gray-700">BDT {totalPrice}</span>
                     </p>
                     <p className="flex justify-between">
-                      <span className="font-semibold">70% Will be Due:</span>
+                      <span className="font-semibold">85% Will be Due:</span>
                       <span className="text-red-500">BDT {willDueAmount}</span>
                     </p>
                     <p className="flex justify-between">
-                      <span className="font-semibold">30% for Booking:</span>
+                      <span className="font-semibold">15% for Booking:</span>
                       <span className="text-gray-700">BDT {bookingAmount}</span>
                     </p>
                     <hr />
@@ -470,7 +468,7 @@ const HotelDetails = () => {
           </div>
 
           {/* About Us & Hotel Policy */}
-          <div key={hotel.hotelId} className="max-w-5xl p-4">
+          <div key={hotel._id} className="max-w-5xl p-4">
             <div className="my-12">
               <h2 className="text-2xl font-semibold">About Us</h2>
               <p className="text-gray-700 mt-2 ml-1">{hotel.aboutUs}</p>
