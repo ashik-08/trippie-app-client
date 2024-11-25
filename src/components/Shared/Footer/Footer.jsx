@@ -31,7 +31,7 @@ const Footer = () => {
     },
     {
       title: "Contact",
-      items: ["Banani, Dhaka", "trippie.info7@gmail.com", "01745-055225"],
+      items: ["Banani, Dhaka", "trippie.info7", "01745-055225"],
     },
   ];
 
