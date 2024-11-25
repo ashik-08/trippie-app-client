@@ -12,9 +12,9 @@ const DashboardHomeRedirect = () => {
   useEffect(() => {
     if (!loading && !isLoading) {
       if (userRole === "admin") {
-        navigate("/dashboard/admin-home");
-      } else if (userRole === "user") {
-        navigate("/dashboard/user-home");
+        navigate("/dashboard/manage-users");
+      } else if (userRole === "hotel-manager") {
+        navigate("/dashboard/manage-rooms");
       }
       // Add other roles here
     }

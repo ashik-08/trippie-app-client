@@ -2,6 +2,9 @@ import { createBrowserRouter } from "react-router-dom";
 import DashboardLayout from "../layout/DashboardLayout";
 import MainLayout from "../layout/MainLayout";
 import ManageUsers from "../pages/Dashboard/Admin/ManageUsers";
+import AddRoom from "../pages/Dashboard/Hotel/AddRoom";
+import HotelProfile from "../pages/Dashboard/Hotel/HotelProfile";
+import ManageRooms from "../pages/Dashboard/Hotel/ManageRooms";
 import ErrorPage from "../pages/ErrorPage/ErrorPage";
 import HomePage from "../pages/HomePage/HomePage";
 import HotelDetails from "../pages/HotelPage/HotelDetails";
@@ -58,7 +61,7 @@ export const routes = createBrowserRouter([
         path: "add-room",
         element: (
           <RoleProtectedRoute allowedRoles={["hotel-manager"]}>
-            <h1>My booked services here</h1>
+            <AddRoom />
           </RoleProtectedRoute>
         ),
       },
@@ -66,7 +69,7 @@ export const routes = createBrowserRouter([
         path: "manage-rooms",
         element: (
           <RoleProtectedRoute allowedRoles={["hotel-manager"]}>
-            <h1>Payment history here</h1>
+            <ManageRooms />
           </RoleProtectedRoute>
         ),
       },
@@ -74,7 +77,7 @@ export const routes = createBrowserRouter([
         path: "hotel-profile",
         element: (
           <RoleProtectedRoute allowedRoles={["hotel-manager"]}>
-            <h1>Payment history here</h1>
+            <HotelProfile />
           </RoleProtectedRoute>
         ),
       },
