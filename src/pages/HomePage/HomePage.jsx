@@ -1,6 +1,7 @@
 import { Helmet } from "react-helmet-async";
 import Adventure from "../../components/Home/Adventure/Adventure";
 import Suggestion from "../../components/Home/Suggested/Suggested";
+import TourJoinAd from "../../components/Home/TourJoinAd/TourJoinAd";
 import VideoPlayer from "../../components/Home/VideoPlayer/VideoPlayer";
 import Banner from "../../components/Shared/Banner/Banner";
 
@@ -20,6 +21,7 @@ const HomePage = () => {
       />
       <Suggestion />
       <VideoPlayer />
+      <TourJoinAd />
       <Adventure />
       {/* <Newsletter /> */}
     </>
