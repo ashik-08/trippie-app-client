@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import LoadingSpinner from "../components/LoadingState/LoadingSpinner";
 import useAuth from "../hooks/useAuth";
 import useGetRole from "../hooks/useGetRole";
+import ErrorPage from "../pages/ErrorPage/ErrorPage";
 
 const DashboardHomeRedirect = () => {
   const { loading } = useAuth();
@@ -15,6 +16,8 @@ const DashboardHomeRedirect = () => {
         navigate("/dashboard/manage-users");
       } else if (userRole === "hotel-manager") {
         navigate("/dashboard/manage-rooms");
+      } else if (userRole === "user") {
+        return <ErrorPage />;
       }
       // Add other roles here
     }
