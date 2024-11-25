@@ -351,7 +351,7 @@ const HotelList = () => {
                 allHotels.length > 0 &&
                 allHotels.map((hotel) => (
                   <div
-                    key={hotel.hotelId}
+                    key={hotel._id}
                     className="flex flex-col bg-secondary-200/10 border shadow-lg rounded-lg overflow-hidden hover:scale-105 transition duration-300"
                   >
                     {/* <!-- Image Section --> */}
@@ -371,9 +371,9 @@ const HotelList = () => {
                         </span>
                       </div>
                       <p className="text-gray-600 text-sm mb-4">
-                        {hotel.smallLocation}, {hotel.city}
+                        {hotel.area}, {hotel.city}
                       </p>
-                      <div className="flex flex-wrap gap-4 text-gray-600 text-sm mb-4">
+                      <div className="flex flex-wrap gap-x-4 gap-y-2 text-gray-600 text-sm mb-4">
                         {hotel.facilities?.map((facility, index) => (
                           <span key={index}>{facility}</span>
                         ))}
@@ -389,7 +389,7 @@ const HotelList = () => {
                       </div>
                       <Link
                         to={{
-                          pathname: `/hotel/details/${hotel.hotelId}`,
+                          pathname: `/hotel/details/${hotel._id}`,
                           search: `?checkInDate=${searchFormData?.checkInDate}&checkOutDate=${searchFormData?.checkOutDate}`,
                         }}
                         className="w-full text-center bg-secondary-base hover:bg-primary-500 transition-colors text-white font-semibold py-2 px-4 rounded"
