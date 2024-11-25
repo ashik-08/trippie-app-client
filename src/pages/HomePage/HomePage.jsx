@@ -1,5 +1,5 @@
 import { Helmet } from "react-helmet-async";
-import Newsletter from "../../components/Home/Newsletter/Newsletter";
+import Adventure from "../../components/Home/Adventure/Adventure";
 import Suggestion from "../../components/Home/Suggested/Suggested";
 import VideoPlayer from "../../components/Home/VideoPlayer/VideoPlayer";
 import Banner from "../../components/Shared/Banner/Banner";
@@ -20,7 +20,8 @@ const HomePage = () => {
       />
       <Suggestion />
       <VideoPlayer />
-      <Newsletter />
+      <Adventure />
+      {/* <Newsletter /> */}
     </>
   );
 };
