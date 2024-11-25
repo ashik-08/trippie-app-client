@@ -1,5 +1,6 @@
 import { Helmet } from "react-helmet-async";
 import Newsletter from "../../components/Home/Newsletter/Newsletter";
+import Suggestion from "../../components/Home/Suggested/Suggested";
 import Banner from "../../components/Shared/Banner/Banner";
 
 const HomePage = () => {
@@ -16,6 +17,7 @@ const HomePage = () => {
           expertly designed travel packages. Adventure, relaxation, and
           memories—all in one journey!"
       />
+      <Suggestion />
       <Newsletter />
     </>
   );
