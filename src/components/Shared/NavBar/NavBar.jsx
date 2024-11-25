@@ -109,7 +109,8 @@ const NavBar = () => {
   return (
     <nav
       className={`fixed z-10 w-full ${
-        scrolled && "transition-colors duration-300 bg-outerSpace/40"
+        scrolled &&
+        "transition-colors duration-300 bg-white/50 backdrop-blur-md"
       }`}
     >
       <Container>
