@@ -1,6 +1,7 @@
 import { Helmet } from "react-helmet-async";
 import Newsletter from "../../components/Home/Newsletter/Newsletter";
 import Suggestion from "../../components/Home/Suggested/Suggested";
+import VideoPlayer from "../../components/Home/VideoPlayer/VideoPlayer";
 import Banner from "../../components/Shared/Banner/Banner";
 
 const HomePage = () => {
@@ -18,6 +19,7 @@ const HomePage = () => {
           memories—all in one journey!"
       />
       <Suggestion />
+      <VideoPlayer />
       <Newsletter />
     </>
   );
