@@ -1,5 +1,6 @@
 import { Helmet } from "react-helmet-async";
 import Adventure from "../../components/Home/Adventure/Adventure";
+import GuideBanner from "../../components/Home/GuideBanner/GuideBanner";
 import Suggestion from "../../components/Home/Suggested/Suggested";
 import Testimonials from "../../components/Home/Testimonials/Testimonials";
 import TourJoinAd from "../../components/Home/TourJoinAd/TourJoinAd";
@@ -22,6 +23,7 @@ const HomePage = () => {
       />
       <Suggestion />
       <VideoPlayer />
+      <GuideBanner />
       <TourJoinAd />
       <Testimonials />
       <Adventure />
