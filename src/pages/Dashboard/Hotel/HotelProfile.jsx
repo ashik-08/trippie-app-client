@@ -170,7 +170,7 @@ const HotelProfile = () => {
           onSubmit={handleSubmit}
           className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 gap-6"
         >
-          <span className="space-y-3">
+          <span className="space-y-2">
             <p className="text-outerSpace text-lg font-medium">Name</p>
             <input
               className="w-full p-3 rounded-md bg-gray-100 outline-dotted outline-1 outline-blue-gray-500"
@@ -182,7 +182,7 @@ const HotelProfile = () => {
               required
             />
           </span>
-          <span className="space-y-3">
+          <span className="space-y-2">
             <p className="text-outerSpace text-lg font-medium">City</p>
             <input
               className="w-full p-3 rounded-md bg-gray-100 outline-dotted outline-1 outline-blue-gray-500"
@@ -194,7 +194,7 @@ const HotelProfile = () => {
               required
             />
           </span>
-          <span className="space-y-3">
+          <span className="space-y-2">
             <p className="text-outerSpace text-lg font-medium">Area</p>
             <input
               className="w-full p-3 rounded-md bg-gray-100 outline-dotted outline-1 outline-blue-gray-500"
@@ -206,7 +206,7 @@ const HotelProfile = () => {
               required
             />
           </span>
-          <span className="space-y-3">
+          <span className="space-y-2">
             <p className="text-outerSpace text-lg font-medium">Location</p>
             <input
               className="w-full p-3 rounded-md bg-gray-100 outline-dotted outline-1 outline-blue-gray-500"
@@ -218,7 +218,7 @@ const HotelProfile = () => {
               required
             />
           </span>
-          <span className="space-y-3">
+          <span className="space-y-2">
             <p className="text-outerSpace text-lg font-medium">Star Rating</p>
             <input
               className="w-full p-3 rounded-md bg-gray-100 outline-dotted outline-1 outline-blue-gray-500"
@@ -231,9 +231,12 @@ const HotelProfile = () => {
               required
             />
           </span>
-          <span className="space-y-3">
+          <span className="space-y-2">
             <p className="text-outerSpace text-lg font-medium">
-              Facilities (semicolon separated)
+              Facilities{" "}
+              <span className="text-sm text-gray-600 font-semibold">
+                *semicolon separated
+              </span>
             </p>
             <input
               className="w-full p-3 rounded-md bg-gray-100 outline-dotted outline-1 outline-blue-gray-500"
@@ -245,7 +248,7 @@ const HotelProfile = () => {
               required
             />
           </span>
-          <span className="space-y-3">
+          <span className="space-y-2">
             <p className="text-outerSpace text-lg font-medium">
               Min Room Price
             </p>
@@ -260,7 +263,7 @@ const HotelProfile = () => {
               required
             />
           </span>
-          <span className="space-y-3">
+          <span className="space-y-2">
             <p className="text-outerSpace text-lg font-medium">
               Max Room Price
             </p>
@@ -275,9 +278,12 @@ const HotelProfile = () => {
               required
             />
           </span>
-          <span className="space-y-3 md:col-span-2">
+          <span className="space-y-2 md:col-span-2">
             <p className="text-outerSpace text-lg font-medium">
-              Policy (semicolon separated)
+              Policy{" "}
+              <span className="text-sm text-gray-600 font-semibold">
+                *semicolon separated
+              </span>
             </p>
             <textarea
               className="w-full p-3 rounded-md bg-gray-100 outline-dotted outline-1 outline-blue-gray-500"
@@ -289,7 +295,7 @@ const HotelProfile = () => {
               required
             />
           </span>
-          <span className="space-y-3 md:col-span-2">
+          <span className="space-y-2 md:col-span-2">
             <p className="text-outerSpace text-lg font-medium">About Us</p>
             <textarea
               className="w-full p-3 rounded-md bg-gray-100 outline-dotted outline-1 outline-blue-gray-500"
@@ -300,9 +306,12 @@ const HotelProfile = () => {
               required
             />
           </span>
-          <span className="space-y-3 md:col-span-2 2xl:col-span-full">
+          <span className="space-y-2 md:col-span-2 2xl:col-span-full">
             <p className="text-outerSpace text-lg font-medium">
-              Images (add at least 5 images)(*max file size 10MB*)
+              Images{" "}
+              <span className="text-sm text-gray-600 font-semibold">
+                *min 5 images of max file size 10MB
+              </span>
             </p>
             <div className="flex flex-wrap gap-4">
               {existingImages.map((image, index) => (

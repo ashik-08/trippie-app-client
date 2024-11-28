@@ -14,7 +14,7 @@ const Testimonials = () => {
   return (
     <Container>
       <div className="mt-4 mb-20 md:mb-24 lg:mb-28 xl:mb-32 p-2">
-        <h1 className="text-center text-outerSpace text-3xl md:text-4xl font-semibold">
+        <h1 className="text-center text-outerSpace text-3xl md:text-4xl font-bold uppercase">
           Testimonials
         </h1>
         <p className="text-center text-sm md:text-base text-gray-600 mt-2 font-medium italic mb-8 md:mb-10 lg:mb-12 xl:mb-14">

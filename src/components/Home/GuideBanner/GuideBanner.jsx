@@ -6,13 +6,12 @@ const GuideBanner = () => {
     <div className="bg-primary-base/10 py-20 text-center">
       <Container>
         <div className="p-2">
-          <h1 className="text-xl md:text-2xl lg:text-3xl 2xl:text-4xl font-semibold uppercase">
+          <h1 className="text-3xl md:text-4xl font-bold uppercase">
             Unlock Exclusive Experiences with Our Tour Guides
           </h1>
           <p className="text-sm lg:text-base mt-2">
             Discover Hidden Gems with Personalized Tours
           </p>
-
           <img
             src={Img}
             alt="guide"

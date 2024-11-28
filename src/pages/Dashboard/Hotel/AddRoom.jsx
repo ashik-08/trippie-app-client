@@ -235,8 +235,8 @@ const AddRoom = () => {
           onSubmit={handleSubmit}
           className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-6"
         >
-          <span className="space-y-3">
-            <p className="text-outerSpace text-lg font-medium">Room Name</p>
+          <span className="space-y-2">
+            <p className="text-outerSpace md:text-lg font-medium">Room Name</p>
             <input
               className="w-full p-3 rounded-md bg-gray-100 outline-dotted outline-1 outline-blue-gray-500"
               type="text"
@@ -247,8 +247,8 @@ const AddRoom = () => {
               required
             />
           </span>
-          <span className="space-y-3">
-            <p className="text-outerSpace text-lg font-medium">Room Type</p>
+          <span className="space-y-2">
+            <p className="text-outerSpace md:text-lg font-medium">Room Type</p>
             <input
               className="w-full p-3 rounded-md bg-gray-100 outline-dotted outline-1 outline-blue-gray-500"
               type="text"
@@ -259,8 +259,8 @@ const AddRoom = () => {
               required
             />
           </span>
-          <span className="space-y-3">
-            <p className="text-outerSpace text-lg font-medium">Bed Type</p>
+          <span className="space-y-2">
+            <p className="text-outerSpace md:text-lg font-medium">Bed Type</p>
             <input
               className="w-full p-3 rounded-md bg-gray-100 outline-dotted outline-1 outline-blue-gray-500"
               type="text"
@@ -271,8 +271,8 @@ const AddRoom = () => {
               required
             />
           </span>
-          <span className="space-y-3">
-            <p className="text-outerSpace text-lg font-medium">Max Guests</p>
+          <span className="space-y-2">
+            <p className="text-outerSpace md:text-lg font-medium">Max Guests</p>
             <input
               className="w-full p-3 rounded-md bg-gray-100 outline-dotted outline-1 outline-blue-gray-500"
               type="number"
@@ -284,8 +284,8 @@ const AddRoom = () => {
               required
             />
           </span>
-          <span className="space-y-3">
-            <p className="text-outerSpace text-lg font-medium">
+          <span className="space-y-2">
+            <p className="text-outerSpace md:text-lg font-medium">
               Price Per Night
             </p>
             <input
@@ -299,9 +299,12 @@ const AddRoom = () => {
               required
             />
           </span>
-          <span className="space-y-3 xl:col-span-2">
-            <p className="text-outerSpace text-lg font-medium">
-              Facilities (semicolon separated)
+          <span className="space-y-2 2xl:col-span-2">
+            <p className="text-outerSpace md:text-lg font-medium">
+              Facilities{" "}
+              <span className="text-sm text-gray-600 font-semibold">
+                *semicolon separated
+              </span>
             </p>
             <input
               className="w-full p-3 rounded-md bg-gray-100 outline-dotted outline-1 outline-blue-gray-500"
@@ -314,40 +317,55 @@ const AddRoom = () => {
             />
           </span>
           <span className="space-y-3 md:col-span-2 2xl:col-span-full">
-            <p className="text-outerSpace text-lg font-medium">Room Details</p>
+            <p className="text-outerSpace text-lg font-semibold">
+              Room Details
+            </p>
             {formData.roomDetails.map((detail, index) => (
               <div key={index} className="flex flex-col gap-3 mb-4">
-                <div className="flex gap-3">
-                  <input
-                    className="w-full p-3 rounded-md bg-gray-100 outline-dotted outline-1 outline-blue-gray-500"
-                    type="number"
-                    name="roomNumber"
-                    placeholder="Room Number"
-                    value={detail.roomNumber}
-                    onChange={(e) => handleRoomDetailsChange(index, e)}
-                    required
-                  />
-                  <input
-                    className="w-full p-3 rounded-md bg-gray-100 outline-dotted outline-1 outline-blue-gray-500"
-                    type="date"
-                    name="addedDate"
-                    placeholder="Added Date"
-                    value={detail.addedDate}
-                    onChange={(e) => handleRoomDetailsChange(index, e)}
-                    required
-                  />
-                  <input
-                    className="w-full p-3 rounded-md bg-gray-100 outline-dotted outline-1 outline-blue-gray-500"
-                    type="date"
-                    name="availabilityDate"
-                    placeholder="Availability Date"
-                    value={detail.availabilityDate}
-                    onChange={(e) => handleRoomDetailsChange(index, e)}
-                    required
-                  />
+                <div className="flex flex-wrap md:flex-nowrap lg:flex-wrap xl:flex-nowrap gap-3">
+                  <span className="space-y-1.5 w-full">
+                    <p className="text-outerSpace font-medium">Room Number</p>
+                    <input
+                      className="w-full p-3 rounded-md bg-gray-100 outline-dotted outline-1 outline-blue-gray-500"
+                      type="number"
+                      name="roomNumber"
+                      placeholder="Room Number"
+                      value={detail.roomNumber}
+                      onChange={(e) => handleRoomDetailsChange(index, e)}
+                      required
+                    />
+                  </span>
+                  <span className="space-y-1.5 w-full">
+                    <p className="text-outerSpace font-medium">
+                      Available from
+                    </p>
+                    <input
+                      className="w-full p-3 rounded-md bg-gray-100 outline-dotted outline-1 outline-blue-gray-500"
+                      type="date"
+                      name="addedDate"
+                      placeholder="Added Date"
+                      value={detail.addedDate}
+                      onChange={(e) => handleRoomDetailsChange(index, e)}
+                      required
+                    />
+                  </span>
+                  <span className="space-y-1.5 w-full">
+                    <p className="text-outerSpace font-medium">
+                      Available until
+                    </p>
+                    <input
+                      className="w-full p-3 rounded-md bg-gray-100 outline-dotted outline-1 outline-blue-gray-500"
+                      type="date"
+                      name="availabilityDate"
+                      placeholder="Availability Date"
+                      value={detail.availabilityDate}
+                      onChange={(e) => handleRoomDetailsChange(index, e)}
+                      required
+                    />
+                  </span>
                   <button
                     type="button"
-                    className="bg-red-500 text-white rounded-md px-3 py-2"
+                    className="bg-red-500 text-white font-medium rounded-md px-3 py-3 self-end"
                     onClick={() => handleRemoveRoomDetail(index)}
                   >
                     Remove
@@ -357,7 +375,7 @@ const AddRoom = () => {
             ))}
             <button
               type="button"
-              className="bg-secondary-500 hover:bg-secondary-base transition duration-300 text-white rounded-md px-3 py-2"
+              className="bg-secondary-500 hover:bg-secondary-base transition duration-300 text-white font-medium rounded-md px-3 py-2.5"
               onClick={handleAddRoomDetail}
             >
               Add Room Detail
@@ -365,7 +383,10 @@ const AddRoom = () => {
           </span>
           <span className="space-y-3 md:col-span-2 2xl:col-span-full">
             <p className="text-outerSpace text-lg font-medium">
-              Images (add at least 3 images)(*max file size 10MB*)
+              Images{" "}
+              <span className="text-sm text-gray-600 font-semibold">
+                *min 3 images of max file size 10MB
+              </span>
             </p>
             <div className="flex flex-wrap gap-4">
               {existingImages.map((image, index) => (

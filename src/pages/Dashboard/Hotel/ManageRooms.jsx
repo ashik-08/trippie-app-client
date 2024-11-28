@@ -101,7 +101,7 @@ const ManageRooms = () => {
     "Type",
     "Max Guests",
     "Facilities",
-    "Price",
+    "Price - BDT",
     "Edit",
     "Delete",
   ];
@@ -263,7 +263,7 @@ const ManageRooms = () => {
                           color="blue-gray"
                           className="font-semibold"
                         >
-                          ${room.pricePerNight}
+                          BDT {room.pricePerNight}
                         </Typography>
                       </td>
                       <td className={classes}>
