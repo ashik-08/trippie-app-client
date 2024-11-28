@@ -5,6 +5,8 @@ import ManageUsers from "../pages/Dashboard/Admin/ManageUsers";
 import AddRoom from "../pages/Dashboard/Hotel/AddRoom";
 import HotelProfile from "../pages/Dashboard/Hotel/HotelProfile";
 import ManageRooms from "../pages/Dashboard/Hotel/ManageRooms";
+// import TourAgentProfile from "../pages/Dashboard/TourAgency/TourAgentProfile";
+import TourAgencyProfile from "../pages/Dashboard/TourAgency/TourAgencyProfile";
 import ErrorPage from "../pages/ErrorPage/ErrorPage";
 import HomePage from "../pages/HomePage/HomePage";
 import HotelDetails from "../pages/HotelPage/HotelDetails";
@@ -87,6 +89,31 @@ export const routes = createBrowserRouter([
         element: (
           <RoleProtectedRoute allowedRoles={["admin"]}>
             <ManageUsers />
+          </RoleProtectedRoute>
+        ),
+      },
+      // tour-agency related routes
+      {
+        path: "create-tour",
+        element: (
+          <RoleProtectedRoute allowedRoles={["tour-agent"]}>
+            Create Tour
+          </RoleProtectedRoute>
+        ),
+      },
+      {
+        path: "manage-tours",
+        element: (
+          <RoleProtectedRoute allowedRoles={["tour-agent"]}>
+            Manage Tours
+          </RoleProtectedRoute>
+        ),
+      },
+      {
+        path: "tour-agency-profile",
+        element: (
+          <RoleProtectedRoute allowedRoles={["tour-agent"]}>
+            <TourAgencyProfile />
           </RoleProtectedRoute>
         ),
       },

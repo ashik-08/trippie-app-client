@@ -1,7 +1,6 @@
 import toast from "react-hot-toast";
-// import { AiFillHome } from "react-icons/ai";
 import { BsDoorOpenFill } from "react-icons/bs";
-// import { FaCalendarAlt, FaUsers } from "react-icons/fa";
+import { FaCalendarAlt, FaUsers } from "react-icons/fa";
 // import { FaBus } from "react-icons/fa6";
 // import { GiMoneyStack } from "react-icons/gi";
 import { MdLogout } from "react-icons/md";
@@ -13,7 +12,7 @@ import DoorIcon from "../components/SVG/DoorIcon";
 // import ManageServiceIcon from "../components/SVG/ManageServiceIcon";
 import MenuIcon from "../components/SVG/MenuIcon";
 import ProfileIcon from "../components/SVG/ProfileIcon";
-// import TourIcon from "../components/SVG/TourIcon";
+import TourIcon from "../components/SVG/TourIcon";
 import useAuth from "../hooks/useAuth";
 import useGetRole from "../hooks/useGetRole";
 import ErrorPage from "../pages/ErrorPage/ErrorPage";
@@ -177,35 +176,38 @@ const DashboardLayout = () => {
       //       </li>
       //     </>
       //   );
-      // case "tour-agent":
-      //   return (
-      //     <>
-      //       <li>
-      //         <NavLink to="/dashboard/agent-home" className={navLinkClass}>
-      //           <AiFillHome />
-      //           Dashboard
-      //         </NavLink>
-      //       </li>
-      //       <li>
-      //         <NavLink to="/dashboard/create-tour" className={navLinkClass}>
-      //           <FaCalendarAlt />
-      //           Create Tour
-      //         </NavLink>
-      //       </li>
-      //       <li>
-      //         <NavLink to="/dashboard/manage-tours" className={navLinkClass}>
-      //           <TourIcon />
-      //           Manage Tours
-      //         </NavLink>
-      //       </li>
-      //       <li>
-      //         <NavLink to="/dashboard/my-profile" className={navLinkClass}>
-      //           <ProfileIcon />
-      //           My Profile
-      //         </NavLink>
-      //       </li>
-      //     </>
-      //   );
+      case "tour-agent":
+        return (
+          <>
+            {/* <li>
+              <NavLink to="/dashboard/agent-home" className={navLinkClass}>
+                <AiFillHome />
+                Dashboard
+              </NavLink>
+            </li> */}
+            <li>
+              <NavLink to="/dashboard/create-tour" className={navLinkClass}>
+                <FaCalendarAlt />
+                Create Tour
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to="/dashboard/manage-tours" className={navLinkClass}>
+                <TourIcon />
+                Manage Tours
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/dashboard/tour-agency-profile"
+                className={navLinkClass}
+              >
+                <ProfileIcon />
+                My Profile
+              </NavLink>
+            </li>
+          </>
+        );
       default:
         return null;
     }

@@ -16,6 +16,8 @@ const DashboardHomeRedirect = () => {
         navigate("/dashboard/manage-users");
       } else if (userRole === "hotel-manager") {
         navigate("/dashboard/manage-rooms");
+      } else if (userRole === "tour-agent") {
+        navigate("/dashboard/manage-tours");
       } else if (userRole === "user") {
         return <ErrorPage />;
       }
