@@ -3,15 +3,15 @@ import { Helmet } from "react-helmet-async";
 import toast from "react-hot-toast";
 import { FaCamera, FaTimes } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import { uploadImage } from "../../../api/image-api";
 import {
   addTourAgency,
   getTourAgency,
   updateTourAgency,
-} from "../../../api/tour-agency-api";
+} from "../../../api/agency-api";
+import { uploadImage } from "../../../api/image-api";
 import useAuth from "../../../hooks/useAuth";
 
-const TourAgencyProfile = () => {
+const AgencyProfile = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [logo, setLogo] = useState(null);
@@ -346,4 +346,4 @@ const TourAgencyProfile = () => {
   );
 };
 
-export default TourAgencyProfile;
+export default AgencyProfile;
