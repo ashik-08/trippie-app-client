@@ -2,11 +2,12 @@ import { createBrowserRouter } from "react-router-dom";
 import DashboardLayout from "../layout/DashboardLayout";
 import MainLayout from "../layout/MainLayout";
 import ManageUsers from "../pages/Dashboard/Admin/ManageUsers";
+import AgencyProfile from "../pages/Dashboard/Agency/AgencyProfile";
+import CreateTour from "../pages/Dashboard/Agency/CreateTour";
+import ManageTours from "../pages/Dashboard/Agency/ManageTours";
 import AddRoom from "../pages/Dashboard/Hotel/AddRoom";
 import HotelProfile from "../pages/Dashboard/Hotel/HotelProfile";
 import ManageRooms from "../pages/Dashboard/Hotel/ManageRooms";
-// import TourAgentProfile from "../pages/Dashboard/TourAgency/TourAgentProfile";
-import TourAgencyProfile from "../pages/Dashboard/TourAgency/TourAgencyProfile";
 import ErrorPage from "../pages/ErrorPage/ErrorPage";
 import HomePage from "../pages/HomePage/HomePage";
 import HotelDetails from "../pages/HotelPage/HotelDetails";
@@ -97,7 +98,7 @@ export const routes = createBrowserRouter([
         path: "create-tour",
         element: (
           <RoleProtectedRoute allowedRoles={["tour-agent"]}>
-            Create Tour
+            <CreateTour />
           </RoleProtectedRoute>
         ),
       },
@@ -105,7 +106,7 @@ export const routes = createBrowserRouter([
         path: "manage-tours",
         element: (
           <RoleProtectedRoute allowedRoles={["tour-agent"]}>
-            Manage Tours
+            <ManageTours />
           </RoleProtectedRoute>
         ),
       },
@@ -113,7 +114,7 @@ export const routes = createBrowserRouter([
         path: "tour-agency-profile",
         element: (
           <RoleProtectedRoute allowedRoles={["tour-agent"]}>
-            <TourAgencyProfile />
+            <AgencyProfile />
           </RoleProtectedRoute>
         ),
       },
