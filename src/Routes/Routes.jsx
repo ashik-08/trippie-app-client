@@ -12,6 +12,7 @@ import ErrorPage from "../pages/ErrorPage/ErrorPage";
 import HomePage from "../pages/HomePage/HomePage";
 import HotelDetails from "../pages/HotelPage/HotelDetails";
 import HotelPage from "../pages/HotelPage/HotelPage";
+import JoinTourPage from "../pages/JoinTourPage/JoinTourPage";
 import Login from "../pages/Login/Login";
 import Register from "../pages/Register/Register";
 import DashboardHomeRedirect from "./DashboardHomeRedirect";
@@ -35,6 +36,10 @@ export const routes = createBrowserRouter([
       {
         path: "hotel/details/:hotelId",
         element: <HotelDetails />,
+      },
+      {
+        path: "join-tour",
+        element: <JoinTourPage />,
       },
     ],
   },
