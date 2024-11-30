@@ -186,6 +186,44 @@ const CreateTour = () => {
       return;
     }
 
+    const now = new Date();
+    const startDate = new Date(formData.startDate);
+    const endDate = new Date(formData.endDate);
+
+    // Validate start date
+    if (startDate < now) {
+      toast.error("Start date cannot be in the past", { id: toastId });
+      return;
+    }
+
+    // Validate end date
+    if (endDate < now || endDate < startDate) {
+      toast.error("End date cannot be before the current date or start date", {
+        id: toastId,
+      });
+      return;
+    }
+
+    // Validate itinerary dates
+    for (const day of formData.itinerary) {
+      const pickUpTime = new Date(day.transport.pickUpTime);
+      const dropOffTime = new Date(day.transport.dropOffTime);
+
+      if (pickUpTime < startDate || pickUpTime > endDate) {
+        toast.error("Pick-up time must be between the start and end dates", {
+          id: toastId,
+        });
+        return;
+      }
+
+      if (dropOffTime < startDate || dropOffTime > endDate) {
+        toast.error("Drop-off time must be between the start and end dates", {
+          id: toastId,
+        });
+        return;
+      }
+    }
+
     // Check if any data has changed
     const isDataChanged =
       JSON.stringify(formData) !== JSON.stringify(initialFormData);
@@ -199,10 +237,10 @@ const CreateTour = () => {
     }
 
     // Convert dates to Bangladesh time zone
-    const startDate = moment.tz(formData.startDate, "Asia/Dhaka").toDate();
-    const endDate = moment.tz(formData.endDate, "Asia/Dhaka").toDate();
+    const startDateBD = moment.tz(formData.startDate, "Asia/Dhaka").toDate();
+    const endDateBD = moment.tz(formData.endDate, "Asia/Dhaka").toDate();
     const durationInDays = Math.ceil(
-      (endDate - startDate) / (1000 * 60 * 60 * 24)
+      (endDateBD - startDateBD) / (1000 * 60 * 60 * 24)
     );
     const duration = `${durationInDays} days`;
 
@@ -236,8 +274,8 @@ const CreateTour = () => {
     // Prepare tour data to be sent to the server
     const tourData = {
       ...formData,
-      startDate,
-      endDate,
+      startDate: startDateBD,
+      endDate: endDateBD,
       duration,
       images: allImageUrls,
       agencyId: agencyData._id,

@@ -1,25 +1,7 @@
 import PropTypes from "prop-types";
+import { tourTypes } from "../../../data/tourTypes";
 
 const TourTypeDropdown = ({ value, onChange }) => {
-  const tourTypes = [
-    "Adventure",
-    "Cruise",
-    "Cultural",
-    "Educational",
-    "Family",
-    "Festival",
-    "Group",
-    "Historical",
-    "Honeymoon",
-    "Leisure",
-    "Luxury",
-    "Photography",
-    "Romantic",
-    "Religious",
-    "Solo",
-    "Wildlife",
-  ];
-
   return (
     <div className="space-y-2">
       <label className="text-outerSpace md:text-lg font-medium">
