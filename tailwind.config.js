@@ -37,6 +37,7 @@ module.exports = withMT({
       backgroundImage: {
         home: "url('/assets/banner/bg-home-banner.jpeg')",
         hotel: "url('/assets/banner/bg-hotel-banner.jpg')",
+        joinTour: "url('./assets/banner/bg-join-tour-banner.jpg')",
       },
     },
   },
