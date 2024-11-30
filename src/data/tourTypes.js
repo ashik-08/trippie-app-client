@@ -1,0 +1,18 @@
+export const tourTypes = [
+  "Adventure",
+  "Cruise",
+  "Cultural",
+  "Educational",
+  "Family",
+  "Festival",
+  "Group",
+  "Historical",
+  "Honeymoon",
+  "Leisure",
+  "Luxury",
+  "Photography",
+  "Romantic",
+  "Religious",
+  "Solo",
+  "Wildlife",
+];
