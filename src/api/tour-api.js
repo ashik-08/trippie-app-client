@@ -1,4 +1,5 @@
 import { axiosSecure } from "../hooks/axiosSecure";
+import axiosInstance from "./axiosInstance";
 
 // add a new tour
 export const addTour = async (tourData) => {
@@ -9,6 +10,17 @@ export const addTour = async (tourData) => {
 // get a tour by id
 export const getTour = async (tourId) => {
   const { data } = await axiosSecure.get(`/tours/${tourId}`);
+  return data;
+};
+
+// get all tours
+export const getAllTours = async ({ search, sortOrder, selectedType }) => {
+  const params = new URLSearchParams();
+  if (search) params.append("search", search);
+  if (sortOrder) params.append("sortOrder", sortOrder);
+  if (selectedType) params.append("selectedType", selectedType);
+
+  const { data } = await axiosInstance.get(`/tours?${params.toString()}`);
   return data;
 };
 
