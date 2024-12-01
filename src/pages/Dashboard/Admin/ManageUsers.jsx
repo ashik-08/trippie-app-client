@@ -9,10 +9,15 @@ import { useQuery } from "@tanstack/react-query";
 import { Helmet } from "react-helmet-async";
 import toast from "react-hot-toast";
 import Swal from "sweetalert2";
+import LoadingSpinner from "../../../components/LoadingState/LoadingSpinner";
 import { axiosSecure } from "../../../hooks/axiosSecure";
 
 const ManageUsers = () => {
-  const { data: allUsers = [], refetch } = useQuery({
+  const {
+    data: allUsers = [],
+    refetch,
+    isLoading,
+  } = useQuery({
     queryKey: ["all-users"],
     queryFn: async () => {
       const response = await axiosSecure.get("/users");
@@ -50,6 +55,10 @@ const ManageUsers = () => {
       }
     });
   };
+
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
 
   return (
     <>
@@ -129,7 +138,7 @@ const ManageUsers = () => {
                       </td>
                       <td className={classes}>
                         <select
-                          className="border-none ring-2 ring-inset ring-primary-base ring-offset-2 focus:ring-2 focus:ring-inset focus:ring-primary-base focus:ring-offset-2"
+                          className="border-none ring-1 ring-inset ring-primary-base ring-offset-1 focus:ring-1 focus:ring-inset focus:ring-primary-base focus:ring-offset-1 rounded-lg"
                           onChange={(e) =>
                             handleRoleUpdate(_id, e.target.value)
                           }
