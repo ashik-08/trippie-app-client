@@ -1,7 +1,9 @@
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 
 const TourCard = ({ tour }) => {
   const {
+    _id,
     images,
     tourName,
     tourType,
@@ -39,11 +41,11 @@ const TourCard = ({ tour }) => {
         </div>
       </div>
       {/* Details Button */}
-      <div className="px-5 pb-3">
+      <Link to={`/join-tour/${_id}`} className="px-5 pb-3">
         <button className="w-full py-2 rounded-md text-sm font-medium text-white bg-primary-500 hover:bg-primary-600 transition-all duration-300">
           See Details
         </button>
-      </div>
+      </Link>
       <div className="bg-gray-100 text-center py-1.5">
         <p className="text-sm text-gray-600">
           Organizer @{" "}
@@ -57,7 +59,7 @@ const TourCard = ({ tour }) => {
 };
 
 TourCard.propTypes = {
-  tour: PropTypes.object.isRequired,
+  tour: PropTypes.object,
 };
 
 export default TourCard;
