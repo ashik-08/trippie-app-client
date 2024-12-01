@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import Img from "../../../assets/home/guide.jpg";
 import Container from "../../Shared/Container/Container";
 
@@ -25,9 +26,11 @@ const GuideBanner = () => {
             interests. Step into a world of discovery unlike any other, only
             with Trippie.
           </p>
-          <button className="bg-primary-base hover:bg-primary-500 font-medium text-white mt-7 px-4 py-2.5 rounded-lg transition-colors">
-            Find Now
-          </button>
+          <Link to="/tour-guide">
+            <button className="bg-primary-base hover:bg-primary-500 font-medium text-white mt-7 px-4 py-2.5 rounded-lg transition-colors">
+              Find Now
+            </button>
+          </Link>
         </div>
       </Container>
     </div>
