@@ -9,7 +9,7 @@ export const addTour = async (tourData) => {
 
 // get a tour by id
 export const getTour = async (tourId) => {
-  const { data } = await axiosSecure.get(`/tours/${tourId}`);
+  const { data } = await axiosInstance.get(`/tours/${tourId}`);
   return data;
 };
 
