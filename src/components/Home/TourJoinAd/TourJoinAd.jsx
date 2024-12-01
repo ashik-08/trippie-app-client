@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import backImg from "../../../assets/home/custom-tour-bg.jpg";
 import Container from "../../Shared/Container/Container";
 
@@ -27,9 +28,11 @@ const TourJoinAd = () => {
                 make unforgettable memories together.
               </p>
               <div className="absolute bottom-8 lg:bottom-6 left-0 flex gap-4">
-                <button className="px-3 py-1.5 lg:px-5 lg:py-2.5 bg-white/30 hover:bg-white/50 rounded-lg transition-colors">
-                  Join Tour
-                </button>
+                <Link to="/join-tour">
+                  <button className="px-3 py-1.5 lg:px-5 lg:py-2.5 bg-white/30 hover:bg-white/50 rounded-lg transition-colors">
+                    Join Tour
+                  </button>
+                </Link>
               </div>
             </div>
           </div>
