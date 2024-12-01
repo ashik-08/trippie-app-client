@@ -161,7 +161,7 @@ const HotelDetails = () => {
             </div>
 
             {/* <!-- Hotel Information --> */}
-            <div className="mt-10">
+            <div className="mt-8">
               <h1 className="text-secondary-base text-2xl md:text-3xl font-semibold">
                 {hotel.name}
               </h1>
@@ -190,8 +190,8 @@ const HotelDetails = () => {
             <div className="md:col-span-2 xl:col-span-5">
               {/* <!-- Room Details Info --> */}
               <div className="flex justify-between bg-secondary-400/30 px-5 py-2 rounded-md">
-                <p className="text-xl font-medium">Room Details</p>
-                <p className="text-xl font-medium">
+                <p className="xl:text-lg font-medium">Room Details</p>
+                <p className="xl:text-lg font-medium">
                   For {calculateNightCount(checkInDate, checkOutDate)} Nights
                 </p>
               </div>
