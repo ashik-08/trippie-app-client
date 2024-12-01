@@ -28,7 +28,7 @@ const AgencyProfile = () => {
     licenseNumber: "",
     website: "",
     description: "",
-    socialMedia: "",
+    socialMedia: [{ platform: "", url: "" }],
   });
 
   useEffect(() => {
@@ -47,7 +47,10 @@ const AgencyProfile = () => {
             licenseNumber: tourAgencyData.licenseNumber,
             website: tourAgencyData.website,
             description: tourAgencyData.description,
-            socialMedia: tourAgencyData.socialMedia.join("; "),
+            socialMedia:
+              tourAgencyData.socialMedia.length > 0
+                ? tourAgencyData.socialMedia
+                : [{ platform: "", url: "" }],
           };
           setFormData(initialData);
           setInitialFormData(initialData);
@@ -71,6 +74,30 @@ const AgencyProfile = () => {
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
+    }));
+  };
+
+  const handleSocialMediaChange = (index, field, value) => {
+    const newSocialMedia = [...formData.socialMedia];
+    newSocialMedia[index][field] = value;
+    setFormData((prevData) => ({
+      ...prevData,
+      socialMedia: newSocialMedia,
+    }));
+  };
+
+  const handleAddSocialMedia = () => {
+    setFormData((prevData) => ({
+      ...prevData,
+      socialMedia: [...prevData.socialMedia, { platform: "", url: "" }],
+    }));
+  };
+
+  const handleRemoveSocialMedia = (index) => {
+    const newSocialMedia = formData.socialMedia.filter((_, i) => i !== index);
+    setFormData((prevData) => ({
+      ...prevData,
+      socialMedia: newSocialMedia,
     }));
   };
 
@@ -123,7 +150,6 @@ const AgencyProfile = () => {
     const tourAgencyData = {
       ...formData,
       logo: logoUrl,
-      socialMedia: formData.socialMedia.split("; "),
       agent: user?.email,
     };
 
@@ -311,27 +337,58 @@ const AgencyProfile = () => {
             <textarea
               className="w-full p-3 rounded-md bg-gray-100 outline-dotted outline-1 outline-blue-gray-500"
               name="description"
+              rows={3}
               placeholder="Our agency provides the best travel services in the country. We offer a wide range of travel packages for all types of travelers. Contact us for more information."
               value={formData.description}
               onChange={handleInputChange}
               required
             />
           </span>
-          <span className="space-y-2 md:col-span-2">
-            <p className="text-outerSpace md:text-lg font-medium">
-              Social Media Links{" "}
-              <span className="text-sm text-gray-600 font-semibold">
-                *separate links with a semicolon (;)
-              </span>
-            </p>
-            <textarea
-              className="w-full p-3 rounded-md bg-gray-100 outline-dotted outline-1 outline-blue-gray-500"
-              name="socialMedia"
-              placeholder="Facebook: https://facebook.com/blueocean; Twitter: https://twitter.com/blueocean; Instagram: https://instagram.com/blueocean"
-              value={formData.socialMedia}
-              onChange={handleInputChange}
-            />
-          </span>
+          <div className="space-y-2 md:col-span-2">
+            <label className="text-outerSpace md:text-lg font-medium">
+              Social Media Links
+            </label>
+            {formData.socialMedia.map((link, index) => (
+              <div key={index} className="flex items-center space-x-2 mb-2">
+                <input
+                  className="w-full p-3 rounded-md bg-gray-100 outline-dotted outline-1 outline-blue-gray-500"
+                  type="text"
+                  placeholder="Platform"
+                  value={link.platform}
+                  required
+                  onChange={(e) =>
+                    handleSocialMediaChange(index, "platform", e.target.value)
+                  }
+                />
+                <input
+                  className="w-full p-3 rounded-md bg-gray-100 outline-dotted outline-1 outline-blue-gray-500"
+                  type="text"
+                  placeholder="URL"
+                  value={link.url}
+                  required
+                  onChange={(e) =>
+                    handleSocialMediaChange(index, "url", e.target.value)
+                  }
+                />
+                {index > 0 && (
+                  <button
+                    type="button"
+                    className="bg-red-500 text-white rounded-md px-2.5 py-0.5"
+                    onClick={() => handleRemoveSocialMedia(index)}
+                  >
+                    &times;
+                  </button>
+                )}
+              </div>
+            ))}
+            <button
+              type="button"
+              className="bg-primary-base hover:bg-primary-500 transition-colors text-white  font-medium px-2 py-1.5 rounded-md"
+              onClick={handleAddSocialMedia}
+            >
+              Add Social Media
+            </button>
+          </div>
           <span className="mx-auto md:col-span-2 2xl:col-span-4 mt-6">
             <button
               className="bg-primary-base hover:bg-primary-500 transition-colors text-white text-xl font-semibold px-5 py-2.5 rounded-lg"

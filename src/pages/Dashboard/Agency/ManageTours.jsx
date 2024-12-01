@@ -108,7 +108,8 @@ const ManageTours = () => {
     "Start Date",
     "End Date",
     "Duration",
-    "Max Group Size",
+    "Max People",
+    "Booked",
     "Price/Person",
     "Status",
     "Actions",
@@ -263,6 +264,15 @@ const ManageTours = () => {
                       </td>
                       <td className={classes}>
                         <Typography
+                          variant="small"
+                          color="blue-gray"
+                          className="font-normal"
+                        >
+                          {tour.bookedCount}
+                        </Typography>
+                      </td>
+                      <td className={classes}>
+                        <Typography
                           variant="paragraph"
                           color="blue-gray"
                           className="font-semibold"
@@ -274,7 +284,7 @@ const ManageTours = () => {
                         <Typography
                           variant="small"
                           color="blue-gray"
-                          className="font-normal bg-primary-100/30 border border-primary-base p-1.5 rounded-md"
+                          className="font-normal bg-primary-100/30 border border-primary-base px-1.5 py-0.5 rounded-lg"
                         >
                           {tour.tourStatus}
                         </Typography>

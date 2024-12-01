@@ -56,7 +56,8 @@ const CreateTour = () => {
     const fetchTourData = async () => {
       if (tourId) {
         try {
-          const tourData = await getTour(tourId);
+          const response = await getTour(tourId);
+          const tourData = response.tour;
           if (tourData) {
             const initialData = {
               tourName: tourData.tourName,
@@ -68,13 +69,25 @@ const CreateTour = () => {
               maxGroupSize: tourData.maxGroupSize,
               minAge: tourData.minAge,
               pricePerPerson: tourData.pricePerPerson,
-              inclusions: tourData.inclusions,
-              exclusions: tourData.exclusions,
-              itinerary: tourData.itinerary,
-              tourHighlights: tourData.tourHighlights,
-              importantNotes: tourData.importantNotes,
+              inclusions: tourData.inclusions.join("; "),
+              exclusions: tourData.exclusions.join("; "),
+              itinerary: tourData.itinerary.map((item, index) => ({
+                day: index + 1,
+                activities: item.activities.join("; "),
+                meals: item.meals,
+                accommodation: item.accommodation,
+                transport: {
+                  transportType: item.transport.transportType,
+                  pickUpLocation: item.transport.pickUpLocation,
+                  dropOffLocation: item.transport.dropOffLocation,
+                  pickUpTime: item.transport.pickUpTime,
+                  dropOffTime: item.transport.dropOffTime,
+                },
+              })),
+              tourHighlights: tourData.tourHighlights.join("; "),
+              importantNotes: tourData.importantNotes.join("; "),
               meetingPoint: tourData.meetingPoint,
-              contactInfo: tourData.contactInfo,
+              contactInfo: tourData.contactInfo.join("; "),
             };
             setFormData(initialData);
             setInitialFormData(initialData);
@@ -277,6 +290,15 @@ const CreateTour = () => {
       startDate: startDateBD,
       endDate: endDateBD,
       duration,
+      inclusions: formData.inclusions.split("; "),
+      exclusions: formData.exclusions.split("; "),
+      itinerary: formData.itinerary.map((day) => ({
+        ...day,
+        activities: day.activities.split("; "),
+      })),
+      tourHighlights: formData.tourHighlights.split("; "),
+      importantNotes: formData.importantNotes.split("; "),
+      contactInfo: formData.contactInfo.split("; "),
       images: allImageUrls,
       agencyId: agencyData._id,
       agencyName: agencyData.agencyName,
@@ -326,7 +348,7 @@ const CreateTour = () => {
               className="w-full p-3 rounded-md bg-gray-100 outline-dotted outline-1 outline-blue-gray-500"
               type="text"
               name="tourName"
-              placeholder="Enter tour name"
+              placeholder="Love in the Hills"
               value={formData.tourName}
               onChange={handleInputChange}
               required
@@ -345,7 +367,7 @@ const CreateTour = () => {
                 <input
                   className="w-full p-3 rounded-md bg-gray-100 outline-dotted outline-1 outline-blue-gray-500"
                   type="text"
-                  placeholder="Enter destination"
+                  placeholder="Bandarban"
                   value={destination}
                   onChange={(e) =>
                     handleDestinationChange(index, e.target.value)
@@ -378,7 +400,7 @@ const CreateTour = () => {
             <textarea
               className="w-full p-3 rounded-md bg-gray-100 outline-dotted outline-1 outline-blue-gray-500"
               name="shortDescription"
-              placeholder="Enter short description"
+              placeholder="Capture the essence of your tour in a few words ..."
               value={formData.shortDescription}
               onChange={handleInputChange}
               required
@@ -418,7 +440,7 @@ const CreateTour = () => {
               className="w-full p-3 rounded-md bg-gray-100 outline-dotted outline-1 outline-blue-gray-500"
               type="number"
               name="maxGroupSize"
-              placeholder="Enter maximum group size"
+              placeholder="Total number of people can join"
               value={formData.maxGroupSize}
               onChange={handleInputChange}
               required
@@ -432,7 +454,7 @@ const CreateTour = () => {
               className="w-full p-3 rounded-md bg-gray-100 outline-dotted outline-1 outline-blue-gray-500"
               type="number"
               name="minAge"
-              placeholder="Enter minimum age requirement"
+              placeholder="Minimum age to join"
               value={formData.minAge}
               onChange={handleInputChange}
               required
@@ -446,29 +468,39 @@ const CreateTour = () => {
               className="w-full p-3 rounded-md bg-gray-100 outline-dotted outline-1 outline-blue-gray-500"
               type="number"
               name="pricePerPerson"
-              placeholder="Enter price per person"
+              placeholder="Price per person in BDT"
               value={formData.pricePerPerson}
               onChange={handleInputChange}
               required
             />
           </span>
           <span className="space-y-2 md:col-span-2">
-            <p className="text-outerSpace md:text-lg font-medium">Inclusions</p>
+            <p className="text-outerSpace md:text-lg font-medium">
+              Inclusions{" "}
+              <span className="text-sm text-gray-600 font-semibold">
+                *semicolon separated
+              </span>
+            </p>
             <textarea
               className="w-full p-3 rounded-md bg-gray-100 outline-dotted outline-1 outline-blue-gray-500"
               name="inclusions"
-              placeholder="Enter inclusions"
+              placeholder="Include what's covered in the price like meals; accommodation; transport etc."
               value={formData.inclusions}
               onChange={handleInputChange}
               required
             />
           </span>
           <span className="space-y-2 md:col-span-2">
-            <p className="text-outerSpace md:text-lg font-medium">Exclusions</p>
+            <p className="text-outerSpace md:text-lg font-medium">
+              Exclusions{" "}
+              <span className="text-sm text-gray-600 font-semibold">
+                *semicolon separated
+              </span>
+            </p>
             <textarea
               className="w-full p-3 rounded-md bg-gray-100 outline-dotted outline-1 outline-blue-gray-500"
               name="exclusions"
-              placeholder="Enter exclusions"
+              placeholder="Exclude what's not covered in the price like personal expenses; tips etc."
               value={formData.exclusions}
               onChange={handleInputChange}
               required
@@ -487,7 +519,7 @@ const CreateTour = () => {
                   <textarea
                     className="w-full p-3 rounded-md bg-gray-100 outline-dotted outline-1 outline-blue-gray-500"
                     name="activities"
-                    placeholder="Enter activities"
+                    placeholder="Activities for the day separated by semicolon"
                     value={day.activities}
                     onChange={(e) =>
                       handleItineraryChange(index, "activities", e.target.value)
@@ -498,7 +530,7 @@ const CreateTour = () => {
                     className="w-full p-3 rounded-md bg-gray-100 outline-dotted outline-1 outline-blue-gray-500"
                     type="text"
                     name="accommodation"
-                    placeholder="Enter accommodation details"
+                    placeholder="Accommodation for the day"
                     value={day.accommodation}
                     onChange={(e) =>
                       handleItineraryChange(
@@ -581,7 +613,7 @@ const CreateTour = () => {
                     className="w-full p-3 rounded-md bg-gray-100 outline-dotted outline-1 outline-blue-gray-500"
                     type="text"
                     name="transportType"
-                    placeholder="Enter transport type"
+                    placeholder="Transport Type (Flight, Bus, Train, etc.)"
                     value={day.transport.transportType}
                     onChange={(e) =>
                       handleItineraryChange(index, "transport", {
@@ -595,7 +627,7 @@ const CreateTour = () => {
                     className="w-full p-3 rounded-md bg-gray-100 outline-dotted outline-1 outline-blue-gray-500"
                     type="text"
                     name="pickUpLocation"
-                    placeholder="Enter pickup location"
+                    placeholder="Pick-up location"
                     value={day.transport.pickUpLocation}
                     onChange={(e) =>
                       handleItineraryChange(index, "transport", {
@@ -624,7 +656,7 @@ const CreateTour = () => {
                     className="w-full p-3 rounded-md bg-gray-100 outline-dotted outline-1 outline-blue-gray-500"
                     type="text"
                     name="dropOffLocation"
-                    placeholder="Enter dropOff location"
+                    placeholder="Drop-off location"
                     value={day.transport.dropOffLocation}
                     onChange={(e) =>
                       handleItineraryChange(index, "transport", {
@@ -672,12 +704,15 @@ const CreateTour = () => {
 
           <span className="space-y-2 md:col-span-2">
             <p className="text-outerSpace md:text-lg font-medium">
-              Tour Highlights
+              Tour Highlights{" "}
+              <span className="text-sm text-gray-600 font-semibold">
+                *semicolon separated
+              </span>
             </p>
             <textarea
               className="w-full p-3 rounded-md bg-gray-100 outline-dotted outline-1 outline-blue-gray-500"
               name="tourHighlights"
-              placeholder="Enter tour highlights"
+              placeholder="Highlight the key attractions of the tour"
               value={formData.tourHighlights}
               onChange={handleInputChange}
               required
@@ -685,12 +720,15 @@ const CreateTour = () => {
           </span>
           <span className="space-y-2 md:col-span-2">
             <p className="text-outerSpace md:text-lg font-medium">
-              Important Notes
+              Important Notes{" "}
+              <span className="text-sm text-gray-600 font-semibold">
+                *semicolon separated
+              </span>
             </p>
             <textarea
               className="w-full p-3 rounded-md bg-gray-100 outline-dotted outline-1 outline-blue-gray-500"
               name="importantNotes"
-              placeholder="Enter important notes"
+              placeholder="Important notes for the tour participants to know before joining the tour"
               value={formData.importantNotes}
               onChange={handleInputChange}
               required
@@ -704,7 +742,7 @@ const CreateTour = () => {
               className="w-full p-3 rounded-md bg-gray-100 outline-dotted outline-1 outline-blue-gray-500"
               type="text"
               name="meetingPoint"
-              placeholder="Enter meeting point"
+              placeholder="Meeting point for the tour participants"
               value={formData.meetingPoint}
               onChange={handleInputChange}
               required
@@ -712,13 +750,16 @@ const CreateTour = () => {
           </span>
           <span className="space-y-2 md:col-span-2">
             <p className="text-outerSpace md:text-lg font-medium">
-              Contact Information
+              Contact Information{" "}
+              <span className="text-sm text-gray-600 font-semibold">
+                *semicolon separated
+              </span>
             </p>
             <input
               className="w-full p-3 rounded-md bg-gray-100 outline-dotted outline-1 outline-blue-gray-500"
               type="text"
               name="contactInfo"
-              placeholder="Enter contact information"
+              placeholder="Contact information for the tour participants email, mobile, etc."
               value={formData.contactInfo}
               onChange={handleInputChange}
               required
