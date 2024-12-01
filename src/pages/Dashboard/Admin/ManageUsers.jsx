@@ -20,7 +20,7 @@ const ManageUsers = () => {
     },
   });
 
-  const TABLE_HEAD = ["", "Image", "Name", "Email", "Role", "Change Role"];
+  const TABLE_HEAD = ["#", "Image", "Name", "Email", "Role", "Change Role"];
 
   const handleRoleUpdate = (id, newRole) => {
     Swal.fire({
@@ -129,7 +129,7 @@ const ManageUsers = () => {
                       </td>
                       <td className={classes}>
                         <select
-                          className="w-24 px-2 py-1 rounded outline outline-1 outline-primary-base"
+                          className="border-none ring-2 ring-inset ring-primary-base ring-offset-2 focus:ring-2 focus:ring-inset focus:ring-primary-base focus:ring-offset-2"
                           onChange={(e) =>
                             handleRoleUpdate(_id, e.target.value)
                           }
@@ -143,11 +143,33 @@ const ManageUsers = () => {
                               <option value="hotel-manager">
                                 hotel-manager
                               </option>
+                              <option value="tour-agent">tour-agent</option>
+                              <option value="tour-guide">tour-guide</option>
                             </>
                           )}
                           {role === "hotel-manager" && (
                             <>
                               <option value="user">user</option>
+                              <option value="tour-agent">tour-agent</option>
+                              <option value="tour-guide">tour-guide</option>
+                            </>
+                          )}
+                          {role === "tour-agent" && (
+                            <>
+                              <option value="user">user</option>
+                              <option value="hotel-manager">
+                                hotel-manager
+                              </option>
+                              <option value="tour-guide">tour-guide</option>
+                            </>
+                          )}
+                          {role === "tour-guide" && (
+                            <>
+                              <option value="user">user</option>
+                              <option value="hotel-manager">
+                                hotel-manager
+                              </option>
+                              <option value="tour-agent">tour-agent</option>
                             </>
                           )}
                         </select>
