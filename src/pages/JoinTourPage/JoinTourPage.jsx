@@ -9,7 +9,7 @@ const JoinTourPage = () => {
         <title>Trippie - Join Tour</title>
       </Helmet>
       <Banner
-        hero="bg-joinTour"
+        hero="bg-tour"
         title="Find the best relaxing Tour for you"
         boldTitle="With Us!"
       />
