@@ -66,9 +66,12 @@ const PaymentForm = ({ bookingDetails, closeModal }) => {
             status: result?.paymentIntent?.status,
           });
 
-          toast.success("Payment successful and confirmed booking!", {
-            id: toastId,
-          });
+          toast.success(
+            "Payment successful. Check your email for confirmation",
+            {
+              id: toastId,
+            }
+          );
           closeModal();
           setIsProcessing(false);
           navigate("/");
@@ -98,7 +101,7 @@ const PaymentForm = ({ bookingDetails, closeModal }) => {
 
   return (
     <Container>
-      <section className="bg-white max-w-6xl mx-auto py-8 md:py-16 rounded-xl relative">
+      <section className="bg-white max-w-6xl mx-auto py-8 md:py-16 rounded-xl relative font-poppins">
         <button
           onClick={closeModal}
           className="absolute top-4 right-4 text-gray-500 text-3xl hover:text-gray-700"
@@ -194,7 +197,7 @@ const PaymentForm = ({ bookingDetails, closeModal }) => {
                   <div className="space-y-2">
                     <dl className="flex items-center justify-between gap-4">
                       <dt className="text-base font-normal text-gray-500">
-                        Booking Price
+                        Subtotal
                       </dt>
                       <dd className="text-base font-medium text-gray-900">
                         BDT {details.bookingAmount}
@@ -203,7 +206,7 @@ const PaymentForm = ({ bookingDetails, closeModal }) => {
 
                     <dl className="flex items-center justify-between gap-4">
                       <dt className="text-base font-normal text-gray-500">
-                        Booking Charge
+                        Platform Charge
                       </dt>
                       <dd className="text-base font-medium text-gray-900">
                         BDT 0
