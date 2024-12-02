@@ -5,9 +5,9 @@ import { createRoot } from "react-dom/client";
 import { HelmetProvider } from "react-helmet-async";
 import { Toaster } from "react-hot-toast";
 import { RouterProvider } from "react-router-dom";
-import "./index.css";
 import AuthProvider from "./Provider/AuthProvider";
 import { routes } from "./Routes/Routes";
+import "./index.css";
 
 const queryClient = new QueryClient();
 
@@ -18,7 +18,21 @@ createRoot(document.getElementById("root")).render(
         <AuthProvider>
           <RouterProvider router={routes} />
           <ReactQueryDevtools />
-          <Toaster />
+          <Toaster
+            toastOptions={{
+              style: {
+                textAlign: "center",
+                background: "#f5f5f5",
+                color: "#333",
+                padding: "12px",
+                borderRadius: "8px",
+                border: "1px solid #ccc",
+                boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
+                fontWeight: "500",
+                fontSize: "17px",
+              },
+            }}
+          />
         </AuthProvider>
       </QueryClientProvider>
     </HelmetProvider>
