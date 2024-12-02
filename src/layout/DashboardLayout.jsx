@@ -1,4 +1,5 @@
 import toast from "react-hot-toast";
+import { AiFillHome } from "react-icons/ai";
 import { BsDoorOpenFill } from "react-icons/bs";
 import { FaCalendarAlt, FaUsers } from "react-icons/fa";
 // import { FaBus } from "react-icons/fa6";
@@ -10,6 +11,7 @@ import Logo from "../assets/logo/logo-group.svg";
 import LoadingSpinner from "../components/LoadingState/LoadingSpinner";
 import DoorIcon from "../components/SVG/DoorIcon";
 // import ManageServiceIcon from "../components/SVG/ManageServiceIcon";
+import ManageServiceIcon from "../components/SVG/ManageServiceIcon";
 import MenuIcon from "../components/SVG/MenuIcon";
 import ProfileIcon from "../components/SVG/ProfileIcon";
 import TourIcon from "../components/SVG/TourIcon";
@@ -153,29 +155,38 @@ const DashboardLayout = () => {
       //       </li>
       //     </>
       //   );
-      // case "tour-guide":
-      //   return (
-      //     <>
-      //       <li>
-      //         <NavLink to="/dashboard/guide-home" className={navLinkClass}>
-      //           <AiFillHome />
-      //           Dashboard
-      //         </NavLink>
-      //       </li>
-      //       <li>
-      //         <NavLink to="/dashboard/manage-services" className={navLinkClass}>
-      //           <ManageServiceIcon />
-      //           Manage Services
-      //         </NavLink>
-      //       </li>
-      //       <li>
-      //         <NavLink to="/dashboard/my-profile" className={navLinkClass}>
-      //           <ProfileIcon />
-      //           My Profile
-      //         </NavLink>
-      //       </li>
-      //     </>
-      //   );
+      case "tour-guide":
+        return (
+          <>
+            <li>
+              <NavLink to="/dashboard/tour-guide-home" className={navLinkClass}>
+                <AiFillHome />
+                Dashboard
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to="/dashboard/add-service" className={navLinkClass}>
+                <FaCalendarAlt />
+                Add Service
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to="/dashboard/manage-services" className={navLinkClass}>
+                <ManageServiceIcon />
+                Manage Services
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/dashboard/tour-guide-profile"
+                className={navLinkClass}
+              >
+                <ProfileIcon />
+                My Profile
+              </NavLink>
+            </li>
+          </>
+        );
       case "tour-agent":
         return (
           <>
