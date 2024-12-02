@@ -9,11 +9,14 @@ import {
   updateTourGuide,
 } from "../../../api/guide-api";
 import { uploadImage } from "../../../api/image-api";
+import { getSubscriptionStatus } from "../../../api/subscription-api";
+import LoadingSpinner from "../../../components/LoadingState/LoadingSpinner";
 import useAuth from "../../../hooks/useAuth";
 
 const TourGuideProfile = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
   const [profileImage, setProfileImage] = useState(null);
   const [initialProfileImage, setInitialProfileImage] = useState(null);
   const [isUpdate, setIsUpdate] = useState(false);
@@ -30,54 +33,68 @@ const TourGuideProfile = () => {
     bio: "",
     description: "",
     experience: "",
-
     pricing: "",
-    itineraries: "",
-    bookingProcess: "",
-    healthSafetyProtocols: "",
-    personalizedServices: "",
   });
 
   useEffect(() => {
-    const fetchTourGuideData = async () => {
+    let isMounted = true;
+
+    const fetchSubscriptionStatusAndGuideData = async () => {
       try {
-        const tourGuideData = await getTourGuide(user?.email);
-        if (tourGuideData) {
+        const subscriptionResponse = await getSubscriptionStatus(user?.email);
+        if (isMounted && subscriptionResponse?.status !== "active") {
+          toast.error(
+            "Your subscription is inactive. Please subscribe or renew to update your profile."
+          );
+          navigate("/dashboard/tour-guide-home");
+          return;
+        }
+
+        const guideData = await getTourGuide(user?.email);
+        if (isMounted && guideData) {
           const initialData = {
-            id: tourGuideData._id,
-            guideName: tourGuideData.guideName,
-            email: tourGuideData.email,
-            mobile: tourGuideData.mobile,
-            area: tourGuideData.area,
-            languages: tourGuideData.languages.join("; "),
-            expertise: tourGuideData.expertise,
-            bio: tourGuideData.bio,
-            experience: tourGuideData.experience,
-            pricing: tourGuideData.pricing,
-            itineraries: tourGuideData.itineraries,
-            tourSizeLimitations: tourGuideData.tourSizeLimitations,
-            bookingProcess: tourGuideData.bookingProcess,
-            paymentMethods: tourGuideData.paymentMethods,
-            healthSafetyProtocols: tourGuideData.healthSafetyProtocols,
-            personalizedServices: tourGuideData.personalizedServices,
-            description: tourGuideData.description,
+            id: guideData._id,
+            guideName: guideData.guideName,
+            email: guideData.email,
+            mobile: guideData.mobile,
+            area: guideData.area.join("; "),
+            languages: guideData.languages.join("; "),
+            expertise: guideData.expertise.join("; "),
+            tourSizeLimitations: guideData.tourSizeLimitations,
+            paymentMethods: guideData.paymentMethods.join("; "),
+            bio: guideData.bio,
+            description: guideData.description,
+            experience: guideData.experience,
+            pricing: guideData.pricing,
           };
           setFormData(initialData);
           setInitialFormData(initialData);
-          setProfileImage(tourGuideData.profileImage);
-          setInitialProfileImage(tourGuideData.profileImage);
+          setProfileImage(guideData.profileImage);
+          setInitialProfileImage(guideData.profileImage);
           setIsUpdate(true);
         }
       } catch (error) {
-        console.log(error);
-        console.log("Tour guide not found, creating new guide profile...");
+        console.error(
+          "Failed to fetch subscription status or guide data",
+          error
+        );
+      } finally {
+        isMounted && setLoading(false);
       }
     };
 
     if (user?.email) {
-      fetchTourGuideData();
+      fetchSubscriptionStatusAndGuideData();
     }
-  }, [user?.email]);
+
+    return () => {
+      isMounted = false;
+    };
+  }, [user?.email, navigate]);
+
+  if (loading) {
+    return <LoadingSpinner />;
+  }
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -136,7 +153,10 @@ const TourGuideProfile = () => {
     const tourGuideData = {
       ...formData,
       profileImage: profileImageUrl,
+      area: formData.area.split("; "),
       languages: formData.languages.split("; "),
+      expertise: formData.expertise.split("; "),
+      paymentMethods: formData.paymentMethods.split("; "),
       guide: user?.email,
     };
 
@@ -152,7 +172,7 @@ const TourGuideProfile = () => {
           id: toastId,
         });
       }
-      navigate("/dashboard/manage-services");
+      navigate("/dashboard/tour-guide-home");
     } catch (error) {
       console.error(error);
       toast.error("Failed to add tour guide profile", { id: toastId });
@@ -220,7 +240,7 @@ const TourGuideProfile = () => {
               className="w-full p-3 rounded-md bg-gray-100 outline-dotted outline-1 outline-blue-gray-500"
               type="text"
               name="guideName"
-              placeholder="John Doe"
+              placeholder="Tanjir Ahmed"
               value={formData.guideName}
               onChange={handleInputChange}
               required
@@ -232,7 +252,7 @@ const TourGuideProfile = () => {
               className="w-full p-3 rounded-md bg-gray-100 outline-dotted outline-1 outline-blue-gray-500"
               type="email"
               name="email"
-              placeholder="john.doe@example.com"
+              placeholder="tanjir.gd@gmail.com"
               value={formData.email}
               onChange={handleInputChange}
               required
@@ -386,62 +406,6 @@ const TourGuideProfile = () => {
               value={formData.pricing}
               onChange={handleInputChange}
               required
-            />
-          </span>
-          <span className="space-y-2 md:col-span-2">
-            <p className="text-outerSpace md:text-lg font-medium">
-              Tour Itineraries
-            </p>
-            <textarea
-              className="w-full p-3 rounded-md bg-gray-100 outline-dotted outline-1 outline-blue-gray-500"
-              name="itineraries"
-              rows={3}
-              placeholder="Showcase some sample itineraries for different tours you offer..."
-              value={formData.itineraries}
-              onChange={handleInputChange}
-              required
-            />
-          </span>
-
-          <span className="space-y-2 md:col-span-2">
-            <p className="text-outerSpace md:text-lg font-medium">
-              Booking Process
-            </p>
-            <textarea
-              className="w-full p-3 rounded-md bg-gray-100 outline-dotted outline-1 outline-blue-gray-500"
-              name="bookingProcess"
-              rows={3}
-              placeholder="Outline how customers can book your services..."
-              value={formData.bookingProcess}
-              onChange={handleInputChange}
-              required
-            />
-          </span>
-
-          <span className="space-y-2 md:col-span-2">
-            <p className="text-outerSpace md:text-lg font-medium">
-              Health and Safety Protocols
-            </p>
-            <textarea
-              className="w-full p-3 rounded-md bg-gray-100 outline-dotted outline-1 outline-blue-gray-500"
-              name="healthSafetyProtocols"
-              rows={3}
-              placeholder="Include any COVID-19-related or general safety measures you follow during tours..."
-              value={formData.healthSafetyProtocols}
-              onChange={handleInputChange}
-            />
-          </span>
-          <span className="space-y-2 md:col-span-2">
-            <p className="text-outerSpace md:text-lg font-medium">
-              Personalized Services
-            </p>
-            <textarea
-              className="w-full p-3 rounded-md bg-gray-100 outline-dotted outline-1 outline-blue-gray-500"
-              name="personalizedServices"
-              rows={3}
-              placeholder="Offer customization options for tours based on client preferences..."
-              value={formData.personalizedServices}
-              onChange={handleInputChange}
             />
           </span>
           <span className="mx-auto md:col-span-2 2xl:col-span-4 mt-6">
