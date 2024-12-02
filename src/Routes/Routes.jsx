@@ -5,6 +5,8 @@ import ManageUsers from "../pages/Dashboard/Admin/ManageUsers";
 import AgencyProfile from "../pages/Dashboard/Agency/AgencyProfile";
 import CreateTour from "../pages/Dashboard/Agency/CreateTour";
 import ManageTours from "../pages/Dashboard/Agency/ManageTours";
+import GuideHome from "../pages/Dashboard/Guide/GuideHome";
+import TourGuideProfile from "../pages/Dashboard/Guide/TourGuideProfile";
 import AddRoom from "../pages/Dashboard/Hotel/AddRoom";
 import HotelProfile from "../pages/Dashboard/Hotel/HotelProfile";
 import ManageRooms from "../pages/Dashboard/Hotel/ManageRooms";
@@ -125,6 +127,39 @@ export const routes = createBrowserRouter([
         element: (
           <RoleProtectedRoute allowedRoles={["tour-agent"]}>
             <AgencyProfile />
+          </RoleProtectedRoute>
+        ),
+      },
+      // tour-guide related routes
+      {
+        path: "tour-guide-home",
+        element: (
+          <RoleProtectedRoute allowedRoles={["tour-guide"]}>
+            <GuideHome />
+          </RoleProtectedRoute>
+        ),
+      },
+      {
+        path: "add-service",
+        element: (
+          <RoleProtectedRoute allowedRoles={["tour-guide"]}>
+            add your component here
+          </RoleProtectedRoute>
+        ),
+      },
+      {
+        path: "manage-services",
+        element: (
+          <RoleProtectedRoute allowedRoles={["tour-guide"]}>
+            add your component here
+          </RoleProtectedRoute>
+        ),
+      },
+      {
+        path: "tour-guide-profile",
+        element: (
+          <RoleProtectedRoute allowedRoles={["tour-guide"]}>
+            <TourGuideProfile />
           </RoleProtectedRoute>
         ),
       },

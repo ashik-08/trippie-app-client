@@ -18,6 +18,8 @@ const DashboardHomeRedirect = () => {
         navigate("/dashboard/manage-rooms");
       } else if (userRole === "tour-agent") {
         navigate("/dashboard/manage-tours");
+      } else if (userRole === "tour-guide") {
+        navigate("/dashboard/tour-guide-home");
       } else if (userRole === "user") {
         return <ErrorPage />;
       }
