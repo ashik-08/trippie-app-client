@@ -12,6 +12,7 @@ const JoinTourPage = () => {
         hero="bg-tour"
         title="Find the best relaxing Tour for you"
         boldTitle="With Us!"
+        para="Choose from a variety of relaxing tours designed to help you unwind. Find the perfect trip and book your escape today!"
       />
       <JoinTourBoard />
     </>
