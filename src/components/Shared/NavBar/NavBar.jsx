@@ -93,7 +93,7 @@ const NavBar = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 70) {
+      if (window.scrollY > 40) {
         setScrolled(true);
       } else {
         setScrolled(false);
@@ -108,9 +108,8 @@ const NavBar = () => {
 
   return (
     <nav
-      className={`fixed z-10 w-full ${
-        scrolled &&
-        "transition-colors duration-300 bg-white/50 backdrop-blur-md"
+      className={`fixed z-10 w-full transition-colors duration-300 ${
+        scrolled && "bg-white/55 backdrop-blur-md"
       }`}
     >
       <Container>
