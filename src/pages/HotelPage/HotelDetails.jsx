@@ -140,7 +140,7 @@ const HotelDetails = () => {
           <div>
             {/* <!-- Hotel Image Grid Layout --> */}
             <div className="grid grid-cols-1 sm:grid-cols-5 gap-4">
-              <div className="col-span-3">
+              <div className="sm:col-span-3">
                 <img
                   src={hotel.images[0]}
                   alt="Hotel Image 1"
@@ -148,7 +148,7 @@ const HotelDetails = () => {
                 />
               </div>
 
-              <div className="col-span-2 grid grid-cols-2 gap-4">
+              <div className="sm:col-span-2 grid grid-cols-2 gap-4">
                 {hotel.images.slice(1).map((image, index) => (
                   <img
                     key={index}
@@ -219,12 +219,12 @@ const HotelDetails = () => {
                           <img
                             src={room.images[1]}
                             alt="Room Image 2"
-                            className="w-full h-48 object-cover rounded-lg"
+                            className="flex-shrink-0 w-full h-48 object-cover rounded-lg"
                           />
                           <img
                             src={room.images[2]}
                             alt="Room Image 3"
-                            className="w-full h-48 object-cover rounded-lg"
+                            className="flex-shrink-0 w-full h-48 object-cover rounded-lg"
                           />
                         </div>
                       </div>
