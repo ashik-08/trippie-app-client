@@ -124,14 +124,14 @@ const TourDetails = () => {
           <div>
             {/* Tour Image Grid Layout */}
             <div className="grid grid-cols-1 sm:grid-cols-5 gap-4">
-              <div className="col-span-3">
+              <div className="sm:col-span-3">
                 <img
                   src={tour.images[0]}
                   alt="Tour Image 1"
                   className="w-full h-full object-cover rounded-lg shadow-md"
                 />
               </div>
-              <div className="col-span-2 grid grid-cols-2 gap-4">
+              <div className="sm:col-span-2 grid grid-cols-2 gap-4">
                 {tour.images.slice(1).map((image, index) => (
                   <img
                     key={index}
@@ -503,7 +503,9 @@ const TourDetails = () => {
                   className="w-16 h-16 object-cover rounded-full shadow-md"
                 />
                 <div className="ml-4">
-                  <h3 className="text-xl font-semibold">{agency.agencyName}</h3>
+                  <h3 className="text-secondary-base text-xl font-semibold">
+                    {agency.agencyName}
+                  </h3>
                   <p className="text-gray-700">
                     {agency.email} | {agency.mobile}
                   </p>
