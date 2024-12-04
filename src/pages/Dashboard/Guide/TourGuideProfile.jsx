@@ -23,7 +23,7 @@ const TourGuideProfile = () => {
   const [initialFormData, setInitialFormData] = useState({});
   const [formData, setFormData] = useState({
     guideName: "",
-    email: "",
+    nid: "",
     mobile: "",
     area: "",
     languages: "",
@@ -55,7 +55,7 @@ const TourGuideProfile = () => {
           const initialData = {
             id: guideData._id,
             guideName: guideData.guideName,
-            email: guideData.email,
+            nid: guideData.nid,
             mobile: guideData.mobile,
             area: guideData.area.join("; "),
             languages: guideData.languages.join("; "),
@@ -157,7 +157,7 @@ const TourGuideProfile = () => {
       languages: formData.languages.split("; "),
       expertise: formData.expertise.split("; "),
       paymentMethods: formData.paymentMethods.split("; "),
-      guide: user?.email,
+      email: user?.email,
     };
 
     try {
@@ -247,13 +247,13 @@ const TourGuideProfile = () => {
             />
           </span>
           <span className="space-y-2">
-            <p className="text-outerSpace md:text-lg font-medium">Email</p>
+            <p className="text-outerSpace md:text-lg font-medium">NID Number</p>
             <input
               className="w-full p-3 rounded-md bg-gray-100 outline-dotted outline-1 outline-blue-gray-500"
-              type="email"
-              name="email"
-              placeholder="tanjir.gd@gmail.com"
-              value={formData.email}
+              type="text"
+              name="nid"
+              placeholder="1234567890"
+              value={formData.nid}
               onChange={handleInputChange}
               required
             />
