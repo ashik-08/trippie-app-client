@@ -5,7 +5,9 @@ import ManageUsers from "../pages/Dashboard/Admin/ManageUsers";
 import AgencyProfile from "../pages/Dashboard/Agency/AgencyProfile";
 import CreateTour from "../pages/Dashboard/Agency/CreateTour";
 import ManageTours from "../pages/Dashboard/Agency/ManageTours";
+import AddService from "../pages/Dashboard/Guide/AddService";
 import GuideHome from "../pages/Dashboard/Guide/GuideHome";
+import ManageServices from "../pages/Dashboard/Guide/ManageServices";
 import TourGuideProfile from "../pages/Dashboard/Guide/TourGuideProfile";
 import AddRoom from "../pages/Dashboard/Hotel/AddRoom";
 import HotelProfile from "../pages/Dashboard/Hotel/HotelProfile";
@@ -18,6 +20,8 @@ import JoinTourPage from "../pages/JoinTourPage/JoinTourPage";
 import TourDetails from "../pages/JoinTourPage/TourDetails";
 import Login from "../pages/Login/Login";
 import Register from "../pages/Register/Register";
+import TourGuideDetails from "../pages/TourGuidePage/TourGuideDetails";
+import TourGuidePage from "../pages/TourGuidePage/TourGuidePage";
 import DashboardHomeRedirect from "./DashboardHomeRedirect";
 import PrivateRoute from "./PrivateRoute";
 import RoleProtectedRoute from "./RoleProtectedRoute";
@@ -47,6 +51,14 @@ export const routes = createBrowserRouter([
       {
         path: "join-tour/:tourId",
         element: <TourDetails />,
+      },
+      {
+        path: "tour-guide",
+        element: <TourGuidePage />,
+      },
+      {
+        path: "tour-guide/:guideId",
+        element: <TourGuideDetails />,
       },
     ],
   },
@@ -143,7 +155,7 @@ export const routes = createBrowserRouter([
         path: "add-service",
         element: (
           <RoleProtectedRoute allowedRoles={["tour-guide"]}>
-            add your component here
+            <AddService />
           </RoleProtectedRoute>
         ),
       },
@@ -151,7 +163,7 @@ export const routes = createBrowserRouter([
         path: "manage-services",
         element: (
           <RoleProtectedRoute allowedRoles={["tour-guide"]}>
-            add your component here
+            <ManageServices />
           </RoleProtectedRoute>
         ),
       },
