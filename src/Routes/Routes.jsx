@@ -5,9 +5,7 @@ import ManageUsers from "../pages/Dashboard/Admin/ManageUsers";
 import AgencyProfile from "../pages/Dashboard/Agency/AgencyProfile";
 import CreateTour from "../pages/Dashboard/Agency/CreateTour";
 import ManageTours from "../pages/Dashboard/Agency/ManageTours";
-import AddService from "../pages/Dashboard/Guide/AddService";
 import GuideHome from "../pages/Dashboard/Guide/GuideHome";
-import ManageServices from "../pages/Dashboard/Guide/ManageServices";
 import TourGuideProfile from "../pages/Dashboard/Guide/TourGuideProfile";
 import AddRoom from "../pages/Dashboard/Hotel/AddRoom";
 import HotelProfile from "../pages/Dashboard/Hotel/HotelProfile";
@@ -20,7 +18,7 @@ import JoinTourPage from "../pages/JoinTourPage/JoinTourPage";
 import TourDetails from "../pages/JoinTourPage/TourDetails";
 import Login from "../pages/Login/Login";
 import Register from "../pages/Register/Register";
-import TourGuideDetails from "../pages/TourGuidePage/TourGuideDetails";
+import GuideDetailsPage from "../pages/TourGuidePage/GuideDetailsPage";
 import TourGuidePage from "../pages/TourGuidePage/TourGuidePage";
 import DashboardHomeRedirect from "./DashboardHomeRedirect";
 import PrivateRoute from "./PrivateRoute";
@@ -58,7 +56,7 @@ export const routes = createBrowserRouter([
       },
       {
         path: "tour-guide/:guideId",
-        element: <TourGuideDetails />,
+        element: <GuideDetailsPage />,
       },
     ],
   },
@@ -148,22 +146,6 @@ export const routes = createBrowserRouter([
         element: (
           <RoleProtectedRoute allowedRoles={["tour-guide"]}>
             <GuideHome />
-          </RoleProtectedRoute>
-        ),
-      },
-      {
-        path: "add-service",
-        element: (
-          <RoleProtectedRoute allowedRoles={["tour-guide"]}>
-            <AddService />
-          </RoleProtectedRoute>
-        ),
-      },
-      {
-        path: "manage-services",
-        element: (
-          <RoleProtectedRoute allowedRoles={["tour-guide"]}>
-            <ManageServices />
           </RoleProtectedRoute>
         ),
       },
