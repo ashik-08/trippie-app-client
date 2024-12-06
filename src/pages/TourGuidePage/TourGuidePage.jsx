@@ -1,6 +1,6 @@
 import { Helmet } from "react-helmet-async";
 import Banner from "../../components/Shared/Banner/Banner";
-import TourGuideBoard from "../../components/TourGuide/TourGuideBoard";
+import TourGuideBoard from "../../components/TourGuide/GuidePage/TourGuideBoard";
 
 const TourGuidePage = () => {
   return (
