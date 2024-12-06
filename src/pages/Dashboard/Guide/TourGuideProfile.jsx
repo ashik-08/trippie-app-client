@@ -66,6 +66,9 @@ const TourGuideProfile = () => {
             description: guideData.description,
             experience: guideData.experience,
             pricing: guideData.pricing,
+            subscriptionStartDate: subscriptionResponse?.validityStart,
+            subscriptionEndDate: subscriptionResponse?.validityEnd,
+            subscriptionStatus: subscriptionResponse?.status,
           };
           setFormData(initialData);
           setInitialFormData(initialData);
@@ -79,7 +82,7 @@ const TourGuideProfile = () => {
           error
         );
       } finally {
-        isMounted && setLoading(false);
+        if (isMounted) setLoading(false);
       }
     };
 
@@ -354,7 +357,10 @@ const TourGuideProfile = () => {
           </span>
           <span className="space-y-2 md:col-span-2">
             <p className="text-outerSpace md:text-lg font-medium">
-              Introduction/Bio
+              Introduction/Bio{" "}
+              <span className="text-sm text-gray-600 font-semibold">
+                *write 3-4 lines
+              </span>
             </p>
             <textarea
               className="w-full p-3 rounded-md bg-gray-100 outline-dotted outline-1 outline-blue-gray-500"
@@ -368,7 +374,10 @@ const TourGuideProfile = () => {
           </span>
           <span className="space-y-2 md:col-span-2">
             <p className="text-outerSpace md:text-lg font-medium">
-              Description of Services
+              Description of Services{" "}
+              <span className="text-sm text-gray-600 font-semibold">
+                *write 3-4 lines
+              </span>
             </p>
             <textarea
               className="w-full p-3 rounded-md bg-gray-100 outline-dotted outline-1 outline-blue-gray-500"
@@ -382,7 +391,10 @@ const TourGuideProfile = () => {
           </span>
           <span className="space-y-2 md:col-span-2">
             <p className="text-outerSpace md:text-lg font-medium">
-              Experience and Qualifications
+              Experience and Qualifications{" "}
+              <span className="text-sm text-gray-600 font-semibold">
+                *write 3-4 lines
+              </span>
             </p>
             <textarea
               className="w-full p-3 rounded-md bg-gray-100 outline-dotted outline-1 outline-blue-gray-500"
@@ -396,7 +408,10 @@ const TourGuideProfile = () => {
           </span>
           <span className="space-y-2 md:col-span-2">
             <p className="text-outerSpace md:text-lg font-medium">
-              Pricing Information
+              Pricing Information{" "}
+              <span className="text-sm text-gray-600 font-semibold">
+                *write 3-4 lines
+              </span>
             </p>
             <textarea
               className="w-full p-3 rounded-md bg-gray-100 outline-dotted outline-1 outline-blue-gray-500"
