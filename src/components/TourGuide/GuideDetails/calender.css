@@ -1,0 +1,15 @@
+.rdrDefinedRangesWrapper {
+  display: none;
+}
+
+.rdrMonth {
+  font-size: 12px !important;
+}
+
+.rdrDay {
+  font-size: 14px !important;
+}
+
+.rdrDayNumber span {
+  font-size: 14px !important;
+}
