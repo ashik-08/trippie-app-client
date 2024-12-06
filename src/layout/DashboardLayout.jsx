@@ -11,7 +11,7 @@ import Logo from "../assets/logo/logo-group.svg";
 import LoadingSpinner from "../components/LoadingState/LoadingSpinner";
 import DoorIcon from "../components/SVG/DoorIcon";
 // import ManageServiceIcon from "../components/SVG/ManageServiceIcon";
-import ManageServiceIcon from "../components/SVG/ManageServiceIcon";
+// import ManageServiceIcon from "../components/SVG/ManageServiceIcon";
 import MenuIcon from "../components/SVG/MenuIcon";
 import ProfileIcon from "../components/SVG/ProfileIcon";
 import TourIcon from "../components/SVG/TourIcon";
@@ -164,7 +164,7 @@ const DashboardLayout = () => {
                 Dashboard
               </NavLink>
             </li>
-            <li>
+            {/* <li>
               <NavLink to="/dashboard/add-service" className={navLinkClass}>
                 <FaCalendarAlt />
                 Add Service
@@ -175,7 +175,7 @@ const DashboardLayout = () => {
                 <ManageServiceIcon />
                 Manage Services
               </NavLink>
-            </li>
+            </li> */}
             <li>
               <NavLink
                 to="/dashboard/tour-guide-profile"
