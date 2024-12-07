@@ -39,6 +39,7 @@ module.exports = withMT({
         hotel: "url('/assets/banner/bg-hotel-banner.jpg')",
         tour: "url('/assets/banner/bg-tour-banner.jpg')",
         guide: "url('/assets/banner/bg-guide-banner.jpg')",
+        about: "url('/assets/banner/bg-about-banner.jpeg')",
       },
     },
   },
