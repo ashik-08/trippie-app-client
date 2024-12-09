@@ -40,7 +40,7 @@ const GuideDetailsPage = () => {
     if (guide && guide?.subscriptionStatus === "active") {
       setSubscriptionEndDate(moment(guide?.subscriptionEndDate).toDate());
       const acceptedAppointments = guide?.appointments.filter(
-        (appointment) => appointment.status === "pending"
+        (appointment) => appointment.status === "accepted"
       );
       setBookedDates(acceptedAppointments || []);
       setDisabledDates(calculateDisabledDates(acceptedAppointments || []));
@@ -51,7 +51,10 @@ const GuideDetailsPage = () => {
   const calculateDisabledDates = (appointments) => {
     const disabledDates = [];
     appointments.forEach((appointment) => {
-      if (appointment.slot === "full day" && appointment.status === "pending") {
+      if (
+        appointment.slot === "full day" &&
+        appointment.status === "accepted"
+      ) {
         let currentDate = moment(appointment.startDate);
         const endDate = moment(appointment.endDate);
         while (currentDate <= endDate) {
