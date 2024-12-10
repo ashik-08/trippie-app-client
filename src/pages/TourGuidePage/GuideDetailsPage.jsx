@@ -161,7 +161,10 @@ const GuideDetailsPage = () => {
 
     try {
       await createAppointment(appointmentData);
-      toast.success("Booking successful!", { id: toastId });
+      toast.success(
+        "Booking successful. Wait for confirmation email from Tour Guide!",
+        { id: toastId }
+      );
       navigate("/tour-guide");
     } catch (error) {
       console.error("Failed to create appointment", error);
