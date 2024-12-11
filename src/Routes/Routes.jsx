@@ -6,7 +6,7 @@ import ManageUsers from "../pages/Dashboard/Admin/ManageUsers";
 import AgencyProfile from "../pages/Dashboard/Agency/AgencyProfile";
 import CreateTour from "../pages/Dashboard/Agency/CreateTour";
 import ManageTours from "../pages/Dashboard/Agency/ManageTours";
-import GuideHome from "../pages/Dashboard/Guide/GuideHome";
+import GuideHome from "../pages/Dashboard/Guide/GuideHome/GuideHome";
 import TourGuideProfile from "../pages/Dashboard/Guide/TourGuideProfile";
 import AddRoom from "../pages/Dashboard/Hotel/AddRoom";
 import HotelProfile from "../pages/Dashboard/Hotel/HotelProfile";
