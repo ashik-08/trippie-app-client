@@ -49,8 +49,7 @@ Trippie is a travel management application designed to simplify the process of b
 1. **Clone the repository**:
 
    ```bash
-   git clone https://github.com/ashik-08/Trippie.git
-   cd Trippie/trippie-app-client
+   git clone https://github.com/ashik-08/trippie-app-client.git
    ```
 
 2. **Install dependencies**:
@@ -176,6 +175,4 @@ For any questions or support, please contact Md. Ashikur Rahman Ashik.
 
 ### Summary
 
-```
 This detailed README file provides an in-depth overview of the Trippie client-side project including project description, features, technologies used, setup instructions, usage, credentials for testing, project structure and license information.
-```
