@@ -780,7 +780,7 @@ const CreateTour = () => {
                 >
                   <img
                     src={image}
-                    alt={`Room Image ${index + 1}`}
+                    alt={`Tour Image ${index + 1}`}
                     className="w-full h-full object-cover rounded-lg"
                   />
                   <button

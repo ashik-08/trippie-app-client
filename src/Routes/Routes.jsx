@@ -2,6 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import DashboardLayout from "../layout/DashboardLayout";
 import MainLayout from "../layout/MainLayout";
 import AboutUsPage from "../pages/AboutUsPage/AboutUsPage";
+import ContactPage from "../pages/ContactPage/ContactPage";
 import ManageUsers from "../pages/Dashboard/Admin/ManageUsers";
 import AgencyProfile from "../pages/Dashboard/Agency/AgencyProfile";
 import CreateTour from "../pages/Dashboard/Agency/CreateTour";
@@ -62,6 +63,10 @@ export const routes = createBrowserRouter([
       {
         path: "about-us",
         element: <AboutUsPage />,
+      },
+      {
+        path: "contact",
+        element: <ContactPage />,
       },
     ],
   },
