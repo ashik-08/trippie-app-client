@@ -37,35 +37,35 @@ export const routes = createBrowserRouter([
         element: <HomePage />,
       },
       {
-        path: "/hotel/list",
+        path: "hotel/list",
         element: <HotelPage />,
       },
       {
-        path: "/hotel/details/:hotelId",
+        path: "hotel/details/:hotelId",
         element: <HotelDetails />,
       },
       {
-        path: "/join-tour",
+        path: "join-tour",
         element: <JoinTourPage />,
       },
       {
-        path: "/join-tour/:tourId",
+        path: "join-tour/:tourId",
         element: <TourDetails />,
       },
       {
-        path: "/tour-guide",
+        path: "tour-guide",
         element: <TourGuidePage />,
       },
       {
-        path: "/tour-guide/:guideId",
+        path: "tour-guide/:guideId",
         element: <GuideDetailsPage />,
       },
       {
-        path: "/about-us",
+        path: "about-us",
         element: <AboutUsPage />,
       },
       {
-        path: "/contact",
+        path: "contact",
         element: <ContactPage />,
       },
     ],
