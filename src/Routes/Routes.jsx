@@ -93,7 +93,7 @@ export const routes = createBrowserRouter([
       },
       // hotel-manager related routes
       {
-        path: "/add-room",
+        path: "add-room",
         element: (
           <RoleProtectedRoute allowedRoles={["hotel-manager"]}>
             <AddRoom />
@@ -101,7 +101,7 @@ export const routes = createBrowserRouter([
         ),
       },
       {
-        path: "/manage-rooms",
+        path: "manage-rooms",
         element: (
           <RoleProtectedRoute allowedRoles={["hotel-manager"]}>
             <ManageRooms />
@@ -109,7 +109,7 @@ export const routes = createBrowserRouter([
         ),
       },
       {
-        path: "/hotel-profile",
+        path: "hotel-profile",
         element: (
           <RoleProtectedRoute allowedRoles={["hotel-manager"]}>
             <HotelProfile />
@@ -118,7 +118,7 @@ export const routes = createBrowserRouter([
       },
       // admin related routes
       {
-        path: "/manage-users",
+        path: "manage-users",
         element: (
           <RoleProtectedRoute allowedRoles={["admin"]}>
             <ManageUsers />
@@ -127,7 +127,7 @@ export const routes = createBrowserRouter([
       },
       // tour-agency related routes
       {
-        path: "/create-tour",
+        path: "create-tour",
         element: (
           <RoleProtectedRoute allowedRoles={["tour-agent"]}>
             <CreateTour />
@@ -135,7 +135,7 @@ export const routes = createBrowserRouter([
         ),
       },
       {
-        path: "/manage-tours",
+        path: "manage-tours",
         element: (
           <RoleProtectedRoute allowedRoles={["tour-agent"]}>
             <ManageTours />
@@ -143,7 +143,7 @@ export const routes = createBrowserRouter([
         ),
       },
       {
-        path: "/tour-agency-profile",
+        path: "tour-agency-profile",
         element: (
           <RoleProtectedRoute allowedRoles={["tour-agent"]}>
             <AgencyProfile />
@@ -152,7 +152,7 @@ export const routes = createBrowserRouter([
       },
       // tour-guide related routes
       {
-        path: "/tour-guide-home",
+        path: "tour-guide-home",
         element: (
           <RoleProtectedRoute allowedRoles={["tour-guide"]}>
             <GuideHome />
@@ -160,7 +160,7 @@ export const routes = createBrowserRouter([
         ),
       },
       {
-        path: "/tour-guide-profile",
+        path: "tour-guide-profile",
         element: (
           <RoleProtectedRoute allowedRoles={["tour-guide"]}>
             <TourGuideProfile />
